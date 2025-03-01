@@ -21,7 +21,7 @@ export class CreateSessionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private interviewSessionService: InterviewSessionService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sessionForm = this.fb.group({
@@ -34,9 +34,7 @@ export class CreateSessionComponent implements OnInit {
       .createInterviewSession(this.sessionForm.value)
       .subscribe({
         next: (res) => {
-          console.log('Session created successfully:', res);
           this.ontoggleCreateInterviewSessionModal();
-          alert('Session created successfully');
         },
         error: (error: any) => {
           console.error('Error creating session:', error.error.message);
