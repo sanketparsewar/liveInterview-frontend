@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
 import { InterviewSessionService } from '../../services/interviewSession/interview-session.service';
 import { CommonModule } from '@angular/common';
+import { CreateSessionComponent } from '../../modalComponents/create-session/create-session.component';
+import { ChallengeSessionComponent } from '../../modalComponents/challenge-session/challenge-session.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule],
+  imports: [CommonModule,ChallengeSessionComponent],
   templateUrl: './interview-session-table.component.html',
-  styleUrl: './interview-session-table.component.css'
+  styleUrl: './interview-session-table.component.css',
 })
 export class InterviewSessionTableComponent {
-
   interviewSessionsList: any;
+  isToggleModal: boolean = false;
 
-  constructor(private interviewSessionService: InterviewSessionService) {}
+  constructor(private router:Router,private interviewSessionService: InterviewSessionService) {}
   ngOnInit() {
     this.getInterviewSessions();
   }
- 
+  toggleModal() {
+    this.isToggleModal = !this.isToggleModal;
+  }
   getInterviewSessions() {
     this.interviewSessionService.getAllInterviewSessions().subscribe({
       next: (res: any) => {
@@ -27,5 +32,9 @@ export class InterviewSessionTableComponent {
         console.error('Error fetching sessions:', error.error.message);
       },
     });
+  }
+  candidate(id:string){
+    this.router.navigate(['challenge',id])
+    console.log('interviewsession ID:', id);
   }
 }
