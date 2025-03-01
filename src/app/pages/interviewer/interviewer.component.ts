@@ -7,7 +7,7 @@ import { ProjectComponent } from '../../core/modalComponents/project/project.com
 
 @Component({
   selector: 'app-interviewer',
-  imports: [CommonModule, CreateSessionComponent, ProjectComponent,InterviewSessionTableComponent],
+  imports: [CommonModule, ProjectComponent, InterviewSessionTableComponent],
   templateUrl: './interviewer.component.html',
   styleUrl: './interviewer.component.css',
 })
@@ -17,9 +17,9 @@ export class InterviewerComponent implements OnInit {
   isToggleProjectModal: boolean = false;
   interviewSessionsList: any;
 
-  constructor(private interviewSessionService: InterviewSessionService) {}
+  constructor(private interviewSessionService: InterviewSessionService) { }
   ngOnInit() {
-    
+
   }
   toggleDropdown() {
     this.isToggleDropdown = !this.isToggleDropdown;

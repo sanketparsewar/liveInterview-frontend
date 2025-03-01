@@ -81,16 +81,16 @@
     </div>
     <div>
 
-        <div class="d-flex ">
+        <div class="flex ">
             <button (click)="toggleProjectModal()"
                 class="mx-2 cursor-pointer bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
                 + Add Project
             </button>
 
-            <button (click)="toggleCreateInterviewSessionModal()"
+            <!-- <button (click)="toggleCreateInterviewSessionModal()"
                 class="mx-2 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
                 📅 Create Interview Session
-            </button>
+            </button> -->
         </div>
     </div>
 </div>
@@ -103,6 +103,6 @@
 
 <app-project *ngIf="isToggleProjectModal" (toggleProjectModal)="toggleProjectModal()"></app-project>
 
-
+<!-- 
 <app-create-session *ngIf="istoggleCreateInterviewSessionModal"
-    (toggleCreateInterviewSessionModal)="toggleCreateInterviewSessionModal()"></app-create-session>
+    (toggleCreateInterviewSessionModal)="toggleCreateInterviewSessionModal()"></app-create-session> -->

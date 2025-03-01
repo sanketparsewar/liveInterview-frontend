@@ -7,14 +7,14 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule,ChallengeSessionComponent],
+  imports: [CommonModule,CreateSessionComponent],
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })
 export class InterviewSessionTableComponent {
   interviewSessionsList: any;
   isToggleModal: boolean = false;
-
+  istoggleCreateInterviewSessionModal:boolean = false;
   constructor(private router:Router,private interviewSessionService: InterviewSessionService) {}
   ngOnInit() {
     this.getInterviewSessions();
@@ -22,11 +22,16 @@ export class InterviewSessionTableComponent {
   toggleModal() {
     this.isToggleModal = !this.isToggleModal;
   }
+
+  toggleCreateInterviewSessionModal() {
+    this.istoggleCreateInterviewSessionModal =
+      !this.istoggleCreateInterviewSessionModal;
+  }
+
   getInterviewSessions() {
     this.interviewSessionService.getAllInterviewSessions().subscribe({
       next: (res: any) => {
-        this.interviewSessionsList = res.interviewSessions;
-        console.log('All sessions:', res.interviewSessions);
+        this.interviewSessionsList = res;
       },
       error: (error: any) => {
         console.error('Error fetching sessions:', error.error.message);

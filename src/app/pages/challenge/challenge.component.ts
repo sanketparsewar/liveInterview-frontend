@@ -86,22 +86,7 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
-  // getTotalTime(startTime: string, endTime: string): string {
-  //   const start = new Date(startTime);
-  //   const end = new Date(endTime);
-  
-  //   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-  //     return "Invalid Time";
-  //   }
-  
-  //   const diffMs = end.getTime() - start.getTime(); // Difference in milliseconds
-  //   const diffMinutes = Math.floor((diffMs / 1000) / 60); // Convert to minutes
-  //   const diffHours = Math.floor(diffMinutes / 60); // Convert to hours
-  //   const remainingMinutes = diffMinutes % 60;
-  
-  //   return `${diffHours}h ${remainingMinutes}m`;
-  // }
-  
+ 
 
   reset() {
     this.challengeForm = this.fb.group({

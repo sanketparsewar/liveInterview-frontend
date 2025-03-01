@@ -95,17 +95,13 @@
                         *ngIf="!item.endTime && item.startTime"
                         (click)="updateChallengeSessionStatus(item._id)">End</button>
                 </span>
-                <!-- <span class="text-sm text-gray-500">{{ item.createdAt | date:'hh:mm a' }}</span> -->
             </div>
             <div class="flex items-center space-x-2">
-                <a 
-                class="text-blue-800 break-all" 
-                [href]="item.stackBlitzUrl"
-                target="_blank">
-                http://localhost:4200/candidate/{{ item._id }}
-                
-              </a>
-              
+                <a class="text-blue-800 break-all" [href]="item.stackBlitzUrl" target="_blank">
+                    http://localhost:4200/candidate/{{ item._id }}
+
+                </a>
+
                 <div class="flex items-end">
                     <button type="button" class="cursor-pointer"
                         (click)="copyToClipboard('http://localhost:4200/candidate/' + item._id)">
@@ -114,26 +110,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="px-6 pt-4 pb-2"> -->
-        <!-- <span *ngIf="item.challengeSessionStatus" [ngClass]="{
-              'bg-green-200': item.challengeSessionStatus === 'Completed',
-              'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
-            }" class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                {{ item.challengeSessionStatus }}
-            </span>
 
-            <span *ngIf="item.startTime"
-                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                Start Time: {{item.startTime | date:"hh:mm a"}}
-            </span>
-            <span *ngIf="item.endTime"
-                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                End Time: {{item.endTime | date:"hh:mm a"}}
-            </span>
-            <span *ngIf="item.endTime"
-                class="inline-block bg-sky-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                Total Time: {{getTotalTime(item.startTime, item.endTime)}}
-            </span> -->
 
         <div class="flex flex-wrap justify-center mt-4">
             <span *ngIf="item.challengeSessionStatus" [ngClass]="{
@@ -152,6 +129,5 @@
                 class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2"> Total Time:
                 {{item.totalTime | number:".2-2"}} min</span>
         </div>
-        <!-- </div> -->
     </div>
 </div>
