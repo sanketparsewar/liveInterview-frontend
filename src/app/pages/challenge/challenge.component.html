@@ -1,0 +1,157 @@
+<nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+
+                <button type="button"
+                    class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+                    aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">Open main menu</span>
+
+                    <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+
+                    <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex shrink-0 items-center">
+                    <img class="h-8 w-auto"
+                        src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                        alt="Your Company">
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                    <div class="flex space-x-4">
+                        <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                            aria-current="page">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</nav>
+
+
+
+<div class="max-w-7xl mx-auto p-3">
+    <form class="flex flex-wrap gap-4" [formGroup]="challengeForm" (submit)="createChallenge()">
+        <!-- Challenge Name -->
+        <div class="w-full md:w-auto px-3">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                Challenge Name
+            </label>
+            <input formControlName="name" name="name"
+                class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-first-name" type="text" placeholder="Enter name">
+        </div>
+
+        <!-- StackBlitz URL -->
+        <div class="w-full md:w-auto px-3">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                StackBlitz URL
+            </label>
+            <input formControlName="stackBlitzUrl"
+                class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-stackblitz" type="text" placeholder="Enter URL">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-end px-3">
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs md:text-sm py-1 px-2 md:py-2 md:px-4 rounded">
+                Add
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-3 py-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+    <div *ngFor="let item of challenges, let i = index" class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+        <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-3 flex justify-between items-center">
+                {{ item.name }}
+                <span>
+                    <!-- <button
+                        class="btn bg-green-600 hover:bg-green-700 text-white font-bold  rounded-full px-3 py-1 text-sm font-semibold text-gray-700 "
+                        *ngIf="!item.startTime" (click)="startChallenge(item._id)">Start</button> -->
+                    <button
+                        class="btn bg-red-500 hover:bg-red-700 text-white font-bold  rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
+                        *ngIf="!item.endTime && item.startTime"
+                        (click)="updateChallengeSessionStatus(item._id)">End</button>
+                </span>
+                <!-- <span class="text-sm text-gray-500">{{ item.createdAt | date:'hh:mm a' }}</span> -->
+            </div>
+            <div class="flex items-center space-x-2">
+                <a 
+                class="text-blue-800 break-all" 
+                [href]="item.stackBlitzUrl"
+                target="_blank">
+                http://localhost:4200/candidate/{{ item._id }}
+                
+              </a>
+              
+                <div class="flex items-end">
+                    <button type="button" class="cursor-pointer"
+                        (click)="copyToClipboard('http://localhost:4200/candidate/' + item._id)">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="px-6 pt-4 pb-2"> -->
+        <!-- <span *ngIf="item.challengeSessionStatus" [ngClass]="{
+              'bg-green-200': item.challengeSessionStatus === 'Completed',
+              'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
+            }" class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                {{ item.challengeSessionStatus }}
+            </span>
+
+            <span *ngIf="item.startTime"
+                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                Start Time: {{item.startTime | date:"hh:mm a"}}
+            </span>
+            <span *ngIf="item.endTime"
+                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                End Time: {{item.endTime | date:"hh:mm a"}}
+            </span>
+            <span *ngIf="item.endTime"
+                class="inline-block bg-sky-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                Total Time: {{getTotalTime(item.startTime, item.endTime)}}
+            </span> -->
+
+        <div class="flex flex-wrap justify-center mt-4">
+            <span *ngIf="item.challengeSessionStatus" [ngClass]="{
+                    'bg-green-200': item.challengeSessionStatus === 'Completed',
+                    'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
+                  }" class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                {{ item.challengeSessionStatus }}
+            </span>
+            <span *ngIf="item.startTime"
+                class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2">Start Time:
+                {{item.startTime |date:"hh:mm a" }}</span>
+            <span *ngIf="item.endTime"
+                class="bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2">End Time:
+                {{item.endTime | date:"hh:mm a" }}</span>
+            <span *ngIf="item.totalTime"
+                class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2"> Total Time:
+                {{item.totalTime | number:".2-2"}} min</span>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
