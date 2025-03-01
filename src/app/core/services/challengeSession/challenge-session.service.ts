@@ -22,6 +22,12 @@ export class ChallengeSessionService {
   getChallengeSessionById(id: string): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/challengesession/${id}`);
   }
+  getChallengeSessionsByInterviewId(id:string):Observable<any[]>{
+    return this.http.get<any[]>(`${this.BASE_URL}/challengesession/interview/${id}`);
+  }
+  startChallenge(id: string): Observable<any> {
+    return this.http.put<any>(`${this.BASE_URL}/challengesession/start/${id}`, {});
+  }
   updateChallengeSessionStatus(id: string): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/challengesession/sessionstatus/${id}`, {});
   }
