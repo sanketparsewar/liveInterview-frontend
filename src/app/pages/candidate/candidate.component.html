@@ -34,7 +34,7 @@
 
 
 
-<div class="flex items-center justify-center min-h-screen bg-gray-100" *ngIf="!challenge?.isActive && !challenge?.startTime">
+<!-- <div class="flex items-center justify-center min-h-screen bg-gray-100" *ngIf="!challenge?.isActive && !challenge?.startTime">
   <div class="max-w-md bg-white rounded-2xl shadow-lg p-6">
     <div class="text-center">
       <h2 class="text-xl font-semibold text-gray-800">Ready to Start?</h2>
@@ -46,7 +46,36 @@
       </button>
     </div>
   </div>
+</div> -->
+
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100" *ngIf="!challenge?.isActive && !challenge?.startTime">
+  <div class="max-w-md bg-white rounded-2xl shadow-lg p-6">
+    <div class="text-center">
+      <h2 class="text-xl font-semibold text-gray-800">Ready to Start?</h2>
+      <p class="text-gray-600 mt-2">Click below to begin your challenge.</p>
+      
+      <div class="mt-4 p-3 bg-yellow-100 text-yellow-800 rounded-md shadow">
+        <h3 class="font-semibold">Rules:</h3>
+        <ul class="list-disc list-inside text-sm text-gray-700 mt-1">
+          <li>Do not refresh the page during the challenge.</li>
+          <li>Copy-pasting is not allowed.</li>
+          <li>Switching tabs is not permitted.</li>
+          <li>Ensure you have a stable internet connection.</li>
+        </ul>
+      </div>
+
+      <button
+        class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-transform transform hover:scale-105"
+        (click)="startChallenge(challenge._id)">
+        🚀 Start Challenge
+      </button>
+    </div>
+  </div>
 </div>
+
+
+
 
 
 <div class="w-full h-screen mx-0 overflow-hidden" *ngIf="challenge?.isActive">
@@ -54,6 +83,7 @@
     <div class="font-bold text-xl m-2 flex justify-between items-center">
       {{ challenge?.name }}
       <span>
+        <span>Start Time: {{time | date:'EEE, d, y, h:mm:ss a'}} </span>
         <button
           class="btn bg-red-500 hover:bg-red-700 text-white font-bold  rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
           *ngIf="!challenge.endTime" (click)="updateChallengeSessionStatus()">End Challenge</button>
