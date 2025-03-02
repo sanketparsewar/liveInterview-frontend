@@ -1,98 +1,186 @@
+import { AlertService } from './../../core/services/alert/alert.service';
+import { ProjectService } from './../../core/services/project/project.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
 import { CommonModule } from '@angular/common';
+import { ProjectComponent } from '../../core/modalComponents/project/project.component';
 
 @Component({
   selector: 'app-challenge',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    ProjectComponent,
+  ],
   templateUrl: './challenge.component.html',
   styleUrl: './challenge.component.css',
 })
 export class ChallengeComponent implements OnInit {
-  constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute, private challengeSessionService: ChallengeSessionService) { };
+  constructor(
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private challengeSessionService: ChallengeSessionService,
+    private projectService: ProjectService,
+    private alertService:AlertService
+  ) {}
   challengeForm!: FormGroup;
-  id: string = ''
-  challenges: any[] = []
+  id: string = '';
+  challenges: any[] = [];
+  projectList: any[] = [];
+  isToggleProjectModal: boolean = false;
   ngOnInit() {
-
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
-        console.log('Interview ID:', params['id']);
+        this.getAllChallenges();
         this.challengeForm = this.fb.group({
           name: [''],
           stackBlitzUrl: [''],
           interviewSessionId: [this.id],
         });
       }
-    })
-    this.getAllChallenges();
+    });
+    this.getProjectList();
+  }
+
+  toggleProjectModal() {
+    this.isToggleProjectModal = !this.isToggleProjectModal;
   }
 
   getAllChallenges() {
-    this.challengeSessionService.getChallengeSessionsByInterviewId(this.id).subscribe({
-      next: (res: any) => {
-        this.challenges = res.challengeSessions;
-        console.log('Challenges:', res);
-      },
-      error: (error: any) => {
-        console.error('Error fetching challenges:', error.error.message);
-      },
-    })
+    this.challengeSessionService
+      .getChallengeSessionsByInterviewId(this.id)
+      .subscribe({
+        next: (res: any) => {
+          this.challenges = res.challengeSessions;
+        },
+        error: (error: any) => {
+          console.error('Error fetching challenges:', error.error.message);
+        },
+      });
   }
   createChallenge() {
-    this.challengeSessionService.createChallengeSession(this.challengeForm.value).subscribe({
-      next: (res) => {
-        console.log('Challenge created successfully:', res);
-        this.getAllChallenges();
-        this.reset()
+    this.challengeSessionService
+      .createChallengeSession(this.challengeForm.value)
+      .subscribe({
+        next: (res) => {
+          this.alertService.showSuccess('Challenge created.');
+          this.getAllChallenges();
+          this.reset();
+        },
+        error: (error: any) => {
+          this.alertService.showError('Error creating challenge');
+          // console.error('Error creating challenge:', error.error.message);
+        },
+      });
+  }
+  deleteChallenge(id: string) {
+    this.alertService.showConfirm('delete the challenge').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.challengeSessionService.deleteChallengeSessionById(id).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess('Challenge deleted successfully');
+            this.getAllChallenges();
+          },
+          error: (error: any) => {
+            this.alertService.showError('Error deleting challenge');
+            // console.error('Error deleting challenge:', error.error.message);
+          },
+        });
+      }
+    });  
+
+
+
+    
+  }
+
+  getProjectList() {
+    this.projectService.getAllProjects().subscribe({
+      next: (res: any) => {
+        this.projectList = res;
       },
       error: (error: any) => {
-        console.error('Error creating challenge:', error.error.message);
+        this.alertService.showError(error.error.message);
+        // console.error('Error fetching projects:', error.error.message);
       },
     });
   }
 
+  deleteProject(id: string) {
+    this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.projectService.deleteProjectById(id).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess('Project deleted successfully');
+            this.getProjectList();
+          },
+          error: (error: any) => {
+            this.alertService.showError('Error deleting project');
+            // console.error('Error deleting project:', error.error.message);
+          },
+        });
+      }
+    });    
+  }
+
   copyToClipboard(link: string) {
-    navigator.clipboard.writeText(link).then(() => {
-      alert('Link copied to clipboard!');
-    }).catch(err => {
-      console.error('Could not copy text: ', err);
-    });
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        this.alertService.showSuccess('Link copied!')
+      })
+      .catch((err) => {
+        this.alertService.showError('Could not copy text')
+        // console.error('Could not copy text: ', err);
+      });
   }
 
   startChallenge(id: string) {
     this.challengeSessionService.startChallenge(id).subscribe({
       next: (res) => {
-        console.log('Challenge session status updated successfully:', res);
+        this.alertService.showSuccess('Challenge started!')
         this.getAllChallenges();
       },
       error: (error: any) => {
-        console.error('Error updating challenge session status:', error.error.message);
+        this.alertService.showError('Error starting challenge')
+        // console.error(
+        //   'Error updating challenge session status:',
+        //   error.error.message
+        // );
       },
     });
   }
   updateChallengeSessionStatus(id: string) {
     this.challengeSessionService.updateChallengeSessionStatus(id).subscribe({
       next: (res) => {
-        console.log('Challenge session status updated successfully:', res);
+        this.alertService.showSuccess('Challenge session status updated!')
         this.getAllChallenges();
       },
       error: (error: any) => {
-        console.error('Error updating challenge session status:', error.error.message);
+        this.alertService.showError('Error updating challenge session status')
+        // console.error(
+        //   'Error updating challenge session status:',
+        //   error.error.message
+        // );
       },
     });
   }
-
- 
 
   reset() {
     this.challengeForm = this.fb.group({
       name: [''],
       stackBlitzUrl: [''],
       interviewSessionId: [this.id],
-    })
+    });
   }
 }
