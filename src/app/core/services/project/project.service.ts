@@ -16,13 +16,13 @@ export class ProjectService {
   getAllProjects(): Observable<any[]> {
     return this.http.get<any[]>(`${this.BASE_URL}/project`);
   }
-  getProjectById(id: number): Observable<any> {
+  getProjectById(id: string): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/project/${id}`);
   }
-  updateProjectById(id: number, project: any): Observable<any> {
+  updateProjectById(id: string, project: any): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/project/${id}`, project);
-  }
-  deleteProjectById(id: number): Observable<any> {
+  } 
+  deleteProjectById(id: string): Observable<any> {
     return this.http.delete<any>(`${this.BASE_URL}/project/${id}`);
   }
 }
