@@ -16,7 +16,6 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
   styleUrl: './create-session.component.css',
 })
 export class CreateSessionComponent implements OnInit {
-  session: any;
   sessionForm!: FormGroup;
   @Output() toggleCreateInterviewSessionModal = new EventEmitter();
   @Output() getAllInterviewSessions = new EventEmitter();

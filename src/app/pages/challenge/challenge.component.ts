@@ -11,6 +11,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
 import { CommonModule } from '@angular/common';
 import { ProjectComponent } from '../../core/modalComponents/project/project.component';
+import { IProject } from '../../core/models/interfaces/project.interface';
+import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 
 @Component({
   selector: 'app-challenge',
@@ -34,10 +36,12 @@ export class ChallengeComponent implements OnInit {
   ) {}
   challengeForm!: FormGroup;
   id: string = '';
-  challenges: any[] = [];
-  projectList: any[] = [];
+  challenges: IchallengeSession[] = [];
+  projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
+  
   ngOnInit() {
+    this.getProjectList();
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
@@ -49,7 +53,6 @@ export class ChallengeComponent implements OnInit {
         });
       }
     });
-    this.getProjectList();
   }
 
   toggleProjectModal() {
@@ -68,6 +71,7 @@ export class ChallengeComponent implements OnInit {
         },
       });
   }
+
   createChallenge() {
     this.challengeSessionService
       .createChallengeSession(this.challengeForm.value)
@@ -98,11 +102,8 @@ export class ChallengeComponent implements OnInit {
         });
       }
     });  
-
-
-
-    
   }
+
 
   getProjectList() {
     this.projectService.getAllProjects().subscribe({
@@ -115,6 +116,7 @@ export class ChallengeComponent implements OnInit {
       },
     });
   }
+
 
   deleteProject(id: string) {
     this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {

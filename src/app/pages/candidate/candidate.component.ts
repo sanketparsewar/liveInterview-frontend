@@ -11,6 +11,7 @@ import { ChallengeSessionService } from '../../core/services/challengeSession/ch
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 
 @Component({
   selector: 'app-candidate',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
 export class CandidateComponent implements OnInit {
   time!: Date;
   id: string = '';
-  challenge: any;
+  challenge!: IchallengeSession;
   safeStackBlitzUrl!: SafeResourceUrl;
 
   constructor(

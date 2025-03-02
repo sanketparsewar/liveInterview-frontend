@@ -15,7 +15,6 @@ import { ChallengeSessionService } from '../../services/challengeSession/challen
   styleUrl: './challenge-session.component.css',
 })
 export class ChallengeSessionComponent {
-  session: any;
   sessionForm!: FormGroup;
   @Output() toggleCreateChallengeSessionModal = new EventEmitter();
   constructor(
@@ -36,7 +35,6 @@ export class ChallengeSessionComponent {
       .createChallengeSession(this.sessionForm.value)
       .subscribe({
         next: (res) => {
-          console.log('Session created successfully:', res);
           this.ontoggleCreateChallengeSessionModal();
           alert('Session created successfully');
         },
