@@ -1,3 +1,4 @@
+import { AlertService } from './../../core/services/alert/alert.service';
 import { InterviewSessionTableComponent } from './../../core/components/interview-session-table/interview-session-table.component';
 import { InterviewSessionService } from './../../core/services/interviewSession/interview-session.service';
 import { CommonModule } from '@angular/common';
@@ -17,7 +18,7 @@ export class InterviewerComponent implements OnInit {
   isToggleProjectModal: boolean = false;
   interviewSessionsList: any;
 
-  constructor(private interviewSessionService: InterviewSessionService) { }
+  constructor(private interviewSessionService: InterviewSessionService,private alertService:AlertService) { }
   ngOnInit() {
 
   }
@@ -36,10 +37,10 @@ export class InterviewerComponent implements OnInit {
     this.interviewSessionService.getAllInterviewSessions().subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
-        console.log('All sessions:', res.interviewSessions);
       },
       error: (error: any) => {
-        console.error('Error fetching sessions:', error.error.message);
+        this.alertService.showError('Error fetching sessions');
+        // console.error('Error fetching sessions:', error.error.message);
       },
     });
   }
