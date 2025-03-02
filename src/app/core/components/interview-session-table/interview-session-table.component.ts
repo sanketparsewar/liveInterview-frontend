@@ -1,8 +1,8 @@
+import { AlertService } from './../../services/alert/alert.service';
 import { Component } from '@angular/core';
 import { InterviewSessionService } from '../../services/interviewSession/interview-session.service';
 import { CommonModule } from '@angular/common';
 import { CreateSessionComponent } from '../../modalComponents/create-session/create-session.component';
-import { ChallengeSessionComponent } from '../../modalComponents/challenge-session/challenge-session.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class InterviewSessionTableComponent {
   interviewSessionsList: any;
   isToggleModal: boolean = false;
   istoggleCreateInterviewSessionModal:boolean = false;
-  constructor(private router:Router,private interviewSessionService: InterviewSessionService) {}
+  constructor(private router:Router,private interviewSessionService: InterviewSessionService,private alertService:AlertService) {}
   ngOnInit() {
     this.getInterviewSessions();
   }
@@ -31,15 +31,35 @@ export class InterviewSessionTableComponent {
   getInterviewSessions() {
     this.interviewSessionService.getAllInterviewSessions().subscribe({
       next: (res: any) => {
-        this.interviewSessionsList = res;
+        this.interviewSessionsList = res.interviewSessions;
       },
       error: (error: any) => {
         console.error('Error fetching sessions:', error.error.message);
       },
     });
   }
+
+  updateInterviewSessionStatus(id:string){
+    this.alertService
+    .showConfirm('Update status')
+    .then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.interviewSessionService.updateInterviewSessionStatus(id).subscribe({
+          next: (res: any) => {
+            this.alertService.showSuccess('Session status updated successfully');
+            this.getInterviewSessions()
+          },
+          error: (error: any) => {
+            this.alertService.showError(error.error.message);
+            // console.error('Error updating status:', error.error.message);
+          },
+        });
+      }
+    });
+  }
+
+
   candidate(id:string){
     this.router.navigate(['challenge',id])
-    console.log('interviewsession ID:', id);
   }
 }

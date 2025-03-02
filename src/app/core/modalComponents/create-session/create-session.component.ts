@@ -1,3 +1,4 @@
+import { AlertService } from './../../services/alert/alert.service';
 import {
   FormsModule,
   FormGroup,
@@ -18,13 +19,17 @@ export class CreateSessionComponent implements OnInit {
   session: any;
   sessionForm!: FormGroup;
   @Output() toggleCreateInterviewSessionModal = new EventEmitter();
+  @Output() getAllInterviewSessions = new EventEmitter();
+
   constructor(
     private fb: FormBuilder,
-    private interviewSessionService: InterviewSessionService
+    private interviewSessionService: InterviewSessionService,
+    private alertService:AlertService
   ) { }
 
   ngOnInit() {
     this.sessionForm = this.fb.group({
+      interviewerName: ['Sanket', [Validators.required]],
       candidateName: ['', [Validators.required]],
     });
   }
@@ -34,10 +39,13 @@ export class CreateSessionComponent implements OnInit {
       .createInterviewSession(this.sessionForm.value)
       .subscribe({
         next: (res) => {
+          this.alertService.showSuccess('Session created successfully!');
           this.ontoggleCreateInterviewSessionModal();
+          this.getAllInterviewSessions.emit()
         },
         error: (error: any) => {
-          console.error('Error creating session:', error.error.message);
+          this.alertService.showError(error.error.message);
+          // console.error('Error creating session:', error.error.message);
         },
       });
   }
