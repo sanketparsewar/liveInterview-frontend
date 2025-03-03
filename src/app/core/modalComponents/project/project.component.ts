@@ -6,21 +6,21 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project',
-  imports: [ReactiveFormsModule,FormsModule,CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './project.component.html',
   styleUrl: './project.component.css',
 })
 export class ProjectComponent implements OnInit {
-  projectForm!:FormGroup;
+  projectForm!: FormGroup;
   @Output() toggleProjectModal = new EventEmitter();
   @Output() getProjectList = new EventEmitter();
-  constructor(private fb:FormBuilder,private projectService:ProjectService,private alertService:AlertService) {}
+  constructor(private fb: FormBuilder, private projectService: ProjectService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.projectForm = this.fb.group({
       title: ['', [Validators.required]],
-      skills:['', [Validators.required]],
-      projectUrl:['', [Validators.required]],
+      skills: ['', [Validators.required]],
+      projectUrl: ['', [Validators.required]],
     })
   }
   createProject(projectForm: FormGroup) {
