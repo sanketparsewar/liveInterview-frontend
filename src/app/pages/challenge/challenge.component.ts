@@ -39,7 +39,8 @@ export class ChallengeComponent implements OnInit {
   challenges: IchallengeSession[] = [];
   projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
-  
+  scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
+
   ngOnInit() {
     this.getProjectList();
     this.activatedRoute.params.subscribe((params) => {
@@ -177,6 +178,27 @@ export class ChallengeComponent implements OnInit {
       },
     });
   }
+
+  updateChallengeSessionById(id:string,score:string){
+    this.alertService.showConfirm(`update score to ${score}`).then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.challengeSessionService.updateChallengeSessionById(id,score).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess('Challenge updated successfully')
+            this.getAllChallenges();
+          },
+          error: (error: any) => {
+            this.alertService.showError('Error updating challenge')
+            // console.error('Error updating challenge:', error.error.message);
+          },
+        });
+      }
+    });   
+
+
+    
+  }
+
 
   reset() {
     this.challengeForm = this.fb.group({
