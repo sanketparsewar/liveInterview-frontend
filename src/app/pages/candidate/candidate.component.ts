@@ -24,7 +24,7 @@ export class CandidateComponent implements OnInit {
   id: string = '';
   challenge!: IchallengeSession;
   safeStackBlitzUrl!: SafeResourceUrl;
-
+  lostFocusCount: number = 0
   constructor(
     private sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
@@ -32,15 +32,32 @@ export class CandidateComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private alertService: AlertService
-  ) { }
+  ) {
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== 'visible') {
+        this.lostFocusCount += 1
+        this.alertService.showWarning(`Tab change detected ${this.lostFocusCount}`)
+        if (this.lostFocusCount == 1) {
+          this.alertService.showWarning(`Do not leave this page.`)
+        }
+        else if (this.lostFocusCount == 2) {
+          this.alertService.showWarning(`Last warning.`)
+        }
+        else if (this.lostFocusCount > 2) {
+          this.alertService.showWarning(`Challenge auto submitted.`)
+          this.endChallenge()
+        }
+      }
+    })
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
+        this.getChallengeSessionById();
       }
     });
-    this.getChallengeSessionById();
 
 
     // Disable right-click
@@ -52,7 +69,7 @@ export class CandidateComponent implements OnInit {
     this.el.nativeElement.style.userSelect = 'none';
   }
 
-  
+
 
   getChallengeSessionById() {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
@@ -80,22 +97,26 @@ export class CandidateComponent implements OnInit {
   updateChallengeSessionStatus() {
     this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.challengeSessionService
-          .updateChallengeSessionStatus(this.id)
-          .subscribe({
-            next: (res) => {
-              this.alertService.showSuccess('Challenge Ended.');
-              this.getChallengeSessionById();
-            },
-            error: (error: any) => {
-              console.error(
-                'Error updating challenge session status:',
-                error.error.message
-              );
-            },
-          });
+        this.endChallenge()
+        this.alertService.showSuccess('Challenge Ended.');
       }
     });
+  }
+
+  endChallenge() {
+    this.challengeSessionService
+      .updateChallengeSessionStatus(this.id)
+      .subscribe({
+        next: (res) => {
+          this.getChallengeSessionById();
+        },
+        error: (error: any) => {
+          console.error(
+            'Error updating challenge session status:',
+            error.error.message
+          );
+        },
+      });
   }
 
   startChallenge(id: string) {
@@ -106,6 +127,9 @@ export class CandidateComponent implements OnInit {
           next: (res) => {
             this.time = new Date();
             this.getChallengeSessionById();
+            setInterval(()=>{
+              this.time = new Date();
+            },1000)
           },
           error: (error: any) => {
             console.error(

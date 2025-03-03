@@ -6,6 +6,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
@@ -48,8 +49,8 @@ export class ChallengeComponent implements OnInit {
         this.id = params['id'];
         this.getAllChallenges();
         this.challengeForm = this.fb.group({
-          name: [''],
-          stackBlitzUrl: [''],
+          name: ['',[Validators.required]],
+          stackBlitzUrl: ['',[Validators.required]],
           interviewSessionId: [this.id],
         });
       }
@@ -73,6 +74,10 @@ export class ChallengeComponent implements OnInit {
       });
   }
 
+  // projectSelected(event: any) {
+  //   this.challengeForm.patchValue({ project: event.value });
+  // }
+
   createChallenge() {
     this.challengeSessionService
       .createChallengeSession(this.challengeForm.value)
@@ -87,6 +92,7 @@ export class ChallengeComponent implements OnInit {
           // console.error('Error creating challenge:', );
         },
       });
+    console.log(this.challengeForm.value);
   }
   deleteChallenge(id: string) {
     this.alertService.showConfirm('delete the challenge').then((isConfirmed: any) => {
@@ -148,35 +154,43 @@ export class ChallengeComponent implements OnInit {
       });
   }
 
-  startChallenge(id: string) {
-    this.challengeSessionService.startChallenge(id).subscribe({
-      next: (res) => {
-        this.alertService.showSuccess('Challenge started!')
-        this.getAllChallenges();
-      },
-      error: (error: any) => {
-        this.alertService.showError('Error starting challenge')
-        // console.error(
-        //   'Error updating challenge session status:',
-        //   error.error.message
-        // );
-      },
-    });
-  }
+  // startChallenge(id: string) {
+  //   this.challengeSessionService.startChallenge(id).subscribe({
+  //     next: (res) => {
+  //       this.alertService.showSuccess('Challenge started!')
+  //       this.getAllChallenges();
+  //     },
+  //     error: (error: any) => {
+  //       this.alertService.showError('Error starting challenge')
+  //       // console.error(
+  //       //   'Error updating challenge session status:',
+  //       //   error.error.message
+  //       // );
+  //     },
+  //   });
+  // }
+
   updateChallengeSessionStatus(id: string) {
-    this.challengeSessionService.updateChallengeSessionStatus(id).subscribe({
-      next: (res) => {
-        this.alertService.showSuccess('Challenge session status updated!')
-        this.getAllChallenges();
-      },
-      error: (error: any) => {
-        this.alertService.showError('Error updating challenge session status')
-        // console.error(
-        //   'Error updating challenge session status:',
-        //   error.error.message
-        // );
-      },
-    });
+    this.alertService.showConfirm('End this challenge').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.challengeSessionService.updateChallengeSessionStatus(id).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess('Challenge session status updated!')
+            this.getAllChallenges();
+          },
+          error: (error: any) => {
+            this.alertService.showError('Error updating challenge session status')
+            // console.error(
+            //   'Error updating challenge session status:',
+            //   error.error.message
+            // );
+          },
+        });
+      }
+    }); 
+
+
+    
   }
 
   updateChallengeSessionById(id:string,score:string){
@@ -193,10 +207,7 @@ export class ChallengeComponent implements OnInit {
           },
         });
       }
-    });   
-
-
-    
+    });       
   }
 
 

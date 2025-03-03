@@ -51,8 +51,8 @@
         </div>
 
         <div class="flex justify-between items-center gap-2 w-full">
-          <a class="text-blue-800 break-all" [href]="item.projectUrl" target="_blank">
-            {{ item.projectUrl }}
+          <a class="text-blue-800 underline break-all" [href]="item.projectUrl" target="_blank">
+            <i class="fa-solid fa-link"></i> StackBlitz Project Link
           </a>
         </div>
       </div>
@@ -79,7 +79,7 @@
       </label>
       <input formControlName="name" name="name"
         class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="grid-first-name" type="text" placeholder="Enter name" />
+        id="grid-first-name" type="text" placeholder="Enter challenge name" />
     </div>
 
     <!-- StackBlitz URL -->
@@ -87,9 +87,13 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
         StackBlitz URL
       </label>
-      <input formControlName="stackBlitzUrl"
+      <!-- <input formControlName="stackBlitzUrl"
         class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="grid-stackblitz" type="text" placeholder="Enter URL" />
+        id="grid-stackblitz" type="text" placeholder="Enter URL" /> -->
+        <select name="stackBlitzUrl" class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" formControlName="stackBlitzUrl" id="">
+          <option value="">Select project</option>
+          <option *ngFor="let item of projectList; let i = index" [value]="item.projectUrl">{{item.title}}</option>
+        </select>
     </div>
 
     <!-- Submit Button -->
@@ -119,6 +123,11 @@
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
         {{i+1}}. {{ item.name }}
         <span>
+          <!-- <button *ngIf="item.isActive"
+            class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
+            (click)="updateChallengeSessionStatus(item._id)">
+            End challenge
+          </button> -->
           <button *ngIf="!item.isActive"
             class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
             (click)="deleteChallenge(item._id)">
@@ -126,9 +135,9 @@
           </button>
         </span>
       </div>
-      <div class="flex items-center space-x-2">
-        <a class="text-blue-800 break-all" [href]="item.stackBlitzUrl" target="_blank">
-          http://localhost:4200/candidate/{{ item._id }}
+      <div class="flex items-center justify-between space-x-2">
+        <a class="text-blue-800 break-all underline" [href]="item.stackBlitzUrl" target="_blank">
+          <i class="fa-solid fa-link"></i> Challenge Link
         </a>
 
         <div class="flex items-end">
@@ -176,7 +185,6 @@
           <option value="">Select Score</option>
           <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
         </select>
-
       </span>
     </div>
   </div>
