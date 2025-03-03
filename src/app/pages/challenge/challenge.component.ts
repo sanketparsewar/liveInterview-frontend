@@ -83,8 +83,8 @@ export class ChallengeComponent implements OnInit {
           this.reset();
         },
         error: (error: any) => {
-          this.alertService.showError('Error creating challenge');
-          // console.error('Error creating challenge:', error.error.message);
+          this.alertService.showError(error.error.message);
+          // console.error('Error creating challenge:', );
         },
       });
   }

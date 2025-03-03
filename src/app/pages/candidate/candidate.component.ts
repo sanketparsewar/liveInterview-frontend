@@ -52,39 +52,7 @@ export class CandidateComponent implements OnInit {
     this.el.nativeElement.style.userSelect = 'none';
   }
 
-  // Prevent keyboard shortcuts like Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+U, F12, etc.
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): boolean {
-    // Define forbidden key combinations
-    const forbiddenKeys = [
-      { ctrl: true, key: 'c' }, // Ctrl + C (Copy)
-      { ctrl: true, key: 'v' }, // Ctrl + V (Paste)
-      { ctrl: true, key: 'x' }, // Ctrl + X (Cut)
-      { ctrl: true, key: 'u' }, // Ctrl + U (View Source)
-      { ctrl: true, key: 's' }, // Ctrl + S (Save)
-      { ctrl: true, key: 'i' }, // Ctrl + I (DevTools)
-      { ctrl: true, shift: true, key: 'I' }, // Ctrl + Shift + I
-      { ctrl: true, shift: true, key: 'J' }, // Ctrl + Shift + J
-      { ctrl: true, shift: true, key: 'C' }, // Ctrl + Shift + C (Inspect Element)
-      { key: 'F12' }, // F12 (DevTools)
-      { key: 'PrintScreen' }, // Print Screen
-    ];
-
-    // Check if the pressed key combination is in the forbidden list
-    for (const shortcut of forbiddenKeys) {
-      if (
-        (shortcut.ctrl && event.ctrlKey && event.key.toLowerCase() === shortcut.key.toLowerCase()) ||
-        (shortcut.shift && event.shiftKey && event.key.toLowerCase() === shortcut.key.toLowerCase()) ||
-        (!shortcut.ctrl && !shortcut.shift && event.key === shortcut.key)
-      ) {
-        event.preventDefault(); // Prevent default behavior
-        event.stopPropagation(); // Stop event from propagating
-        return false; // Return false to block the action
-      }
-    }
-    return true; // Allow other keys to function normally
-  }
-
+  
 
   getChallengeSessionById() {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
