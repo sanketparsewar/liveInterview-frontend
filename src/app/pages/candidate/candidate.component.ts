@@ -32,7 +32,7 @@ export class CandidateComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -42,23 +42,9 @@ export class CandidateComponent implements OnInit {
     });
     this.getChallengeSessionById();
 
+
     // Disable right-click
     this.renderer.listen('window', 'contextmenu', (event) => {
-      event.preventDefault();
-    });
-
-    // Disable copy, cut, paste and show alert for copy/paste
-    this.renderer.listen('window', 'copy', (event) => {
-      event.preventDefault();
-      alert('Copying content is not allowed!');
-    });
-
-    this.renderer.listen('window', 'paste', (event) => {
-      event.preventDefault();
-      alert('Pasting content is not allowed!');
-    });
-
-    this.renderer.listen('window', 'cut', (event) => {
       event.preventDefault();
     });
 
@@ -68,25 +54,37 @@ export class CandidateComponent implements OnInit {
 
   // Prevent keyboard shortcuts like Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+U, F12, etc.
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 'c') {
-      alert('Copying content is not allowed!');
-      event.preventDefault();
-    } else if (event.ctrlKey && event.key === 'v') {
-      alert('Pasting content is not allowed!');
-      event.preventDefault();
-    } else if (
-      (event.ctrlKey &&
-        (event.key === 'x' ||
-          event.key === 'u' ||
-          event.key === 's' ||
-          event.key === 'i' ||
-          event.key === 'j')) ||
-      event.key === 'F12'
-    ) {
-      event.preventDefault();
+  handleKeyboardEvent(event: KeyboardEvent): boolean {
+    // Define forbidden key combinations
+    const forbiddenKeys = [
+      { ctrl: true, key: 'c' }, // Ctrl + C (Copy)
+      { ctrl: true, key: 'v' }, // Ctrl + V (Paste)
+      { ctrl: true, key: 'x' }, // Ctrl + X (Cut)
+      { ctrl: true, key: 'u' }, // Ctrl + U (View Source)
+      { ctrl: true, key: 's' }, // Ctrl + S (Save)
+      { ctrl: true, key: 'i' }, // Ctrl + I (DevTools)
+      { ctrl: true, shift: true, key: 'I' }, // Ctrl + Shift + I
+      { ctrl: true, shift: true, key: 'J' }, // Ctrl + Shift + J
+      { ctrl: true, shift: true, key: 'C' }, // Ctrl + Shift + C (Inspect Element)
+      { key: 'F12' }, // F12 (DevTools)
+      { key: 'PrintScreen' }, // Print Screen
+    ];
+
+    // Check if the pressed key combination is in the forbidden list
+    for (const shortcut of forbiddenKeys) {
+      if (
+        (shortcut.ctrl && event.ctrlKey && event.key.toLowerCase() === shortcut.key.toLowerCase()) ||
+        (shortcut.shift && event.shiftKey && event.key.toLowerCase() === shortcut.key.toLowerCase()) ||
+        (!shortcut.ctrl && !shortcut.shift && event.key === shortcut.key)
+      ) {
+        event.preventDefault(); // Prevent default behavior
+        event.stopPropagation(); // Stop event from propagating
+        return false; // Return false to block the action
+      }
     }
+    return true; // Allow other keys to function normally
   }
+
 
   getChallengeSessionById() {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
