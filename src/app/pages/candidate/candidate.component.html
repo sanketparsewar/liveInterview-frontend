@@ -2,9 +2,8 @@
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center">
-          <img class="h-8 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-            alt="Your Company">
+        <div class="flex shrink-0 items-center text-blue-500 font-semibold text-lg">
+          <span class="text-orange-500" >AM</span><span class="text-gray-100">Interview</span>
         </div>
       </div>
     </div>
@@ -48,7 +47,7 @@
     <div class="font-bold text-xl m-2 flex justify-between items-center">
       {{ challenge.name }}
       <span>
-        <span>Start Time: {{time | date:'EEE, d, y, h:mm:ss a'}} </span>
+        <span>Start Time: {{time | date:'EEE d, y, h:mm:ss a'}} </span>
         <button
           class="btn bg-red-500 hover:bg-red-700 text-white font-bold  rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
           *ngIf="!challenge.endTime" (click)="updateChallengeSessionStatus()">End Challenge</button>

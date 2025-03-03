@@ -2,10 +2,10 @@
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center">
-          <img class="h-8 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-            alt="Your Company" />
+        <div class="flex shrink-0 items-center text-blue-500 font-semibold text-lg">
+          <span class="text-orange-500">AM</span><span class="text-gray-100">Interview</span>
         </div>
+
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
@@ -119,12 +119,13 @@
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
         {{i+1}}. {{ item.name }}
         <span>
-          <button class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
+          <button *ngIf="!item.isActive"
+            class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
             (click)="deleteChallenge(item._id)">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </span>
-        </div>
+      </div>
       <div class="flex items-center space-x-2">
         <a class="text-blue-800 break-all" [href]="item.stackBlitzUrl" target="_blank">
           http://localhost:4200/candidate/{{ item._id }}
@@ -140,22 +141,43 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-center mt-4">
-      <span *ngIf="item.challengeSessionStatus" [ngClass]="{
+    <div class="flex flex-wrap justify-center gap-2 p-2 w-full max-w-lg mx-auto">
+      <span [ngClass]="{
           'bg-green-200': item.challengeSessionStatus === 'Completed',
           'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
-        }" class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        }" class="rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-center flex-grow text-center">
         {{ item.challengeSessionStatus }}
       </span>
+
       <span *ngIf="item.startTime"
-        class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2">Start Time: {{
-        item.startTime | date : "hh:mm a" }}</span>
+        class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+        Start Time: {{ item.startTime | date : "hh:mm a" }}
+      </span>
+
       <span *ngIf="item.endTime"
-        class="bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2">End Time: {{
-        item.endTime | date : "hh:mm a" }}</span>
+        class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+        End Time: {{ item.endTime | date : "hh:mm a" }}
+      </span>
+
       <span *ngIf="item.totalTime"
-        class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium mr-2 mb-2">
-        Total Time: {{ item.totalTime | number : ".2-2" }} min</span>
+        class="bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+        Total Time: {{ item.totalTime | number : ".2-2" }} min
+      </span>
+
+      <span *ngIf="item.totalTime" [ngClass]="{
+        'bg-red-500': item.score === 'Not Attempted',
+        'bg-yellow-400': item.score === 'Partial Solution',
+        'bg-orange-400': item.score === 'Completed',
+        'bg-green-400': item.score === 'Outstanding'
+      }" class="w-1/2 text-black-600 rounded-full px-4 py-1 text-lg  flex-grow text-center">
+        Score: {{ item.score }}
+        <select #scoreSelect *ngIf="!item.score" (change)="updateChallengeSessionById(item._id, scoreSelect.value)"
+          class="outline-none  bg-gray-100 border border-gray-400 rounded px-2 py-1 text-sm">
+          <option value="">Select Score</option>
+          <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
+        </select>
+
+      </span>
     </div>
   </div>
 </div>
