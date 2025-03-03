@@ -65,6 +65,26 @@ export class InterviewSessionTableComponent {
     });
   }
 
+  deleteInterviewSessionById(id:string){
+    this.alertService.showConfirm('Delete session').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.interviewSessionService
+         .deleteInterviewSessionById(id)
+         .subscribe({
+            next: (res: any) => {
+              this.alertService.showSuccess('Session deleted.');
+              this.getInterviewSessions();
+            },
+            error: (error: any) => {
+              this.alertService.showError(error.error.message);
+              // console.error('Error deleting session:', error.error.message);
+            },
+          });
+      }
+    });
+  }
+
+
   candidate(id: string) {
     this.router.navigate(['challenge', id]);
   }
