@@ -41,9 +41,24 @@ export class AlertService {
       title: message,
     });
   }
-  // showWarning(message: string) {
-  //   this.toastr.warning(message);
-  // }
+  showWarning(message: string) {
+    // this.toastr.warning(message);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast: any) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: 'warning',
+      title: message,
+    });
+  }
   // showInfo(message: string) {
   //   this.toastr.info(message);
   // }
