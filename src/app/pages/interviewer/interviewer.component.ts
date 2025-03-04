@@ -16,4 +16,11 @@ export class InterviewerComponent implements OnInit {
   toggleDropdown() {
     this.isToggleDropdown = !this.isToggleDropdown;
   }
+
+  logout(){
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
+
 }
