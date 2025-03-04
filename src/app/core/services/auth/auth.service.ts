@@ -12,4 +12,7 @@ export class AuthService {
   login(loginData: any) {
     return this.http.post(`${this.BASE_URL}/auth/login`, { email: loginData.email, password: loginData.password, skipCaptcha: true });
   }
+  getLoggedInterviewer(){
+    // return JSON.parse(localStorage.getItem('user'));
+  }
 }
