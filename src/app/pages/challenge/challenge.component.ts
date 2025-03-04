@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 import { ProjectComponent } from '../../core/modalComponents/project/project.component';
 import { IProject } from '../../core/models/interfaces/project.interface';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
-
+import { io } from 'socket.io-client';
+import { environment } from '../../../environment/environment.prod';
 @Component({
   selector: 'app-challenge',
   imports: [
@@ -28,20 +29,25 @@ import { IchallengeSession } from '../../core/models/interfaces/challengeSession
   styleUrl: './challenge.component.css',
 })
 export class ChallengeComponent implements OnInit {
-  constructor(
-    private fb: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private challengeSessionService: ChallengeSessionService,
-    private projectService: ProjectService,
-    private alertService:AlertService
-  ) {}
+
   challengeForm!: FormGroup;
   id: string = '';
   challenges: IchallengeSession[] = [];
   projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
+  private socket: any;
+  constructor(
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private challengeSessionService: ChallengeSessionService,
+    private projectService: ProjectService,
+    private alertService: AlertService
+  ) {
+    // connection
+    this.socket = io(environment.SOCKET_URL); 
 
+  }
   ngOnInit() {
     this.getProjectList();
     this.activatedRoute.params.subscribe((params) => {
@@ -49,12 +55,23 @@ export class ChallengeComponent implements OnInit {
         this.id = params['id'];
         this.getAllChallenges();
         this.challengeForm = this.fb.group({
-          name: ['',[Validators.required]],
-          stackBlitzUrl: ['',[Validators.required]],
+          name: ['', [Validators.required]],
+          stackBlitzUrl: ['', [Validators.required]],
           interviewSessionId: [this.id],
         });
       }
     });
+
+    // listening for the events made by candidate
+    this.socket.on("challengeStarted", () => {
+      this.alertService.showSuccess(`Challenge started by candidate.`);
+      this.getAllChallenges(); // Refresh challenge list
+    });
+
+    this.socket.on("challengeEnded", () => {
+      this.alertService.showSuccess(`Challenge ended.`);
+      this.getAllChallenges(); // Refresh challenge list
+    })
   }
 
   toggleProjectModal() {
@@ -74,9 +91,6 @@ export class ChallengeComponent implements OnInit {
       });
   }
 
-  // projectSelected(event: any) {
-  //   this.challengeForm.patchValue({ project: event.value });
-  // }
 
   createChallenge() {
     this.challengeSessionService
@@ -92,8 +106,8 @@ export class ChallengeComponent implements OnInit {
           // console.error('Error creating challenge:', );
         },
       });
-    console.log(this.challengeForm.value);
   }
+
   deleteChallenge(id: string) {
     this.alertService.showConfirm('delete the challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
@@ -108,7 +122,7 @@ export class ChallengeComponent implements OnInit {
           },
         });
       }
-    });  
+    });
   }
 
 
@@ -139,7 +153,7 @@ export class ChallengeComponent implements OnInit {
           },
         });
       }
-    });    
+    });
   }
 
   copyToClipboard(link: string) {
@@ -170,12 +184,14 @@ export class ChallengeComponent implements OnInit {
   //   });
   // }
 
-  updateChallengeSessionStatus(id: string) {
+  endChallenge(id: string) {
     this.alertService.showConfirm('End this challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.challengeSessionService.updateChallengeSessionStatus(id).subscribe({
           next: (res) => {
-            this.alertService.showSuccess('Challenge session status updated!')
+            // emit the end challenge
+            this.socket.emit("endChallenge");
+            this.alertService.showSuccess('Challenge Ended!')
             this.getAllChallenges();
           },
           error: (error: any) => {
@@ -187,18 +203,16 @@ export class ChallengeComponent implements OnInit {
           },
         });
       }
-    }); 
+    });
 
-
-    
   }
 
-  updateChallengeSessionById(id:string,score:string){
+  updateScore(id: string, score: string) {
     this.alertService.showConfirm(`update score to ${score}`).then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.challengeSessionService.updateChallengeSessionById(id,score).subscribe({
+        this.challengeSessionService.updateChallengeSessionById(id, score).subscribe({
           next: (res) => {
-            this.alertService.showSuccess('Challenge updated successfully')
+            this.alertService.showSuccess('Challenge score updated.')
             this.getAllChallenges();
           },
           error: (error: any) => {
@@ -207,7 +221,7 @@ export class ChallengeComponent implements OnInit {
           },
         });
       }
-    });       
+    });
   }
 
 

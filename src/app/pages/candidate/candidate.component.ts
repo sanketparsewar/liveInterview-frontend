@@ -12,7 +12,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
-
+import { io, Socket } from "socket.io-client"; 
+import { environment } from '../../../environment/environment.prod';
 @Component({
   selector: 'app-candidate',
   imports: [FormsModule, CommonModule],
@@ -25,6 +26,8 @@ export class CandidateComponent implements OnInit {
   challenge!: IchallengeSession;
   safeStackBlitzUrl!: SafeResourceUrl;
   lostFocusCount: number = 0
+  private socket!: Socket;
+  startTime!: Date;
   constructor(
     private sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
@@ -33,7 +36,8 @@ export class CandidateComponent implements OnInit {
     private el: ElementRef,
     private alertService: AlertService
   ) {
-
+    // connection
+    this.socket = io(environment.SOCKET_URL); 
   }
 
   ngOnInit() {
@@ -44,6 +48,13 @@ export class CandidateComponent implements OnInit {
       }
     });
 
+    this.checkLostFocus()
+
+
+    this.socket.on("challengeEnded", () => {
+      this.alertService.showSuccess(`Challenge ended.`);
+      this.getChallengeSessionById(); // Refresh challenge list
+    })
 
     // Disable right-click
     this.renderer.listen('window', 'contextmenu', (event) => {
@@ -60,7 +71,6 @@ export class CandidateComponent implements OnInit {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challenge = res;
-
         if (
           this.challenge.stackBlitzUrl &&
           typeof this.challenge.stackBlitzUrl === 'string'
@@ -72,6 +82,10 @@ export class CandidateComponent implements OnInit {
         } else {
           console.log('Invalid StackBlitz URL:', this.challenge.stackBlitzUrl);
         }
+        this.startTime = new Date(this.challenge.startTime);
+        setInterval(() => {
+          this.time = new Date();
+        }, 1000)
       },
       error: (error: any) => {
         console.error('Error fetching challenge:', error.error.message);
@@ -79,21 +93,18 @@ export class CandidateComponent implements OnInit {
     });
   }
 
-  updateChallengeSessionStatus() {
+  endChallenge() {
     this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.endChallenge()
-        this.alertService.showSuccess('Challenge Ended.');
-      }
-    });
-  }
-
-  endChallenge() {
-    this.challengeSessionService
+        this.challengeSessionService
       .updateChallengeSessionStatus(this.id)
       .subscribe({
         next: (res) => {
           this.getChallengeSessionById();
+          this.alertService.showSuccess('Challenge ended')
+          // emit the changes
+          this.socket.emit("endChallenge");
+
         },
         error: (error: any) => {
           console.error(
@@ -102,7 +113,12 @@ export class CandidateComponent implements OnInit {
           );
         },
       });
+        this.alertService.showSuccess('Challenge Ended.');
+      }
+    });
   }
+
+ 
 
   startChallenge(id: string) {
     this.alertService.showConfirm('start the challenge').then((isConfirmed: any) => {
@@ -110,12 +126,10 @@ export class CandidateComponent implements OnInit {
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
-            this.time = new Date();
             this.getChallengeSessionById();
-            this.checkLostFocus()
-            setInterval(() => {
-              this.time = new Date();
-            }, 1000)
+            // Emit event to the interviewer that challenge has started
+            this.socket.emit("startChallenge");
+
           },
           error: (error: any) => {
             console.error(

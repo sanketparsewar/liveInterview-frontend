@@ -125,7 +125,7 @@
         <span>
           <button *ngIf="item.isActive"
             class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
-            (click)="updateChallengeSessionStatus(item._id)">
+            (click)="endChallenge(item._id)">
             End challenge
           </button>
           <button *ngIf="!item.isActive"
@@ -180,7 +180,7 @@
         'bg-green-400': item.score === 'Outstanding'
       }" class=" text-black-600 rounded-full px-4 py-1 text-lg  flex-grow text-center">
         Score: {{ item.score }}
-        <select #scoreSelect *ngIf="!item.score" (change)="updateChallengeSessionById(item._id, scoreSelect.value)"
+        <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
           class="outline-none  bg-gray-100 border border-gray-400 rounded px-2 py-1 text-sm">
           <option value="">Select Score</option>
           <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
