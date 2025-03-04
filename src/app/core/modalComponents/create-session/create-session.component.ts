@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { InterviewSessionService } from './../../services/interviewSession/interview-session.service';
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-create-session',
@@ -19,19 +20,27 @@ export class CreateSessionComponent implements OnInit {
   sessionForm!: FormGroup;
   @Output() toggleCreateInterviewSessionModal = new EventEmitter();
   @Output() getAllInterviewSessions = new EventEmitter();
-
+  interviewerData: any;
   constructor(
     private fb: FormBuilder,
     private interviewSessionService: InterviewSessionService,
-    private alertService:AlertService
+    private alertService: AlertService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+
+    this.interviewerData = this.getLoggedInterviewer()
     this.sessionForm = this.fb.group({
-      interviewerName: ['Sanket', [Validators.required]],
+      interviewerName: [this.interviewerData.firstName, [Validators.required]],
       candidateName: ['', [Validators.required]],
     });
   }
+
+  getLoggedInterviewer() {
+    return this.authService.getLoggedInterviewer();
+  }
+
 
   createInterviewSession() {
     this.interviewSessionService

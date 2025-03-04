@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CreateSessionComponent } from '../../modalComponents/create-session/create-session.component';
 import { Router } from '@angular/router';
 import { IinterviewSession } from '../../models/interfaces/interviewSession.interface';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-interview-session-table',
@@ -19,7 +20,7 @@ export class InterviewSessionTableComponent {
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
-    private alertService: AlertService
+    private alertService: AlertService,
   ) {}
   ngOnInit() {
     this.getInterviewSessions();
@@ -32,6 +33,8 @@ export class InterviewSessionTableComponent {
     this.istoggleCreateInterviewSessionModal =
       !this.istoggleCreateInterviewSessionModal;
   }
+
+  
 
   getInterviewSessions() {
     this.interviewSessionService.getAllInterviewSessions().subscribe({
