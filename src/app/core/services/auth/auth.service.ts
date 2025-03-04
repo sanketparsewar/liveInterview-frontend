@@ -7,14 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private BASE_URL = " https://admin.liveexamcenter.in/api";
-//  userSubject = new BehaviorSubject<any>({});
-//   user$ = this.userSubject.asObservable();
   constructor(private http: HttpClient) { }
 
   login(loginData: any) {
     return this.http.post(`${this.BASE_URL}/auth/login`, { email: loginData.email, password: loginData.password, skipCaptcha: true });
   }
-  getLoggedInterviewer(){
-    return JSON.parse(localStorage.getItem('user')|| '');
+  getLoggedInterviewer() {
+    return JSON.parse(localStorage.getItem('user') || '');
   }
 }
