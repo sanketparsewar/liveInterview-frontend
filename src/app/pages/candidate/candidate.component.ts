@@ -33,22 +33,7 @@ export class CandidateComponent implements OnInit {
     private el: ElementRef,
     private alertService: AlertService
   ) {
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState !== 'visible') {
-        this.lostFocusCount += 1
-        this.alertService.showWarning(`Tab change detected ${this.lostFocusCount}`)
-        if (this.lostFocusCount == 1) {
-          this.alertService.showWarning(`Do not leave this page.`)
-        }
-        else if (this.lostFocusCount == 2) {
-          this.alertService.showWarning(`Last warning.`)
-        }
-        else if (this.lostFocusCount > 2) {
-          this.alertService.showWarning(`Challenge auto submitted.`)
-          this.endChallenge()
-        }
-      }
-    })
+
   }
 
   ngOnInit() {
@@ -127,9 +112,10 @@ export class CandidateComponent implements OnInit {
           next: (res) => {
             this.time = new Date();
             this.getChallengeSessionById();
-            setInterval(()=>{
+            this.checkLostFocus()
+            setInterval(() => {
               this.time = new Date();
-            },1000)
+            }, 1000)
           },
           error: (error: any) => {
             console.error(
@@ -141,6 +127,17 @@ export class CandidateComponent implements OnInit {
       }
     });
   }
+
+  checkLostFocus() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== 'visible') {
+        this.lostFocusCount++;
+        this.alertService.showWarning(`Tab change detected.`)
+      }
+    })
+  }
+
+
 
   goFullScreen() {
     const elem = document.documentElement;
