@@ -123,11 +123,11 @@
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
         {{i+1}}. {{ item.name }}
         <span>
-          <!-- <button *ngIf="item.isActive"
+          <button *ngIf="item.isActive"
             class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
             (click)="updateChallengeSessionStatus(item._id)">
             End challenge
-          </button> -->
+          </button>
           <button *ngIf="!item.isActive"
             class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
             (click)="deleteChallenge(item._id)">
