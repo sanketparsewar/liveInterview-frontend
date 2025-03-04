@@ -35,6 +35,7 @@ export class ChallengeComponent implements OnInit {
   challenges: IchallengeSession[] = [];
   projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
+  project:IProject | null=null;
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
   private socket: any;
   constructor(
@@ -75,6 +76,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   toggleProjectModal() {
+    this.project=null
     this.isToggleProjectModal = !this.isToggleProjectModal;
   }
 
@@ -138,6 +140,11 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
+  edit(item:IProject){
+    // console.log(item)
+    this.project=item
+    this.isToggleProjectModal = !this.isToggleProjectModal;
+  }
 
   deleteProject(id: string) {
     this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {

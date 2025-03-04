@@ -43,6 +43,10 @@
         <div class="font-bold text-xl mb-3 flex justify-between items-center">
           <span> {{ item.title }} </span>
           <span>
+            <button class="mr-2 text-blue-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
+              (click)="edit(item)">
+              edit
+            </button>
             <button class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
               (click)="deleteProject(item._id)">
               <i class="fa-solid fa-xmark"></i>
@@ -193,5 +197,5 @@
 
 
 
-<app-project *ngIf="isToggleProjectModal" (getProjectList)="getProjectList()"
+<app-project *ngIf="isToggleProjectModal" [project]="project" (getProjectList)="getProjectList()"
   (toggleProjectModal)="toggleProjectModal()"></app-project>
