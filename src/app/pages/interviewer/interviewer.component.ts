@@ -12,7 +12,9 @@ export class InterviewerComponent implements OnInit {
   isToggleDropdown: boolean = false;
 
   constructor() {}
-  ngOnInit() {}
+  ngOnInit() {
+    console.log()
+  }
   toggleDropdown() {
     this.isToggleDropdown = !this.isToggleDropdown;
   }
@@ -21,6 +23,5 @@ export class InterviewerComponent implements OnInit {
     localStorage.removeItem('token');
     window.location.reload();
   }
-
 
 }
