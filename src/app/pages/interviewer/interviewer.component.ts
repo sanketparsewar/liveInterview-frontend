@@ -1,6 +1,7 @@
 import { InterviewSessionTableComponent } from './../../core/components/interview-session-table/interview-session-table.component';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-interviewer',
@@ -10,17 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InterviewerComponent implements OnInit {
   isToggleDropdown: boolean = false;
-
-  constructor() {}
+  interviewerData: any;
+  constructor(private authService: AuthService) { }
   ngOnInit() {
-    console.log()
+    this.interviewerData = this.getLoggedInterviewer()
   }
   toggleDropdown() {
     this.isToggleDropdown = !this.isToggleDropdown;
   }
 
-  logout(){
+  getLoggedInterviewer() {
+    return this.authService.getLoggedInterviewer();
+  }
+  logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     window.location.reload();
   }
 
