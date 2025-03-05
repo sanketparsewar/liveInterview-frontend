@@ -2,14 +2,13 @@ import { AlertService } from './../../services/alert/alert.service';
 import { Component } from '@angular/core';
 import { InterviewSessionService } from '../../services/interviewSession/interview-session.service';
 import { CommonModule } from '@angular/common';
-import { CreateSessionComponent } from '../../modalComponents/create-session/create-session.component';
 import { Router } from '@angular/router';
 import { IinterviewSession } from '../../models/interfaces/interviewSession.interface';
-import { AuthService } from '../../services/auth/auth.service';
+import { InterviewSessionComponent } from '../../modalComponents/interview-session/interview-session.component';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule, CreateSessionComponent],
+  imports: [CommonModule, InterviewSessionComponent],
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })

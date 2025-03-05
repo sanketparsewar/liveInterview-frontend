@@ -39,7 +39,8 @@
                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Challenges
               </th>
-              <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700  uppercase tracking-wider">
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700  uppercase tracking-wider">
                 Action
               </th>
               <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
@@ -100,7 +101,8 @@
                 </div>
               </td>
               <td>
-                <span (click)="deleteInterviewSessionById(item._id)" class="mx-3 cursor-pointer text-red-600" ><i class="fa-solid fa-xmark"></i></span>
+                <span (click)="deleteInterviewSessionById(item._id)" class="mx-3 cursor-pointer text-red-600"><i
+                    class="fa-solid fa-xmark"></i></span>
               </td>
             </tr>
           </tbody>
@@ -111,6 +113,6 @@
 </div>
 
 
-<app-create-session *ngIf="istoggleCreateInterviewSessionModal"
+<app-interview-session *ngIf="istoggleCreateInterviewSessionModal"
   (toggleCreateInterviewSessionModal)="toggleCreateInterviewSessionModal()"
-  (getAllInterviewSessions)="getInterviewSessions()"></app-create-session>
+  (getAllInterviewSessions)="getInterviewSessions()"></app-interview-session>
