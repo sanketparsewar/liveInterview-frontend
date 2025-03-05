@@ -16,6 +16,8 @@ import { IProject } from '../../core/models/interfaces/project.interface';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 import { io } from 'socket.io-client';
 import { environment } from '../../../environment/environment.prod';
+import { InterviewSessionService } from '../../core/services/interviewSession/interview-session.service';
+import { IinterviewSession } from '../../core/models/interfaces/interviewSession.interface';
 @Component({
   selector: 'app-challenge',
   imports: [
@@ -36,6 +38,7 @@ export class ChallengeComponent implements OnInit {
   projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
   project:IProject | null=null;
+  interviewSession!:IinterviewSession;
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
   private socket: any;
   constructor(
@@ -43,7 +46,8 @@ export class ChallengeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private challengeSessionService: ChallengeSessionService,
     private projectService: ProjectService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private interviewSessionService:InterviewSessionService
   ) {
     // connection
     this.socket = io(environment.SOCKET_URL); 
@@ -54,6 +58,7 @@ export class ChallengeComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
+        this.getInterviewSessionById();
         this.getAllChallenges();
         this.challengeForm = this.fb.group({
           name: ['', [Validators.required]],
@@ -78,6 +83,17 @@ export class ChallengeComponent implements OnInit {
   toggleProjectModal() {
     this.project=null
     this.isToggleProjectModal = !this.isToggleProjectModal;
+  }
+
+  getInterviewSessionById(){
+    this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
+      next: (res: any) => {
+        this.interviewSession = res;
+      },
+      error: (error: any) => {
+        console.error('Error fetching interview session:', error.error.message);
+      },
+    })
   }
 
   getAllChallenges() {
