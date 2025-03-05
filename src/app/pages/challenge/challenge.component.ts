@@ -37,8 +37,8 @@ export class ChallengeComponent implements OnInit {
   challenges: IchallengeSession[] = [];
   projectList: IProject[] = [];
   isToggleProjectModal: boolean = false;
-  project:IProject | null=null;
-  interviewSession!:IinterviewSession;
+  project: IProject | null = null;
+  interviewSession!: IinterviewSession;
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
   private socket: any;
   constructor(
@@ -47,10 +47,10 @@ export class ChallengeComponent implements OnInit {
     private challengeSessionService: ChallengeSessionService,
     private projectService: ProjectService,
     private alertService: AlertService,
-    private interviewSessionService:InterviewSessionService
+    private interviewSessionService: InterviewSessionService
   ) {
     // connection
-    this.socket = io(environment.SOCKET_URL); 
+    this.socket = io(environment.SOCKET_URL);
 
   }
   ngOnInit() {
@@ -81,11 +81,11 @@ export class ChallengeComponent implements OnInit {
   }
 
   toggleProjectModal() {
-    this.project=null
+    this.project = null
     this.isToggleProjectModal = !this.isToggleProjectModal;
   }
 
-  getInterviewSessionById(){
+  getInterviewSessionById() {
     this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
       next: (res: any) => {
         this.interviewSession = res;
@@ -156,9 +156,9 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
-  edit(item:IProject){
+  edit(item: IProject) {
     // console.log(item)
-    this.project=item
+    this.project = item
     this.isToggleProjectModal = !this.isToggleProjectModal;
   }
 
