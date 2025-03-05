@@ -2,6 +2,8 @@ import { InterviewSessionTableComponent } from './../../core/components/intervie
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { AlertService } from '../../core/services/alert/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-interviewer',
@@ -12,7 +14,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 export class InterviewerComponent implements OnInit {
   isToggleDropdown: boolean = false;
   interviewerData: any;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private alertService: AlertService, private router: Router) { }
   ngOnInit() {
     this.interviewerData = this.getLoggedInterviewer()
   }
@@ -24,9 +26,14 @@ export class InterviewerComponent implements OnInit {
     return this.authService.getLoggedInterviewer();
   }
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.reload();
+    this.alertService.showConfirm('Logout').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.alertService.showSuccess('Logged out.')
+        this.router.navigateByUrl('/login')
+      }
+    });
   }
 
 }
