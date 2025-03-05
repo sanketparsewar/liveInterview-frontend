@@ -16,8 +16,8 @@ export class InterviewSessionService {
     return this.http.post<IinterviewSession>(`${this.BASE_URL}/interviewsession`, session);
   }
 
-  getAllInterviewSessions(): Observable<IinterviewSession[]> {
-    return this.http.get<IinterviewSession[]>(`${this.BASE_URL}/interviewsession`);
+  getAllInterviewSessions(interviewerName:string): Observable<IinterviewSession[]> {
+    return this.http.get<IinterviewSession[]>(`${this.BASE_URL}/interviewsession`,{params:{interviewerName}});
   }
 
   getInterviewSessionById(id: string): Observable<IinterviewSession> {

@@ -16,11 +16,16 @@ export class InterviewSessionTableComponent {
   interviewSessionsList: IinterviewSession[] = [];
   isToggleModal: boolean = false;
   istoggleCreateInterviewSessionModal: boolean = false;
+  interviewerData: any | null = null;
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
     private alertService: AlertService,
-  ) {}
+  ) {
+    if (localStorage.getItem('user')) {
+      this.interviewerData = JSON.parse(localStorage.getItem('user')!);
+    }
+  }
   ngOnInit() {
     this.getInterviewSessions();
   }
@@ -33,10 +38,9 @@ export class InterviewSessionTableComponent {
       !this.istoggleCreateInterviewSessionModal;
   }
 
-  
 
   getInterviewSessions() {
-    this.interviewSessionService.getAllInterviewSessions().subscribe({
+    this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
       },
@@ -67,12 +71,12 @@ export class InterviewSessionTableComponent {
     });
   }
 
-  deleteInterviewSessionById(id:string){
+  deleteInterviewSessionById(id: string) {
     this.alertService.showConfirm('Delete session').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.interviewSessionService
-         .deleteInterviewSessionById(id)
-         .subscribe({
+          .deleteInterviewSessionById(id)
+          .subscribe({
             next: (res: any) => {
               this.alertService.showSuccess('Session deleted.');
               this.getInterviewSessions();
