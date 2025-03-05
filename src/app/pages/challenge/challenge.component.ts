@@ -41,6 +41,7 @@ export class ChallengeComponent implements OnInit {
   interviewSession!: IinterviewSession;
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
   private socket: any;
+  isLoaded: boolean = false;
   constructor(
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -86,15 +87,18 @@ export class ChallengeComponent implements OnInit {
   }
 
   getInterviewSessionById() {
+    this.isLoaded=true;
     this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
       next: (res: any) => {
         this.interviewSession = res;
         if(this.interviewSession.isActive){
           this.getProjectList()
         }
+        this.isLoaded=false;
       },
       error: (error: any) => {
         console.error('Error fetching interview session:', error.error.message);
+        this.isLoaded=false;
       },
     })
   }

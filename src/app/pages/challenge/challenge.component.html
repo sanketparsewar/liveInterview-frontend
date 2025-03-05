@@ -1,3 +1,5 @@
+
+
 <nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
@@ -5,23 +7,30 @@
         <div class="flex shrink-0 items-center text-blue-500 font-semibold text-lg">
           <span class="text-orange-500">AM</span><span class="text-gray-100">Interview</span>
         </div>
-
+        
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
-              class="cursor-pointer rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-              aria-current="page">
-              Home
-            </p>
-          </div>
+            class="cursor-pointer rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+            aria-current="page">
+            Home
+          </p>
         </div>
       </div>
     </div>
   </div>
+</div>
 </nav>
 
+@if(isLoaded  ){
+  <div class="flex items-center justify-center h-screen">
+    <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
+  </div>
 
-<div *ngIf="!interviewSession?.isActive"
+}
+
+@else{
+  <div *ngIf="!interviewSession?.isActive"
   class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
   <p class="font-bold">Interview session ended</p>
   <p class="text-sm">Interview of this candidate has successfully completed.</p>
@@ -29,7 +38,7 @@
 
 
 <div *ngIf="interviewSession?.isActive">
-
+  
   <div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
     <h4 class="text-lg font-semibold text-gray-800">
       📂 Projects &#x2997; {{ projectList.length }} &#x2998;
@@ -39,55 +48,55 @@
       <i class="fa-solid fa-plus"></i> Add Project
     </button>
   </div>
-
+  
   <div class="max-w-7xl mx-auto px-3 py-3 overflow-x-auto scroll-container">
     <h4 *ngIf="projectList.length == 0" class="text-lg font-semibold text-gray-800">
       No Projects!
     </h4>
-
+    
     <div class="flex space-x-6" *ngIf="projectList.length > 0">
       <div *ngFor="let item of projectList; let i = index"
-        class="min-w-[300px] max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex-shrink-0">
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-3 flex justify-between items-center">
-            <span> {{ item.title }} </span>
-            <span>
-              <button
-                class="mr-2 cursor-pointer text-blue-600 hover:text-blue-800 font-bold transition-transform transform hover:scale-110"
-                (click)="edit(item)">
+      class="min-w-[300px] max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex-shrink-0">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-3 flex justify-between items-center">
+          <span> {{ item.title }} </span>
+          <span>
+            <button
+            class="mr-2 cursor-pointer text-blue-600 hover:text-blue-800 font-bold transition-transform transform hover:scale-110"
+            (click)="edit(item)">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
               <button
-                class="cursor-pointer text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
-                (click)="deleteProject(item._id)">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </span>
-          </div>
-
-          <div class="flex justify-between items-center gap-2 w-full">
-            <a class="text-blue-800 underline break-all" [href]="item.projectUrl" target="_blank">
-              <i class="fa-solid fa-link"></i> StackBlitz Project Link
-            </a>
-          </div>
+              class="cursor-pointer text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
+              (click)="deleteProject(item._id)">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </span>
         </div>
-
-        <div class="flex flex-wrap justify-center px-4 pb-4">
-          <span class="bg-blue-100 text-gray-600 rounded-full px-4 py-1 text-sm font-medium">
+        
+        <div class="flex justify-between items-center gap-2 w-full">
+          <a class="text-blue-800 underline break-all" [href]="item.projectUrl" target="_blank">
+            <i class="fa-solid fa-link"></i> StackBlitz Project Link
+          </a>
+        </div>
+      </div>
+      
+      <div class="flex flex-wrap justify-center px-4 pb-4">
+        <span class="bg-blue-100 text-gray-600 rounded-full px-4 py-1 text-sm font-medium">
             Skills: {{ item.skills }}
           </span>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
+  
+  
+  
+  
   <div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
     <h4 class="text-lg font-semibold text-gray-800"># Create New Challenge</h4>
   </div>
-
+  
   <div class="max-w-7xl mx-auto p-3">
     <form class="flex flex-wrap gap-4" [formGroup]="challengeForm" (submit)="createChallenge()">
       <!-- Challenge Name -->
@@ -96,26 +105,26 @@
           Challenge Name
         </label>
         <input formControlName="name" name="name"
-          class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="grid-first-name" type="text" placeholder="Enter challenge name" />
+        class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-first-name" type="text" placeholder="Enter challenge name" />
       </div>
-
+      
       <!-- StackBlitz URL -->
       <div class="w-full md:w-auto px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
           StackBlitz URL
         </label>
-
+        
         <select name="stackBlitzUrl"
-          class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          formControlName="stackBlitzUrl" id="">
-          <option value="">Select project</option>
-          <option *ngFor="let item of projectList; let i = index" [value]="item.projectUrl">{{item.title}}</option>
-        </select>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="flex items-end px-3">
+        class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        formControlName="stackBlitzUrl" id="">
+        <option value="">Select project</option>
+        <option *ngFor="let item of projectList; let i = index" [value]="item.projectUrl">{{item.title}}</option>
+      </select>
+    </div>
+    
+    <!-- Submit Button -->
+    <div class="flex items-end px-3">
         <button type="submit"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs md:text-sm py-1 px-2 md:py-2 md:px-4 rounded">
           Add
@@ -123,7 +132,7 @@
       </div>
     </form>
   </div>
-
+  
 </div>
 
 <div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
@@ -136,81 +145,82 @@
   <h4 *ngIf="challenges.length == 0" class="text-lg font-semibold text-gray-800">
     No Challenges!
   </h4>
-
+  
   <div *ngFor="let item of challenges; let i = index" class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
         {{i+1}}. {{ item.name }}
         <span>
           <button *ngIf="item.isActive"
-            class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
-            (click)="endChallenge(item._id)">
-            End challenge
-          </button>
-          <button *ngIf="!item.isActive"
-            class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
-            (click)="deleteChallenge(item._id)">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </span>
-      </div>
-      <div class="flex items-center justify-between space-x-2">
-        <a class="text-blue-800 break-all underline" [href]="item.stackBlitzUrl" target="_blank">
+          class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
+          (click)="endChallenge(item._id)">
+          End challenge
+        </button>
+        <button *ngIf="!item.isActive"
+        class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
+        (click)="deleteChallenge(item._id)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </span>
+  </div>
+  <div class="flex items-center justify-between space-x-2">
+    <a class="text-blue-800 break-all underline" [href]="item.stackBlitzUrl" target="_blank">
           <i class="fa-solid fa-link"></i> Challenge Link
         </a>
-
+        
         <div class="flex items-end">
           <button type="button" class="cursor-pointer" (click)="
               copyToClipboard('http://localhost:4200/candidate/' + item._id)
-            ">
-            <i class="fa-solid fa-copy"></i>
-          </button>
+              ">
+              <i class="fa-solid fa-copy"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="flex flex-wrap justify-center gap-2 p-2 w-full max-w-lg mx-auto">
-      <span *ngIf="item.challengeSessionStatus!=='Completed'" [ngClass]="{
+      
+      <div class="flex flex-wrap justify-center gap-2 p-2 w-full max-w-lg mx-auto">
+        <span *ngIf="item.challengeSessionStatus!=='Completed'" [ngClass]="{
           'bg-green-200': item.challengeSessionStatus === 'Completed',
           'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
         }" class="rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-center flex-grow text-center">
         {{ item.challengeSessionStatus }}
       </span>
-
+      
       <span *ngIf="item.startTime"
-        class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        Start Time: {{ item.startTime | date : "hh:mm a" }}
+      class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+      Start Time: {{ item.startTime | date : "hh:mm a" }}
+    </span>
+    
+    <span *ngIf="item.endTime"
+    class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+    End Time: {{ item.endTime | date : "hh:mm a" }}
+  </span>
+  
+  <span *ngIf="item.totalTime"
+  class="w-full bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
+  Total Time: {{ item.totalTime | number : ".2-2" }} min
       </span>
-
-      <span *ngIf="item.endTime"
-        class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        End Time: {{ item.endTime | date : "hh:mm a" }}
-      </span>
-
-      <span *ngIf="item.totalTime"
-        class="w-full bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        Total Time: {{ item.totalTime | number : ".2-2" }} min
-      </span>
-
+      
       <span *ngIf="item.totalTime" [ngClass]="{
         'bg-red-500': item.score === 'Not Attempted',
         'bg-yellow-400': item.score === 'Partial Solution',
         'bg-orange-400': item.score === 'Completed',
         'bg-green-400': item.score === 'Outstanding'
       }" class=" text-black-600 rounded-full px-4 py-1 text-lg  flex-grow text-center">
-        Score: {{ item.score }}
-        <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
-          class="outline-none  bg-gray-100 border border-gray-400 rounded px-2 py-1 text-sm">
-          <option value="">Select Score</option>
-          <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
-        </select>
-      </span>
-    </div>
-  </div>
+      Score: {{ item.score }}
+      <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
+      class="outline-none  bg-gray-100 border border-gray-400 rounded px-2 py-1 text-sm">
+      <option value="">Select Score</option>
+      <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
+    </select>
+  </span>
+</div>
+</div>
 </div>
 
 
-
-
 <app-project *ngIf="isToggleProjectModal" [project]="project" (getProjectList)="getProjectList()"
-  (toggleProjectModal)="toggleProjectModal()"></app-project>
+(toggleProjectModal)="toggleProjectModal()"></app-project>
+
+
+}
