@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IinterviewSession } from '../../models/interfaces/interviewSession.interface';
 import { InterviewSessionComponent } from '../../modalComponents/interview-session/interview-session.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule, InterviewSessionComponent],
+  imports: [CommonModule, InterviewSessionComponent,FormsModule],
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })
@@ -17,6 +18,7 @@ export class InterviewSessionTableComponent {
   isToggleModal: boolean = false;
   istoggleCreateInterviewSessionModal: boolean = false;
   interviewerData: any | null = null;
+  isLoaded:boolean = false;
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
@@ -40,17 +42,22 @@ export class InterviewSessionTableComponent {
 
 
   getInterviewSessions() {
+    this.isLoaded=true;
     this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
+        this.isLoaded=false
       },
       error: (error: any) => {
-        console.error('Error fetching sessions:', error.error.message);
+        this.isLoaded=false;
+        this.alertService.showError(error.error.message)
+        // console.error('Error fetching sessions:', error.error.message);
       },
     });
   }
 
   updateInterviewSessionStatus(id: string) {
+    this.isLoaded=true;
     this.alertService.showConfirm('Update status').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.interviewSessionService
@@ -61,8 +68,10 @@ export class InterviewSessionTableComponent {
                 'Session status updated successfully'
               );
               this.getInterviewSessions();
+              this.isLoaded=false
             },
             error: (error: any) => {
+              this.isLoaded=false;
               this.alertService.showError(error.error.message);
               // console.error('Error updating status:', error.error.message);
             },
@@ -72,6 +81,7 @@ export class InterviewSessionTableComponent {
   }
 
   deleteInterviewSessionById(id: string) {
+    this.isLoaded=true;
     this.alertService.showConfirm('Delete session').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.interviewSessionService
@@ -80,8 +90,10 @@ export class InterviewSessionTableComponent {
             next: (res: any) => {
               this.alertService.showSuccess('Session deleted.');
               this.getInterviewSessions();
+              this.isLoaded=false
             },
             error: (error: any) => {
+              this.isLoaded=false;
               this.alertService.showError(error.error.message);
               // console.error('Error deleting session:', error.error.message);
             },

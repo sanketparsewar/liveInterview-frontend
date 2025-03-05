@@ -2,7 +2,6 @@ import { AlertService } from './../../core/services/alert/alert.service';
 import {
   Component,
   OnInit,
-  HostListener,
   Renderer2,
   ElementRef,
 } from '@angular/core';
@@ -27,6 +26,7 @@ export class CandidateComponent implements OnInit {
   safeStackBlitzUrl!: SafeResourceUrl;
   lostFocusCount: number = 0
   private socket!: Socket;
+  isLoaded:boolean=false;
   startTime!: Date;
   constructor(
     private sanitizer: DomSanitizer,
@@ -68,6 +68,7 @@ export class CandidateComponent implements OnInit {
 
 
   getChallengeSessionById() {
+    this.isLoaded=true;
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challenge = res;
@@ -86,8 +87,10 @@ export class CandidateComponent implements OnInit {
         setInterval(() => {
           this.time = new Date();
         }, 1000)
+        this.isLoaded=false
       },
       error: (error: any) => {
+        this.isLoaded=false;
         console.error('Error fetching challenge:', error.error.message);
       },
     });

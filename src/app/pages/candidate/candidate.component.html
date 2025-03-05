@@ -41,25 +41,34 @@
 
 
 
+@if(isLoaded ){
+<div class="flex items-center justify-center h-screen">
+  <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
+</div>
+
+}
+
+@else{
 
 <div class="w-full h-screen mx-0 overflow-hidden" *ngIf="challenge?.isActive">
   <div class="w-full h-full rounded shadow-lg bg-white flex flex-col">
     <div class=" m-2 flex justify-between items-center">
       <span class="font-bold ">{{ challenge.name }}
-      <span class="font-normal text-gray-500 " >(Started at: {{startTime | date:'h:mm:ss a'}}) </span></span>
+        <span class="font-normal text-gray-500 ">(Started at: {{startTime | date:'h:mm:ss a'}}) </span></span>
       <span>
         <span>Current Time: {{time | date:'h:mm:ss a'}} </span>
-        
+
         <button
           class="ml-2 btn bg-red-500 hover:bg-red-700 text-white font-bold  rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
           *ngIf="!challenge.endTime" (click)="endChallenge()">End Challenge</button>
       </span>
     </div>
-    <iframe  [attr.src]="safeStackBlitzUrl" class="w-full h-full flex-grow" title="StackBlitz Preview">
+    <iframe [attr.src]="safeStackBlitzUrl" class="w-full h-full flex-grow" title="StackBlitz Preview">
     </iframe>
   </div>
 </div>
 
+}
 
 
 <ng-container *ngIf="challenge?.isActive===false">
