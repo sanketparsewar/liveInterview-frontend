@@ -104,7 +104,7 @@ export class ChallengeComponent implements OnInit {
     })
   }
 
-  
+
 
 
   getProjectList() {
@@ -195,7 +195,7 @@ export class ChallengeComponent implements OnInit {
 
   copyToClipboard(link: string) {
     navigator.clipboard
-      .writeText(link)
+      .writeText(location.origin+"/candidate/" + link)
       .then(() => {
         this.alertService.showSuccess('Link copied!')
       })
