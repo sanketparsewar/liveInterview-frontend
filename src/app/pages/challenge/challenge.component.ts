@@ -54,7 +54,7 @@ export class ChallengeComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.getProjectList();
+    // this.getProjectList();
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
@@ -89,6 +89,9 @@ export class ChallengeComponent implements OnInit {
     this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
       next: (res: any) => {
         this.interviewSession = res;
+        if(this.interviewSession.isActive){
+          this.getProjectList()
+        }
       },
       error: (error: any) => {
         console.error('Error fetching interview session:', error.error.message);
