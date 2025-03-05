@@ -1,10 +1,39 @@
 @import "tailwindcss";
 
-.scroll-container {
-    scrollbar-width: none;  /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer/Edge */
+/* .scroll-container {
+    scrollbar-width: none;  
+    -ms-overflow-style: none; 
   }
   
   .scroll-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none; 
+  } */
+
+  .scroll-container {
+    scrollbar-width: thin;  /* Makes scrollbar thinner */
+    scrollbar-color: gray transparent;  /* Gray thumb, transparent track */
+    -ms-overflow-style: none; /* Hides default scrollbar in IE */
   }
+  
+  /* For Webkit-based browsers (Chrome, Safari) */
+  .scroll-container::-webkit-scrollbar {
+    width: 8px;  /* Thin scrollbar */
+    height: 6px; /* Shorter height for horizontal scrollbars */
+  }
+  
+  .scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 10px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: gray; /* Scroll thumb color */
+    border-radius: 10px;
+    height: 30px; /* Controls the scrollbar thumb length */
+    min-height: 30px; /* Ensures the thumb is not too long */
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: darkgray; /* Darker gray on hover */
+  }
+  
