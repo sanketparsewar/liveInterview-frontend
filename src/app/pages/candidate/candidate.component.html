@@ -11,7 +11,7 @@
 </nav>
 
 
-<ng-container *ngIf="!challenge.isActive && !challenge.endTime">
+<ng-container *ngIf="!challenge?.isActive && !challenge?.endTime">
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="max-w-md bg-white rounded-2xl shadow-lg p-6">
       <div class="text-center">
@@ -42,7 +42,7 @@
 
 
 
-<div class="w-full h-screen mx-0 overflow-hidden" *ngIf="challenge.isActive">
+<div class="w-full h-screen mx-0 overflow-hidden" *ngIf="challenge?.isActive">
   <div class="w-full h-full rounded shadow-lg bg-white flex flex-col">
     <div class=" m-2 flex justify-between items-center">
       <span class="font-bold ">{{ challenge.name }}
@@ -55,14 +55,14 @@
           *ngIf="!challenge.endTime" (click)="endChallenge()">End Challenge</button>
       </span>
     </div>
-    <iframe [attr.src]="safeStackBlitzUrl" class="w-full h-full flex-grow" title="StackBlitz Preview">
+    <iframe  [attr.src]="safeStackBlitzUrl" class="w-full h-full flex-grow" title="StackBlitz Preview">
     </iframe>
   </div>
 </div>
 
 
 
-<ng-container *ngIf="challenge.isActive===false">
+<ng-container *ngIf="challenge?.isActive===false">
 
   <div class="flex items-center justify-center">
     <div class="max-w-md bg-white rounded-2xl overflow-hidden shadow-xl p-6">
