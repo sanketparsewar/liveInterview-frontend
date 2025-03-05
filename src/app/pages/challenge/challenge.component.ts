@@ -42,6 +42,7 @@ export class ChallengeComponent implements OnInit {
   scores: string[] = ["Not Attempted", "Partial Solution", "Completed", "Outstanding"];
   private socket: any;
   isLoaded: boolean = false;
+  isCreated: boolean = false;
   constructor(
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -87,20 +88,57 @@ export class ChallengeComponent implements OnInit {
   }
 
   getInterviewSessionById() {
-    this.isLoaded=true;
+    this.isLoaded = true;
     this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
       next: (res: any) => {
         this.interviewSession = res;
-        if(this.interviewSession.isActive){
+        if (this.interviewSession.isActive) {
           this.getProjectList()
         }
-        this.isLoaded=false;
+        this.isLoaded = false;
       },
       error: (error: any) => {
         console.error('Error fetching interview session:', error.error.message);
-        this.isLoaded=false;
+        this.isLoaded = false;
       },
     })
+  }
+
+  
+
+
+  getProjectList() {
+    this.projectService.getAllProjects().subscribe({
+      next: (res: any) => {
+        this.projectList = res;
+      },
+      error: (error: any) => {
+        this.alertService.showError(error.error.message);
+        // console.error('Error fetching projects:', error.error.message);
+      },
+    });
+  }
+
+  edit(item: IProject) {
+    this.project = item
+    this.isToggleProjectModal = !this.isToggleProjectModal;
+  }
+
+  deleteProject(id: string) {
+    this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {
+      if (isConfirmed) {
+        this.projectService.deleteProjectById(id).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess('Project deleted successfully');
+            this.getProjectList();
+          },
+          error: (error: any) => {
+            this.alertService.showError('Error deleting project');
+            // console.error('Error deleting project:', error.error.message);
+          },
+        });
+      }
+    });
   }
 
   getAllChallenges() {
@@ -118,15 +156,18 @@ export class ChallengeComponent implements OnInit {
 
 
   createChallenge() {
+    this.isCreated = true;
     this.challengeSessionService
       .createChallengeSession(this.challengeForm.value)
       .subscribe({
         next: (res) => {
           this.alertService.showSuccess('Challenge created.');
           this.getAllChallenges();
+          this.isCreated = false;
           this.reset();
         },
         error: (error: any) => {
+          this.isCreated = false;
           this.alertService.showError(error.error.message);
           // console.error('Error creating challenge:', );
         },
@@ -151,40 +192,6 @@ export class ChallengeComponent implements OnInit {
   }
 
 
-  getProjectList() {
-    this.projectService.getAllProjects().subscribe({
-      next: (res: any) => {
-        this.projectList = res;
-      },
-      error: (error: any) => {
-        this.alertService.showError(error.error.message);
-        // console.error('Error fetching projects:', error.error.message);
-      },
-    });
-  }
-
-  edit(item: IProject) {
-    // console.log(item)
-    this.project = item
-    this.isToggleProjectModal = !this.isToggleProjectModal;
-  }
-
-  deleteProject(id: string) {
-    this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {
-      if (isConfirmed) {
-        this.projectService.deleteProjectById(id).subscribe({
-          next: (res) => {
-            this.alertService.showSuccess('Project deleted successfully');
-            this.getProjectList();
-          },
-          error: (error: any) => {
-            this.alertService.showError('Error deleting project');
-            // console.error('Error deleting project:', error.error.message);
-          },
-        });
-      }
-    });
-  }
 
   copyToClipboard(link: string) {
     navigator.clipboard

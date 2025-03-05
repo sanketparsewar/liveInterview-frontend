@@ -125,7 +125,9 @@
       <div class="flex items-end px-3">
         <button type="submit"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs md:text-sm py-1 px-2 md:py-2 md:px-4 rounded">
-          Add
+          
+          <span *ngIf="!isCreated">Create</span>
+                <span disable *ngIf="isCreated"><i class="animate-spin fa-solid fa-spinner"></i></span>
         </button>
       </div>
     </form>
