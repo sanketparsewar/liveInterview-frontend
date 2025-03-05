@@ -56,9 +56,9 @@ export class InterviewSessionTableComponent {
     });
   }
 
-  updateInterviewSessionStatus(id: string) {
-    this.isLoaded=true;
+  endSession(id: string) {
     this.alertService.showConfirm('Update status').then((isConfirmed: any) => {
+      this.isLoaded=true;
       if (isConfirmed) {
         this.interviewSessionService
           .updateInterviewSessionStatus(id)
@@ -81,8 +81,8 @@ export class InterviewSessionTableComponent {
   }
 
   deleteInterviewSessionById(id: string) {
-    this.isLoaded=true;
     this.alertService.showConfirm('Delete session').then((isConfirmed: any) => {
+      this.isLoaded=true;
       if (isConfirmed) {
         this.interviewSessionService
           .deleteInterviewSessionById(id)
