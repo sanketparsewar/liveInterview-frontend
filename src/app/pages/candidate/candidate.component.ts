@@ -11,7 +11,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
-import { io, Socket } from "socket.io-client"; 
+import { io, Socket } from "socket.io-client";
 import { environment } from '../../../environment/environment.prod';
 @Component({
   selector: 'app-candidate',
@@ -26,7 +26,7 @@ export class CandidateComponent implements OnInit {
   safeStackBlitzUrl!: SafeResourceUrl;
   lostFocusCount: number = 0
   private socket!: Socket;
-  isLoaded:boolean=false;
+  isLoaded: boolean = false;
   startTime!: Date;
   constructor(
     private sanitizer: DomSanitizer,
@@ -37,7 +37,7 @@ export class CandidateComponent implements OnInit {
     private alertService: AlertService
   ) {
     // connection
-    this.socket = io(environment.SOCKET_URL); 
+    this.socket = io(environment.SOCKET_URL);
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class CandidateComponent implements OnInit {
 
 
   getChallengeSessionById() {
-    this.isLoaded=true;
+    this.isLoaded = true;
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challenge = res;
@@ -87,10 +87,10 @@ export class CandidateComponent implements OnInit {
         setInterval(() => {
           this.time = new Date();
         }, 1000)
-        this.isLoaded=false
+        this.isLoaded = false
       },
       error: (error: any) => {
-        this.isLoaded=false;
+        this.isLoaded = false;
         console.error('Error fetching challenge:', error.error.message);
       },
     });
@@ -98,30 +98,33 @@ export class CandidateComponent implements OnInit {
 
   endChallenge() {
     this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
+      this.isLoaded = true;
       if (isConfirmed) {
         this.challengeSessionService
-      .updateChallengeSessionStatus(this.id)
-      .subscribe({
-        next: (res) => {
-          this.getChallengeSessionById();
-          this.alertService.showSuccess('Challenge ended')
-          // emit the changes
-          this.socket.emit("endChallenge");
+          .updateChallengeSessionStatus(this.id)
+          .subscribe({
+            next: (res) => {
+              this.getChallengeSessionById();
+              this.alertService.showSuccess('Challenge ended')
+              // emit the changes
+              this.socket.emit("endChallenge");
+              this.isLoaded = false
 
-        },
-        error: (error: any) => {
-          console.error(
-            'Error updating challenge session status:',
-            error.error.message
-          );
-        },
-      });
-        this.alertService.showSuccess('Challenge Ended.');
+            },
+            error: (error: any) => {
+              this.isLoaded = false
+              this.alertService.showError(error.error.message)
+              // console.error(
+              //   'Error updating challenge session status:',
+              //   error.error.message
+              // );
+            },
+          });
       }
     });
   }
 
- 
+
 
   startChallenge(id: string) {
     this.alertService.showConfirm('start the challenge').then((isConfirmed: any) => {

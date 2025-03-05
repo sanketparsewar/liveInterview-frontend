@@ -10,6 +10,15 @@
   </div>
 </nav>
 
+@if(isLoaded ){
+<div class="flex items-center justify-center h-screen">
+  <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
+</div>
+
+}
+
+@else{
+
 
 <ng-container *ngIf="!challenge?.isActive && !challenge?.endTime">
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
@@ -41,14 +50,6 @@
 
 
 
-@if(isLoaded ){
-<div class="flex items-center justify-center h-screen">
-  <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
-</div>
-
-}
-
-@else{
 
 <div class="w-full h-screen mx-0 overflow-hidden" *ngIf="challenge?.isActive">
   <div class="w-full h-full rounded shadow-lg bg-white flex flex-col">
@@ -68,7 +69,6 @@
   </div>
 </div>
 
-}
 
 
 <ng-container *ngIf="challenge?.isActive===false">
@@ -95,3 +95,5 @@
     </div>
   </div>
 </ng-container>
+
+}
