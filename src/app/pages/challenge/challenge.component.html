@@ -96,9 +96,6 @@
     <form class="flex flex-wrap gap-4" [formGroup]="challengeForm" (submit)="createChallenge()">
       <!-- Challenge Name -->
       <div class="w-full md:w-auto px-3">
-        <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-          Challenge Name
-        </label> -->
         <input formControlName="name" name="name"
           class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-first-name" type="text" placeholder="Enter challenge name" />
@@ -106,10 +103,6 @@
 
       <!-- StackBlitz URL -->
       <div class="w-full md:w-auto px-3">
-        <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-          StackBlitz URL
-        </label> -->
-
         <select name="stackBlitzUrl"
           class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           formControlName="stackBlitzUrl" id="">
@@ -171,11 +164,7 @@
               ">
             <i class="fa-solid fa-copy"></i>
           </button>
-          <!-- <button type="button" class="cursor-pointer" (click)="
-              copyToClipboard('http://localhost:4200/candidate/' + item._id)
-              ">
-              <i class="fa-solid fa-copy"></i>
-            </button> -->
+         
         </div>
       </div>
     </div>
