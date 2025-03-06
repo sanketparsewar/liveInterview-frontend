@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environment/environment.prod';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IinterviewSession } from '../../models/interfaces/interviewSession.interface';
 
@@ -16,8 +16,17 @@ export class InterviewSessionService {
     return this.http.post<IinterviewSession>(`${this.BASE_URL}/interviewsession`, session);
   }
 
-  getAllInterviewSessions(interviewerName:string): Observable<IinterviewSession[]> {
-    return this.http.get<IinterviewSession[]>(`${this.BASE_URL}/interviewsession`,{params:{interviewerName}});
+  getAllInterviewSessions(interviewerName: string, queryParameters: any): Observable<IinterviewSession[]> {
+    let params = new HttpParams().set('interviewerName', interviewerName);
+
+    // Assign each query parameter separately
+    Object.keys(queryParameters).forEach((key) => {
+      if (queryParameters[key]) {
+        params = params.set(key, queryParameters[key]);
+      }
+    });
+  
+    return this.http.get<IinterviewSession[]>(`${this.BASE_URL}/interviewsession`, { params });
   }
 
   getInterviewSessionById(id: string): Observable<IinterviewSession> {
