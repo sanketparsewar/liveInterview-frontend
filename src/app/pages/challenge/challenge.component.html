@@ -29,15 +29,15 @@
 
 @else{
 <div *ngIf="!interviewSession?.isActive"
-  class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-  <p class="font-bold">Interview session ended</p>
-  <p class="text-sm">Interview of this candidate has successfully completed.</p>
+  class=" max-w-7xl px-2 sm:px-6 lg:px-8  bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+  <p class="px-2 font-bold">Interview session ended</p>
+  <p class="px-2 text-sm">Interview of this candidate has successfully completed.</p>
 </div>
 
 
 <div *ngIf="interviewSession?.isActive">
 
-  <div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex justify-between items-center pt-3 bg-gray-200 ">
     <h4 class="text-lg font-semibold text-gray-800">
       📂 Projects &#x2997; {{ projectList.length }} &#x2998;
     </h4>
@@ -47,7 +47,7 @@
     </button>
   </div>
 
-  <div class="max-w-7xl mx-auto px-3 py-3 overflow-x-auto scroll-container">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 overflow-x-auto scroll-container bg-gray-200 py-4">
     <h4 *ngIf="projectList.length == 0" class="text-lg font-semibold text-gray-800">
       No Projects!
     </h4>
@@ -91,17 +91,14 @@
 
 
 
-  <div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
-    <h4 class="text-lg font-semibold text-gray-800"># Create New Challenge</h4>
-  </div>
-
-  <div class="max-w-7xl mx-auto p-3">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <h4 class="text-lg font-semibold text-gray-800 my-2"># Create New Challenge</h4>
     <form class="flex flex-wrap gap-4" [formGroup]="challengeForm" (submit)="createChallenge()">
       <!-- Challenge Name -->
       <div class="w-full md:w-auto px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
           Challenge Name
-        </label>
+        </label> -->
         <input formControlName="name" name="name"
           class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-first-name" type="text" placeholder="Enter challenge name" />
@@ -109,9 +106,9 @@
 
       <!-- StackBlitz URL -->
       <div class="w-full md:w-auto px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+        <!-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
           StackBlitz URL
-        </label>
+        </label> -->
 
         <select name="stackBlitzUrl"
           class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -125,9 +122,9 @@
       <div class="flex items-end px-3">
         <button type="submit"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs md:text-sm py-1 px-2 md:py-2 md:px-4 rounded">
-          
+
           <span *ngIf="!isCreated">Create</span>
-                <span disable *ngIf="isCreated"><i class="animate-spin fa-solid fa-spinner"></i></span>
+          <span disable *ngIf="isCreated"><i class="animate-spin fa-solid fa-spinner"></i></span>
         </button>
       </div>
     </form>
@@ -135,13 +132,13 @@
 
 </div>
 
-<div class="max-w-7xl mx-auto p-3 flex justify-between items-center">
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex justify-between items-center mt-3">
   <h4 class="text-lg font-semibold text-gray-800">
     # Challenges &#x2997; {{ challenges.length }} &#x2998;
   </h4>
-</div>
-
-<div class="max-w-7xl mx-auto px-3 py-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+  </div>
+  
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
   <h4 *ngIf="challenges.length == 0" class="text-lg font-semibold text-gray-800">
     No Challenges!
   </h4>

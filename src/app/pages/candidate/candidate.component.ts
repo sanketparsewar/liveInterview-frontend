@@ -98,8 +98,8 @@ export class CandidateComponent implements OnInit {
 
   endChallenge() {
     this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
-      this.isLoaded = true;
       if (isConfirmed) {
+        this.isLoaded = true;
         this.challengeSessionService
           .updateChallengeSessionStatus(this.id)
           .subscribe({

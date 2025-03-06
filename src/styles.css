@@ -1,39 +1,66 @@
 @import "tailwindcss";
 
-/* .scroll-container {
+.scroll-container {
     scrollbar-width: none;  
     -ms-overflow-style: none; 
   }
   
   .scroll-container::-webkit-scrollbar {
     display: none; 
-  } */
+  }
 
-  .scroll-container {
-    scrollbar-width: thin;  /* Makes scrollbar thinner */
-    scrollbar-color: gray transparent;  /* Gray thumb, transparent track */
-    -ms-overflow-style: none; /* Hides default scrollbar in IE */
+/* ::-webkit-scrollbar{
+  display: none;
+  
+} */
+
+  /* .scroll-container {
+    scrollbar-width: thin;  
+    scrollbar-color: gray transparent;  
+    -ms-overflow-style: none; 
   }
   
-  /* For Webkit-based browsers (Chrome, Safari) */
   .scroll-container::-webkit-scrollbar {
-    width: 8px;  /* Thin scrollbar */
-    height: 6px; /* Shorter height for horizontal scrollbars */
+    width: 8px;  
+    height: 6px; 
   }
   
   .scroll-container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Light gray track */
+    background: #f1f1f1; 
     border-radius: 10px;
   }
   
   .scroll-container::-webkit-scrollbar-thumb {
-    background: gray; /* Scroll thumb color */
+    background: gray; 
     border-radius: 10px;
-    height: 30px; /* Controls the scrollbar thumb length */
-    min-height: 30px; /* Ensures the thumb is not too long */
+    height: 30px; 
+    min-height: 30px; 
   }
   
   .scroll-container::-webkit-scrollbar-thumb:hover {
-    background: darkgray; /* Darker gray on hover */
+    background: darkgray;
+    
+  }
+  */
+    ::-webkit-scrollbar {
+    width: 8px;  
+    height: 6px; 
+  }
+  
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+  }
+  
+    ::-webkit-scrollbar-thumb {
+    background: gray; 
+    border-radius: 10px;
+    height: 30px; 
+    min-height: 30px; 
+  }
+  
+    ::-webkit-scrollbar-thumb:hover {
+    background: darkgray;
+    
   }
   

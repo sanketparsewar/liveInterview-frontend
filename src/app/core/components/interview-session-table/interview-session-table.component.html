@@ -9,10 +9,10 @@
 
 
 
-<div class="container mx-auto">
-  <div class="py-8">
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <div class="">
     <div class="flex items-center flex justify-between items-center">
-      <h2 class="text-2xl font-semibold leading-tight">Interview sessions</h2>
+      <h2 class="text-2xl text-gray-900 font-semibold leading-tight">Interview sessions</h2>
       <button (click)="toggleCreateInterviewSessionModal()"
         class="mx-2 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
         📅 Create Interview Session
@@ -20,7 +20,7 @@
     </div>
 
 
-    <div class="py-4 overflow-x-auto">
+    <div class="py-3 overflow-x-auto">
       <div *ngIf="interviewSessionsList.length == 0"
         class="inline-block text-center min-w-full rounded-lg overflow-hidden">
         <h3>No record!</h3>
