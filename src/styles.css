@@ -9,10 +9,10 @@
     display: none; 
   }
 
-/* ::-webkit-scrollbar{
+::-webkit-scrollbar{
   display: none;
   
-} */
+}
 
   /* .scroll-container {
     scrollbar-width: thin;  
@@ -42,7 +42,9 @@
     
   }
   */
-    ::-webkit-scrollbar {
+
+
+    /* ::-webkit-scrollbar {
     width: 8px;  
     height: 6px; 
   }
@@ -63,4 +65,4 @@
     background: darkgray;
     
   }
-  
+   */
