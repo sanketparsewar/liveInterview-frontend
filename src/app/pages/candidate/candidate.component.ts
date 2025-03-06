@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 import { io, Socket } from "socket.io-client";
 import { environment } from '../../../environment/environment.prod';
+
 @Component({
   selector: 'app-candidate',
   imports: [FormsModule, CommonModule],
@@ -90,6 +91,7 @@ export class CandidateComponent implements OnInit {
         this.isLoaded = false
       },
       error: (error: any) => {
+
         this.isLoaded = false;
         console.error('Error fetching challenge:', error.error.message);
       },
