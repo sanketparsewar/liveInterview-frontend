@@ -21,9 +21,7 @@ export class InterviewSessionTableComponent {
   interviewerData: any | null = null;
   isLoaded:boolean = false;
   queryParameters:any={
-    newest:'',
-    oldest:'',
-    order:'',
+    sortBy:'',
     search:'',
   }
   constructor(
@@ -39,15 +37,17 @@ export class InterviewSessionTableComponent {
     this.getInterviewSessions();
   }
 
-  searchSessions(event: any) {
+  search(event: any) {
     this.queryParameters.search=event.target.value;
-    // this.getInterviewSessions();
+    console.log(event.target.value);
+    
+    this.getInterviewSessions();
   }
 
   sort(event: any) {
-    this.queryParameters.order=event.target.value;
+    this.queryParameters.sortBy=event.target.value;
     console.log(event.target.value)
-    // this.getInterviewSessions();
+    this.getInterviewSessions();
   }
 
 
@@ -66,7 +66,7 @@ export class InterviewSessionTableComponent {
 
   getInterviewSessions() {
     this.isLoaded=true;
-    this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName).subscribe({
+    this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName,this.queryParameters).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
         this.isLoaded=false
