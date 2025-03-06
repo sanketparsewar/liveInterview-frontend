@@ -16,9 +16,16 @@ import { FormsModule } from '@angular/forms';
 export class InterviewSessionTableComponent {
   interviewSessionsList: IinterviewSession[] = [];
   isToggleModal: boolean = false;
+  isToggleDropdown: boolean = false;
   istoggleCreateInterviewSessionModal: boolean = false;
   interviewerData: any | null = null;
   isLoaded:boolean = false;
+  queryParameters:any={
+    newest:'',
+    oldest:'',
+    order:'',
+    search:'',
+  }
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
@@ -31,8 +38,24 @@ export class InterviewSessionTableComponent {
   ngOnInit() {
     this.getInterviewSessions();
   }
+
+  searchSessions(event: any) {
+    this.queryParameters.search=event.target.value;
+    // this.getInterviewSessions();
+  }
+
+  sort(event: any) {
+    this.queryParameters.order=event.target.value;
+    console.log(event.target.value)
+    // this.getInterviewSessions();
+  }
+
+
   toggleModal() {
     this.isToggleModal = !this.isToggleModal;
+  }
+  toggleDropdown() {
+    this.isToggleDropdown = !this.isToggleDropdown;
   }
 
   toggleCreateInterviewSessionModal() {
@@ -58,8 +81,8 @@ export class InterviewSessionTableComponent {
 
   endSession(id: string) {
     this.alertService.showConfirm('Update status').then((isConfirmed: any) => {
-      this.isLoaded=true;
       if (isConfirmed) {
+        this.isLoaded=true;
         this.interviewSessionService
           .updateInterviewSessionStatus(id)
           .subscribe({
