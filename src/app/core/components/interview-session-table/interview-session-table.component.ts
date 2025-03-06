@@ -105,8 +105,8 @@ export class InterviewSessionTableComponent {
 
   deleteInterviewSessionById(id: string) {
     this.alertService.showConfirm('Delete session').then((isConfirmed: any) => {
-      this.isLoaded=true;
       if (isConfirmed) {
+        this.isLoaded=true;
         this.interviewSessionService
           .deleteInterviewSessionById(id)
           .subscribe({
