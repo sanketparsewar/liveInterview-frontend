@@ -4,6 +4,7 @@ import {
   OnInit,
   Renderer2,
   ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
@@ -42,6 +43,7 @@ export class CandidateComponent implements OnInit {
     this.socket = io(environment.SOCKET_URL);
   }
 
+
   // async forkExistingProject() {
   //   const projectId = 'stackblitz-starters-hn6uvxce'; // Replace with your actual project ID
   //   try {
@@ -56,6 +58,8 @@ export class CandidateComponent implements OnInit {
   //     console.error('Error forking project:', error);
   //   }
   // }
+  
+
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -63,6 +67,9 @@ export class CandidateComponent implements OnInit {
         this.getChallengeSessionById();
       }
     });
+
+
+
     // this.forkExistingProject()
     this.checkLostFocus()
 
