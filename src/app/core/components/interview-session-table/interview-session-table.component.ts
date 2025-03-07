@@ -39,14 +39,14 @@ export class InterviewSessionTableComponent {
 
   search(event: any) {
     this.queryParameters.search=event.target.value;
-    console.log(event.target.value);
+    // console.log(event.target.value);
     
     this.getInterviewSessions();
   }
 
   sort(event: any) {
     this.queryParameters.sortBy=event.target.value;
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.getInterviewSessions();
   }
 

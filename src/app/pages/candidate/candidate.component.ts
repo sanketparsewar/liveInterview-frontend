@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 import { io, Socket } from "socket.io-client";
 import { environment } from '../../../environment/environment.prod';
+// import sdk from '@stackblitz/sdk'
 
 @Component({
   selector: 'app-candidate',
@@ -41,6 +42,20 @@ export class CandidateComponent implements OnInit {
     this.socket = io(environment.SOCKET_URL);
   }
 
+  // async forkExistingProject() {
+  //   const projectId = 'stackblitz-starters-hn6uvxce'; // Replace with your actual project ID
+  //   try {
+
+  //     const vm = await sdk.embedProjectId('embed', projectId)
+
+  //     // Modify the project (simulate forking by adding new files)
+  //     const files = await vm.getFsSnapshot();
+
+  //     console.log('Forked project created and modified successfully!', files);
+  //   } catch (error) {
+  //     console.error('Error forking project:', error);
+  //   }
+  // }
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -48,7 +63,7 @@ export class CandidateComponent implements OnInit {
         this.getChallengeSessionById();
       }
     });
-
+    // this.forkExistingProject()
     this.checkLostFocus()
 
 
