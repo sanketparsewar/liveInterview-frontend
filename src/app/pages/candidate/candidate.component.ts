@@ -4,7 +4,6 @@ import {
   OnInit,
   Renderer2,
   ElementRef,
-  AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
@@ -58,7 +57,7 @@ export class CandidateComponent implements OnInit {
   //     console.error('Error forking project:', error);
   //   }
   // }
-  
+
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -71,7 +70,7 @@ export class CandidateComponent implements OnInit {
 
 
     // this.forkExistingProject()
-    this.checkLostFocus()
+    // this.checkLostFocus()
 
 
     this.socket.on("challengeEnded", () => {
@@ -103,9 +102,10 @@ export class CandidateComponent implements OnInit {
             this.sanitizer.bypassSecurityTrustResourceUrl(
               this.challenge.stackBlitzUrl
             );
-        } else {
-          console.log('Invalid StackBlitz URL:', this.challenge.stackBlitzUrl);
         }
+        //  else {
+        //   console.log('Invalid StackBlitz URL:', this.challenge.stackBlitzUrl);
+        // }
         this.startTime = new Date(this.challenge.startTime);
         setInterval(() => {
           this.time = new Date();
@@ -123,29 +123,33 @@ export class CandidateComponent implements OnInit {
   endChallenge() {
     this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.isLoaded = true;
-        this.challengeSessionService
-          .updateChallengeSessionStatus(this.id)
-          .subscribe({
-            next: (res) => {
-              this.getChallengeSessionById();
-              this.alertService.showSuccess('Challenge ended')
-              // emit the changes
-              this.socket.emit("endChallenge");
-              this.isLoaded = false
-
-            },
-            error: (error: any) => {
-              this.isLoaded = false
-              this.alertService.showError(error.error.message)
-              // console.error(
-              //   'Error updating challenge session status:',
-              //   error.error.message
-              // );
-            },
-          });
+        this.terminateChallenge()
       }
     });
+  }
+
+  terminateChallenge() {
+    this.isLoaded = true;
+    this.challengeSessionService
+      .updateChallengeSessionStatus(this.id)
+      .subscribe({
+        next: (res) => {
+          this.getChallengeSessionById();
+          this.alertService.showSuccess('Challenge ended')
+          // emit the changes
+          this.socket.emit("endChallenge");
+          this.isLoaded = false
+
+        },
+        error: (error: any) => {
+          this.isLoaded = false
+          this.alertService.showError(error.error.message)
+          // console.error(
+          //   'Error updating challenge session status:',
+          //   error.error.message
+          // );
+        },
+      });
   }
 
 
@@ -156,6 +160,8 @@ export class CandidateComponent implements OnInit {
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
+            this.checkLostFocus()
+
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
             this.socket.emit("startChallenge");
@@ -174,8 +180,17 @@ export class CandidateComponent implements OnInit {
 
   checkLostFocus() {
     document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState !== 'visible') {
+      if (document.visibilityState === 'hidden' && this.lostFocusCount === 3) {
         this.lostFocusCount++;
+        console.log(this.lostFocusCount)
+        this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
+        setTimeout(() => {
+          this.terminateChallenge();
+        }, 5000);
+      }
+      else if (document.visibilityState === 'hidden') {
+        this.lostFocusCount++;
+        console.log(this.lostFocusCount)
         this.alertService.showWarning(`Tab change detected.`)
       }
     })

@@ -176,7 +176,7 @@ export class ChallengeComponent implements OnInit {
 
   deleteChallenge(id: string) {
     this.alertService.showConfirm('delete the challenge').then((isConfirmed: any) => {
-      if (isConfirmed) {
+      if (isConfirmed && this.interviewSession.isActive) {
         this.challengeSessionService.deleteChallengeSessionById(id).subscribe({
           next: (res) => {
             this.alertService.showSuccess('Challenge deleted successfully');
@@ -187,6 +187,9 @@ export class ChallengeComponent implements OnInit {
             // console.error('Error deleting challenge:', error.error.message);
           },
         });
+      }
+      else if(isConfirmed && !this.interviewSession.isActive){
+        this.alertService.showWarning('Interview completed, can not delete challenge.')
       }
     });
   }
