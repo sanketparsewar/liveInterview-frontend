@@ -149,7 +149,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   deleteChallenge(id: string) {
-    this.alertService.showConfirm('delete the challenge').then((isConfirmed: any) => {
+    this.alertService.showConfirm('delete this challenge').then((isConfirmed: any) => {
       if (isConfirmed && this.interviewSession.isActive) {
         this.challengeSessionService.deleteChallengeSessionById(id).subscribe({
           next: (res) => {
@@ -182,7 +182,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   endChallenge(id: string) {
-    this.alertService.showConfirm('End this challenge').then((isConfirmed: any) => {
+    this.alertService.showConfirm('end this challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.challengeSessionService.updateChallengeSessionStatus(id).subscribe({
           next: (res) => {
@@ -207,19 +207,19 @@ export class ChallengeComponent implements OnInit {
   updateScore(id: string, score: string) {
     this.alertService.showConfirm(`update score to ${score}`).then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.challengeSessionService.updateChallengeSessionById(id, score).subscribe({
+        this.challengeSessionService.updateChallengeSessionById(id, { score }).subscribe({
           next: (res) => {
-            this.alertService.showSuccess('Challenge score updated.')
+            this.alertService.showSuccess('Challenge score updated.');
             this.getAllChallenges();
           },
           error: (error: any) => {
-            this.alertService.showError('Error updating challenge')
-            // console.error('Error updating challenge:', error.error.message);
+            this.alertService.showError('Error updating challenge');
           },
         });
       }
     });
   }
+  
 
 
   reset() {
