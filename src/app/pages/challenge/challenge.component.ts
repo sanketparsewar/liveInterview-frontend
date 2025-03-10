@@ -222,8 +222,8 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
-  openCode(challengeSession: IchallengeSession) {
-    this.router.navigateByUrl('/stackblitzcode', { state: { challengeSession } })
+  viewCode(id: string) {
+    this.router.navigate(['/stackblitzcode', id])
   }
 
 
