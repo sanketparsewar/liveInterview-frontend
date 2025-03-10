@@ -11,4 +11,5 @@ export interface IchallengeSession{
     totalTime:number;
     createdAt: Date;
     updatedAt: Date;
+    projectSnapshot:any;
 }
