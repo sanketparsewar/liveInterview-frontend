@@ -3,8 +3,8 @@
     <div class="flex  items-center justify-between items-center">
       <h2 class="text-2xl text-gray-900 font-semibold leading-tight">Interview sessions</h2>
       <button (click)="toggleCreateInterviewSessionModal()"
-        class="mx-2 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
-        📅 Create Interview Session
+        class="mx-2 cursor-pointer bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
+        + Create Interview Session
       </button>
     </div>
 
@@ -35,16 +35,13 @@
               </select>
             </div>
 
-
-
-
           </div>
         </div>
       </main>
 
 
       @if(isLoaded ){
-      <div class="flex items-center justify-center h-screen">
+      <div class="flex items-center justify-center h-100">
         <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
       </div>
 
@@ -106,7 +103,7 @@
               </td>
               <td class="px-5 py-5 bg-white text-sm text-center">
                 <p class="text-gray-900 whitespace-no-wrap">
-                  {{ item.createdAt | date : "d MMM,y hh:mm a " }}
+                  {{ item.createdAt | date : "d MMM,y | hh:mm a " }}
                 </p>
               </td>
               <td class="px-5 py-5 bg-white text-sm text-center">

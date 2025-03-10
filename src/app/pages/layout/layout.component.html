@@ -1,0 +1,36 @@
+<nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex shrink-0 items-center text-blue-500 font-semibold text-lg">
+                    <span class="text-orange-500">AM</span><span class="text-gray-100">Interview</span>
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                    <div class="flex space-x-4">
+                        <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
+                            class="cursor-pointer  px-3 py-2 text-sm font-medium text-white"
+                            aria-current="page">
+                            Home
+                        </p>
+                        <p [routerLink]="['/projects']" routerLinkActive="router-link-active"
+                            class="cursor-pointer px-3 py-2 text-sm font-medium text-white"
+                            aria-current="page">
+                            Projects
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative ml-3">
+                <button type="button" (click)="logout()" class="text-white cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+
+<router-outlet />

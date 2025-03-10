@@ -25,15 +25,5 @@ export class InterviewerComponent implements OnInit {
   getLoggedInterviewer() {
     return this.authService.getLoggedInterviewer();
   }
-  logout() {
-    this.alertService.showConfirm('Logout').then((isConfirmed: any) => {
-      if (isConfirmed) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.alertService.showSuccess('Logged out.')
-        this.router.navigateByUrl('/login')
-      }
-    });
-  }
 
 }

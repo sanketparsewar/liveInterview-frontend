@@ -104,9 +104,6 @@ export class ChallengeComponent implements OnInit {
     })
   }
 
-
-
-
   getProjectList() {
     this.projectService.getAllProjects().subscribe({
       next: (res: any) => {
@@ -119,27 +116,6 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
-  edit(item: IProject) {
-    this.project = item
-    this.isToggleProjectModal = !this.isToggleProjectModal;
-  }
-
-  deleteProject(id: string) {
-    this.alertService.showConfirm('delete the project').then((isConfirmed: any) => {
-      if (isConfirmed) {
-        this.projectService.deleteProjectById(id).subscribe({
-          next: (res) => {
-            this.alertService.showSuccess('Project deleted successfully');
-            this.getProjectList();
-          },
-          error: (error: any) => {
-            this.alertService.showError('Error deleting project');
-            // console.error('Error deleting project:', error.error.message);
-          },
-        });
-      }
-    });
-  }
 
   getAllChallenges() {
     this.challengeSessionService
@@ -153,7 +129,6 @@ export class ChallengeComponent implements OnInit {
         },
       });
   }
-
 
   createChallenge() {
     this.isCreated = true;
@@ -195,7 +170,6 @@ export class ChallengeComponent implements OnInit {
   }
 
 
-
   copyToClipboard(link: string) {
     navigator.clipboard
       .writeText(location.origin+"/candidate/" + link)
@@ -207,22 +181,6 @@ export class ChallengeComponent implements OnInit {
         // console.error('Could not copy text: ', err);
       });
   }
-
-  // startChallenge(id: string) {
-  //   this.challengeSessionService.startChallenge(id).subscribe({
-  //     next: (res) => {
-  //       this.alertService.showSuccess('Challenge started!')
-  //       this.getAllChallenges();
-  //     },
-  //     error: (error: any) => {
-  //       this.alertService.showError('Error starting challenge')
-  //       // console.error(
-  //       //   'Error updating challenge session status:',
-  //       //   error.error.message
-  //       // );
-  //     },
-  //   });
-  // }
 
   endChallenge(id: string) {
     this.alertService.showConfirm('End this challenge').then((isConfirmed: any) => {
