@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
 import { CommonModule } from '@angular/common';
 import { ProjectComponent } from '../../core/modalComponents/project/project.component';
@@ -23,7 +23,6 @@ import { IinterviewSession } from '../../core/models/interfaces/interviewSession
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    RouterLink,
     FormsModule,
     ProjectComponent,
   ],
