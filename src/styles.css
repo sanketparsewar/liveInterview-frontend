@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
-.scroll-container {
+/* .scroll-container {
     scrollbar-width: none;  
     -ms-overflow-style: none; 
   }
   
   .scroll-container::-webkit-scrollbar {
     display: none; 
-  }
+  } */
 
 ::-webkit-scrollbar{
   display: none;
   
 }
 
-  /* .scroll-container {
+  .scroll-container {
     scrollbar-width: thin;  
     scrollbar-color: gray transparent;  
     -ms-overflow-style: none; 
@@ -41,7 +41,7 @@
     background: darkgray;
     
   }
-  */
+ 
 
 
     /* ::-webkit-scrollbar {
