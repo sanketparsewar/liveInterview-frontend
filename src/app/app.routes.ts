@@ -10,12 +10,8 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { StackblitzCodeComponent } from './core/components/stackblitz-code/stackblitz-code.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [authGuard] }
-  ,
+  { path: 'login', component: LoginComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'interviewer', pathMatch: 'full' },
-  // { path: 'interviewer', component: InterviewerComponent, canActivate: [interviewerGuard] },
-  // { path: 'challenge/:id', component: ChallengeComponent, canActivate: [interviewerGuard] },
-
   {
     path: '',
     component: LayoutComponent,
@@ -23,7 +19,7 @@ export const routes: Routes = [
       { path: 'interviewer', component: InterviewerComponent, canActivate: [interviewerGuard] },
       { path: 'projects', component: ProjectsComponent, canActivate: [interviewerGuard] },
       { path: 'challenge/:id', component: ChallengeComponent, canActivate: [interviewerGuard] },
-      { path: 'stackblitzcode', component: StackblitzCodeComponent, canActivate: [interviewerGuard] }
+      { path: 'stackblitzcode/:id', component: StackblitzCodeComponent, canActivate: [interviewerGuard] }
     ]
   },
 
