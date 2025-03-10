@@ -65,7 +65,7 @@ export class AlertService {
 
   showConfirm(message: string): Promise<boolean> {
     return Swal.fire({
-      text: `Are you sure you want to ${message}?`,
+      text: `Are you sure to ${message}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

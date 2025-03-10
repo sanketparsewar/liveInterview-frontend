@@ -31,9 +31,10 @@ export class ChallengeSessionService {
   updateChallengeSessionStatus(id: string): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/challengesession/sessionstatus/${id}`, {});
   }
-  updateChallengeSessionById(id: string,score:any): Observable<any> {
-    return this.http.put<any>(`${this.BASE_URL}/challengesession/${id}`, {score});
+  updateChallengeSessionById(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.BASE_URL}/challengesession/${id}`, data);
   }
+  
   deleteChallengeSessionById(id: string): Observable<any> {
     return this.http.delete<any>(`${this.BASE_URL}/challengesession/${id}`);
   }
