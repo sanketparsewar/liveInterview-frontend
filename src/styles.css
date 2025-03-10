@@ -1,49 +1,12 @@
 @import "tailwindcss";
 
-/* .scroll-container {
-    scrollbar-width: none;  
-    -ms-overflow-style: none; 
-  }
-  
-  .scroll-container::-webkit-scrollbar {
-    display: none; 
-  } */
 
 ::-webkit-scrollbar{
   display: none;
   
 }
 
-  .scroll-container {
-    scrollbar-width: thin;  
-    scrollbar-color: gray transparent;  
-    -ms-overflow-style: none; 
-  }
-  
-  .scroll-container::-webkit-scrollbar {
-    width: 8px;  
-    height: 6px; 
-  }
-  
-  .scroll-container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    border-radius: 10px;
-  }
-  
-  .scroll-container::-webkit-scrollbar-thumb {
-    background: gray; 
-    border-radius: 10px;
-    height: 30px; 
-    min-height: 30px; 
-  }
-  
-  .scroll-container::-webkit-scrollbar-thumb:hover {
-    background: darkgray;
-    
-  }
  
-
-
     /* ::-webkit-scrollbar {
     width: 8px;  
     height: 6px; 
