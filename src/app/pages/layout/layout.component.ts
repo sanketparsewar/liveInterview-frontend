@@ -4,13 +4,16 @@ import { AlertService } from '../../core/services/alert/alert.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterLink,RouterOutlet],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-  constructor(private alertService:AlertService,private router:Router){}
+  constructor(private alertService: AlertService, private router: Router) { }
 
+  back() {
+    history.back();
+  }
   logout() {
     this.alertService.showConfirm('Logout').then((isConfirmed: any) => {
       if (isConfirmed) {
