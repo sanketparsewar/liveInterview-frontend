@@ -5,6 +5,7 @@ import { ChallengeSessionService } from '../../services/challengeSession/challen
 import { AlertService } from '../../services/alert/alert.service';
 import { IchallengeSession } from '../../models/interfaces/challengeSession.interface';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-stackblitz-code',
@@ -13,26 +14,39 @@ import { CommonModule } from '@angular/common';
   styleUrl: './stackblitz-code.component.css'
 })
 export class StackblitzCodeComponent {
-  @Input() challengeSession!: IchallengeSession;
   projectId!: string;
   stackblitzEditor: any;
   projectSnapshot: any;
-  
+  id: string = ''
+  challengeSession!: IchallengeSession;
 
-  constructor(private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) { }
 
   ngOnInit() {
-    if (history.state.challengeSession) {
-      this.challengeSession = history.state.challengeSession;
-    }
-    console.log(this.challengeSession)
+    this.activatedRoute.params.subscribe((params) => {
+      if (params['id']) {
+        this.id = params['id'];
+        this.getChallengeSessionById()
+      }
+    });
 
-
-    // if (this.challengeSession.stackBlitzUrl) {
-    this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
-    this.embedProject();
-    // }
   }
+
+  getChallengeSessionById() {
+    this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
+      next: (res: any) => {
+        this.challengeSession = res;
+        this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
+        this.embedProject();
+
+      },
+      error: (error: any) => {
+        console.error('Error fetching challenge:', error.error.message);
+      },
+    });
+  }
+
+
 
   // Extract the Project ID from the URL
   extractProjectId(url: string): string {
@@ -71,7 +85,6 @@ export class StackblitzCodeComponent {
       });
     }
   }
-
 
 
   // Save the project changes
