@@ -6,8 +6,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './core/guards/auth/auth.guard';
 import { interviewerGuard } from './core/guards/interviewer/interviewer.guard';
 import { LayoutComponent } from './pages/layout/layout.component';
-import { ProjectComponent } from './core/modalComponents/project/project.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
+import { StackblitzCodeComponent } from './core/components/stackblitz-code/stackblitz-code.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] }
@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: 'interviewer', component: InterviewerComponent, canActivate: [interviewerGuard] },
       { path: 'projects', component: ProjectsComponent, canActivate: [interviewerGuard] },
       { path: 'challenge/:id', component: ChallengeComponent, canActivate: [interviewerGuard] },
+      { path: 'stackblitzcode', component: StackblitzCodeComponent, canActivate: [interviewerGuard] }
     ]
   },
 
