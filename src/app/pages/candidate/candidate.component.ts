@@ -41,6 +41,7 @@ export class CandidateComponent implements OnInit {
 
 
   ngOnInit() {
+    this.goFullScreen()
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
@@ -55,6 +56,11 @@ export class CandidateComponent implements OnInit {
 
     // Disable right-click
     this.renderer.listen('window', 'contextmenu', (event) => {
+      event.preventDefault();
+    });
+
+   // Prevent window close or refresh
+    window.addEventListener("beforeunload", (event) => {
       event.preventDefault();
     });
 
@@ -127,6 +133,7 @@ export class CandidateComponent implements OnInit {
             this.socket.emit("startChallenge");
 
           },
+
           error: (error: any) => {
             console.error(
               'Error updating challenge session status:',

@@ -1,30 +1,37 @@
 import { HttpClient } from '@angular/common/http';
-import { Component,  Input,  } from '@angular/core';
+import { Component, Input, } from '@angular/core';
 import StackBlitzSDK from '@stackblitz/sdk';
 import { ChallengeSessionService } from '../../services/challengeSession/challenge-session.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { IchallengeSession } from '../../models/interfaces/challengeSession.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-stackblitz-code',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './stackblitz-code.component.html',
   styleUrl: './stackblitz-code.component.css'
 })
 export class StackblitzCodeComponent {
-  @Input() stackblitzUrl!: string;
   @Input() challengeSession!: IchallengeSession;
   projectId!: string;
   stackblitzEditor: any;
   projectSnapshot: any;
+  
 
   constructor(private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) { }
 
   ngOnInit() {
-    if (this.stackblitzUrl) {
-      this.projectId = this.extractProjectId(this.stackblitzUrl);
-      this.embedProject();
+    if (history.state.challengeSession) {
+      this.challengeSession = history.state.challengeSession;
     }
+    console.log(this.challengeSession)
+
+
+    // if (this.challengeSession.stackBlitzUrl) {
+    this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
+    this.embedProject();
+    // }
   }
 
   // Extract the Project ID from the URL

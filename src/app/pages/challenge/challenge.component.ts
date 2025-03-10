@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
 import { CommonModule } from '@angular/common';
 import { ProjectComponent } from '../../core/modalComponents/project/project.component';
@@ -48,14 +48,14 @@ export class ChallengeComponent implements OnInit {
     private challengeSessionService: ChallengeSessionService,
     private projectService: ProjectService,
     private alertService: AlertService,
-    private interviewSessionService: InterviewSessionService
+    private interviewSessionService: InterviewSessionService,
+    private router: Router,
   ) {
     // connection
     this.socket = io(environment.SOCKET_URL);
 
   }
   ngOnInit() {
-    // this.getProjectList();
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
@@ -110,7 +110,6 @@ export class ChallengeComponent implements OnInit {
       },
       error: (error: any) => {
         this.alertService.showError(error.error.message);
-        // console.error('Error fetching projects:', error.error.message);
       },
     });
   }
@@ -143,7 +142,6 @@ export class ChallengeComponent implements OnInit {
         error: (error: any) => {
           this.isCreated = false;
           this.alertService.showError(error.error.message);
-          // console.error('Error creating challenge:', );
         },
       });
   }
@@ -158,11 +156,10 @@ export class ChallengeComponent implements OnInit {
           },
           error: (error: any) => {
             this.alertService.showError('Error deleting challenge');
-            // console.error('Error deleting challenge:', error.error.message);
           },
         });
       }
-      else if(isConfirmed && !this.interviewSession.isActive){
+      else if (isConfirmed && !this.interviewSession.isActive) {
         this.alertService.showWarning('Interview completed, can not delete challenge.')
       }
     });
@@ -171,13 +168,12 @@ export class ChallengeComponent implements OnInit {
 
   copyToClipboard(link: string) {
     navigator.clipboard
-      .writeText(location.origin+"/candidate/" + link)
+      .writeText(location.origin + "/candidate/" + link)
       .then(() => {
         this.alertService.showSuccess('Link copied!')
       })
       .catch((err) => {
         this.alertService.showError('Could not copy text')
-        // console.error('Could not copy text: ', err);
       });
   }
 
@@ -193,10 +189,6 @@ export class ChallengeComponent implements OnInit {
           },
           error: (error: any) => {
             this.alertService.showError('Error updating challenge session status')
-            // console.error(
-            //   'Error updating challenge session status:',
-            //   error.error.message
-            // );
           },
         });
       }
@@ -219,7 +211,7 @@ export class ChallengeComponent implements OnInit {
       }
     });
   }
-  
+
 
 
   reset() {
@@ -229,4 +221,10 @@ export class ChallengeComponent implements OnInit {
       interviewSessionId: [this.id],
     });
   }
+
+  openCode(challengeSession: IchallengeSession) {
+    this.router.navigateByUrl('/stackblitzcode', { state: { challengeSession } })
+  }
+
+
 }

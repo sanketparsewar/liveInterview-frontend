@@ -86,8 +86,8 @@
         </span>
       </div>
       <div class="flex items-center justify-between space-x-2">
-        <a class="text-blue-800 break-all underline" [href]="item.stackBlitzUrl" target="_blank">
-          <i class="fa-solid fa-link"></i> Challenge Link
+        <a class="cursor-pointer text-blue-800 break-all underline" (click)="openCode(item)">
+          <i class="fa-solid fa-link"></i> View code 
         </a>
 
         <div class="flex items-end">
@@ -140,6 +140,9 @@
     </div>
   </div>
 </div>
+
+
+
 
 
 <app-project *ngIf="isToggleProjectModal" [project]="project" (getProjectList)="getProjectList()"
