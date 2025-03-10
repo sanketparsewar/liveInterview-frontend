@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { IinterviewSession } from '../../models/interfaces/interviewSession.interface';
 import { InterviewSessionComponent } from '../../modalComponents/interview-session/interview-session.component';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule, InterviewSessionComponent,FormsModule],
+  imports: [CommonModule, InterviewSessionComponent,FormsModule,PaginationComponent],
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })
@@ -23,7 +24,15 @@ export class InterviewSessionTableComponent {
   queryParameters:any={
     sortBy:'',
     search:'',
+    limit: 10,
+    page: 1,
   }
+
+  totalPages: number = 1;
+  totalInterviewSessions: number = 0;
+  totalPagesArray: number[] = [];
+  currentPage: number = 1;
+
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
@@ -40,6 +49,7 @@ export class InterviewSessionTableComponent {
   search(event: any) {
     this.queryParameters.search=event.target.value;
     // console.log(event.target.value);
+    this.queryParameters.page = 1;
     
     this.getInterviewSessions();
   }
@@ -69,6 +79,10 @@ export class InterviewSessionTableComponent {
     this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName,this.queryParameters).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
+        this.totalInterviewSessions = res.totalInterviewSessions;
+        this.currentPage = res.currentPage;
+        this.totalPages = res.totalPages;
+        this.getTotalPagesArray();  
         this.isLoaded=false
       },
       error: (error: any) => {
@@ -78,6 +92,14 @@ export class InterviewSessionTableComponent {
       },
     });
   }
+
+  getTotalPagesArray() {
+    this.totalPagesArray = [];
+    for (let i = 1; i < this.totalPages + 1; i++) {
+      this.totalPagesArray.push(i);
+    }
+  }
+
 
   endSession(id: string) {
     this.alertService.showConfirm('Update status').then((isConfirmed: any) => {
