@@ -7,17 +7,16 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChallengeSessionService } from '../../core/services/challengeSession/challenge-session.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IchallengeSession } from '../../core/models/interfaces/challengeSession.interface';
 import { io, Socket } from "socket.io-client";
 import { environment } from '../../../environment/environment.prod';
-// import sdk from '@stackblitz/sdk'
+import { StackblitzCodeComponent } from '../../core/components/stackblitz-code/stackblitz-code.component';
 
 @Component({
   selector: 'app-candidate',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, StackblitzCodeComponent],
   templateUrl: './candidate.component.html',
   styleUrl: './candidate.component.css',
 })
@@ -25,13 +24,11 @@ export class CandidateComponent implements OnInit {
   time!: Date;
   id: string = '';
   challenge!: IchallengeSession;
-  safeStackBlitzUrl!: SafeResourceUrl;
   lostFocusCount: number = 0
   private socket!: Socket;
   isLoaded: boolean = false;
   startTime!: Date;
   constructor(
-    private sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private challengeSessionService: ChallengeSessionService,
     private renderer: Renderer2,
@@ -43,22 +40,6 @@ export class CandidateComponent implements OnInit {
   }
 
 
-  // async forkExistingProject() {
-  //   const projectId = 'stackblitz-starters-hn6uvxce'; // Replace with your actual project ID
-  //   try {
-
-  //     const vm = await sdk.embedProjectId('embed', projectId)
-
-  //     // Modify the project (simulate forking by adding new files)
-  //     const files = await vm.getFsSnapshot();
-
-  //     console.log('Forked project created and modified successfully!', files);
-  //   } catch (error) {
-  //     console.error('Error forking project:', error);
-  //   }
-  // }
-
-
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -66,12 +47,6 @@ export class CandidateComponent implements OnInit {
         this.getChallengeSessionById();
       }
     });
-
-
-
-    // this.forkExistingProject()
-    // this.checkLostFocus()
-
 
     this.socket.on("challengeEnded", () => {
       this.alertService.showSuccess(`Challenge ended.`);
@@ -88,24 +63,11 @@ export class CandidateComponent implements OnInit {
   }
 
 
-
   getChallengeSessionById() {
     this.isLoaded = true;
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challenge = res;
-        if (
-          this.challenge.stackBlitzUrl &&
-          typeof this.challenge.stackBlitzUrl === 'string'
-        ) {
-          this.safeStackBlitzUrl =
-            this.sanitizer.bypassSecurityTrustResourceUrl(
-              this.challenge.stackBlitzUrl
-            );
-        }
-        //  else {
-        //   console.log('Invalid StackBlitz URL:', this.challenge.stackBlitzUrl);
-        // }
         this.startTime = new Date(this.challenge.startTime);
         setInterval(() => {
           this.time = new Date();
@@ -113,15 +75,15 @@ export class CandidateComponent implements OnInit {
         this.isLoaded = false
       },
       error: (error: any) => {
-
         this.isLoaded = false;
         console.error('Error fetching challenge:', error.error.message);
       },
     });
   }
 
+
   endChallenge() {
-    this.alertService.showConfirm('End challenge').then((isConfirmed: any) => {
+    this.alertService.showConfirm('end challenge (save code before exit) ').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.terminateChallenge()
       }
@@ -151,8 +113,6 @@ export class CandidateComponent implements OnInit {
         },
       });
   }
-
-
 
   startChallenge(id: string) {
     this.alertService.showConfirm('start the challenge').then((isConfirmed: any) => {
@@ -195,7 +155,6 @@ export class CandidateComponent implements OnInit {
       }
     })
   }
-
 
 
   goFullScreen() {
