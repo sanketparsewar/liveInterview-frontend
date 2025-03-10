@@ -41,7 +41,6 @@ export class CandidateComponent implements OnInit {
 
 
   ngOnInit() {
-    this.goFullScreen()
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
@@ -82,7 +81,6 @@ export class CandidateComponent implements OnInit {
       },
       error: (error: any) => {
         this.isLoaded = false;
-        console.error('Error fetching challenge:', error.error.message);
       },
     });
   }
@@ -149,7 +147,6 @@ export class CandidateComponent implements OnInit {
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === 'hidden' && this.lostFocusCount === 3) {
         this.lostFocusCount++;
-        console.log(this.lostFocusCount)
         this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
         setTimeout(() => {
           this.terminateChallenge();
@@ -157,7 +154,6 @@ export class CandidateComponent implements OnInit {
       }
       else if (document.visibilityState === 'hidden') {
         this.lostFocusCount++;
-        console.log(this.lostFocusCount)
         this.alertService.showWarning(`Tab change detected.`)
       }
     })
