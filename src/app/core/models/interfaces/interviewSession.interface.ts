@@ -1,6 +1,7 @@
 export interface IinterviewSession {
   _id: string;
-  interviewerName: string;
+  interviewer: string;
+  organization: string;
   candidateName: string;
   isActive: boolean;
   createdAt: Date;
