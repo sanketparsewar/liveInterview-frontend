@@ -7,6 +7,7 @@ import { IinterviewSession } from '../../models/interfaces/interviewSession.inte
 import { InterviewSessionComponent } from '../../modalComponents/interview-session/interview-session.component';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../pagination/pagination.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-interview-session-table',
@@ -37,10 +38,9 @@ export class InterviewSessionTableComponent {
     private router: Router,
     private interviewSessionService: InterviewSessionService,
     private alertService: AlertService,
+    private authservice: AuthService
   ) {
-    if (localStorage.getItem('user')) {
-      this.interviewerData = JSON.parse(localStorage.getItem('user')!);
-    }
+      this.interviewerData = this.authservice.getDecodedToken()
   }
   ngOnInit() {
     this.getInterviewSessions();
@@ -49,7 +49,6 @@ export class InterviewSessionTableComponent {
   search(event: any) {
     this.queryParameters.search=event.target.value;
     this.queryParameters.page = 1;
-    
     this.getInterviewSessions();
   }
 
@@ -74,7 +73,7 @@ export class InterviewSessionTableComponent {
 
   getInterviewSessions() {
     this.isLoaded=true;
-    this.interviewSessionService.getAllInterviewSessions(this.interviewerData.firstName,this.queryParameters).subscribe({
+    this.interviewSessionService.getAllInterviewSessions(this.interviewerData._id,this.queryParameters).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
         this.totalInterviewSessions = res.totalInterviewSessions;
