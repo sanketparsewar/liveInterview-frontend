@@ -16,14 +16,10 @@ export class InterviewerComponent implements OnInit {
   interviewerData: any;
   constructor(private authService: AuthService, private alertService: AlertService, private router: Router) { }
   ngOnInit() {
-    this.interviewerData = this.getLoggedInterviewer()
+    this.interviewerData = this.authService.getLoggedInterviewer();
   }
   toggleDropdown() {
     this.isToggleDropdown = !this.isToggleDropdown;
-  }
-
-  getLoggedInterviewer() {
-    return this.authService.getLoggedInterviewer();
   }
 
 }
