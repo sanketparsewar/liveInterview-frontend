@@ -2,32 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 ::-webkit-scrollbar{
   display: none;
-  
 }
-
- 
-    /* ::-webkit-scrollbar {
-    width: 8px;  
-    height: 6px; 
-  }
-  
-    ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    border-radius: 10px;
-  }
-  
-    ::-webkit-scrollbar-thumb {
-    background: gray; 
-    border-radius: 10px;
-    height: 30px; 
-    min-height: 30px; 
-  }
-  
-    ::-webkit-scrollbar-thumb:hover {
-    background: darkgray;
-    
-  }
-   */

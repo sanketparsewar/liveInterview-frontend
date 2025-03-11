@@ -18,7 +18,6 @@ export class InterviewSessionService {
 
   getAllInterviewSessions(interviewerName: string, queryParameters: any): Observable<IinterviewSession[]> {
     let params = new HttpParams().set('interviewerName', interviewerName);
-
     // Assign each query parameter separately
     Object.keys(queryParameters).forEach((key) => {
       if (queryParameters[key]) {

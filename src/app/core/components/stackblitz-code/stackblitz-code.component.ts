@@ -48,13 +48,11 @@ export class StackblitzCodeComponent {
 
 
 
-  // Extract the Project ID from the URL
   extractProjectId(url: string): string {
     const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
     return match ? match[1] : '';
   }
 
-  // Embed StackBlitz project using SDK
   embedProject() {
     if (!this.projectId) return;
     if (this.challengeSession.projectSnapshot) {
@@ -87,7 +85,6 @@ export class StackblitzCodeComponent {
   }
 
 
-  // Save the project changes
   saveProject() {
     if (this.stackblitzEditor) {
       this.stackblitzEditor.getFsSnapshot().then((snapshot: any) => {

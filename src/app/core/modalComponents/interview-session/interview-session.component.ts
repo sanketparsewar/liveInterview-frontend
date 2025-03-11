@@ -53,7 +53,6 @@ sessionForm!: FormGroup;
         },
         error: (error: any) => {
           this.alertService.showError(error.error.message);
-          // console.error('Error creating session:', error.error.message);
         },
       });
   }

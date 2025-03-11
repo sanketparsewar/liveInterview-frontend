@@ -48,7 +48,6 @@ export class InterviewSessionTableComponent {
 
   search(event: any) {
     this.queryParameters.search=event.target.value;
-    // console.log(event.target.value);
     this.queryParameters.page = 1;
     
     this.getInterviewSessions();
@@ -56,7 +55,6 @@ export class InterviewSessionTableComponent {
 
   sort(event: any) {
     this.queryParameters.sortBy=event.target.value;
-    // console.log(event.target.value)
     this.getInterviewSessions();
   }
 
@@ -88,7 +86,6 @@ export class InterviewSessionTableComponent {
       error: (error: any) => {
         this.isLoaded=false;
         this.alertService.showError(error.error.message)
-        // console.error('Error fetching sessions:', error.error.message);
       },
     });
   }
@@ -118,7 +115,6 @@ export class InterviewSessionTableComponent {
             error: (error: any) => {
               this.isLoaded=false;
               this.alertService.showError(error.error.message);
-              // console.error('Error updating status:', error.error.message);
             },
           });
       }
@@ -140,7 +136,6 @@ export class InterviewSessionTableComponent {
             error: (error: any) => {
               this.isLoaded=false;
               this.alertService.showError(error.error.message);
-              // console.error('Error deleting session:', error.error.message);
             },
           });
       }

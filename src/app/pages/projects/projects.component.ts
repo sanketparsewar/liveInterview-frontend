@@ -41,8 +41,6 @@ export class ProjectsComponent implements OnInit {
       error: (error: any) => {
         this.alertService.showError(error.error.message);
         this.isLoaded = false;
-
-        // console.error('Error fetching projects:', error.error.message);
       },
     });
   }
@@ -62,7 +60,6 @@ export class ProjectsComponent implements OnInit {
           },
           error: (error: any) => {
             this.alertService.showError('Error deleting project');
-            // console.error('Error deleting project:', error.error.message);
           },
         });
       }

@@ -15,7 +15,6 @@ export class LayoutComponent {
   ngOnInit() {
     this.savedTheme = localStorage.getItem('isDarkMode') || '';
     this.isDarkMode = (this.savedTheme=="true") ? false : true;
-
     this.toggleDarkMode();
   }
 
@@ -24,8 +23,6 @@ export class LayoutComponent {
     localStorage.setItem('isDarkMode', this.isDarkMode.toString());
     document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
-
-
 
   back() {
     history.back();

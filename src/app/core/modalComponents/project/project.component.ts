@@ -42,7 +42,6 @@ export class ProjectComponent implements OnInit {
       },
       error: (error) => {
         this.alertService.showError(error.error.message);
-        // console.error('Error creating session:', error);
       },
     })
   }
@@ -57,7 +56,6 @@ export class ProjectComponent implements OnInit {
         this.ontoggleProjectModal();
       },
       error: (error) => {
-        // this.alertService.showError(error.error.message);
         console.error('Error updating session:', error);
       },
     })

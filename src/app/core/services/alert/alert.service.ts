@@ -44,7 +44,6 @@ export class AlertService {
     });
   }
   showWarning(message: string) {
-    // this.toastr.warning(message);
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
