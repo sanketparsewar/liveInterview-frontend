@@ -15,11 +15,12 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild:[interviewerGuard],
     children: [
-      { path: 'interviewer', component: InterviewerComponent, canActivate: [interviewerGuard] },
-      { path: 'projects', component: ProjectsComponent, canActivate: [interviewerGuard] },
-      { path: 'challenge/:id', component: ChallengeComponent, canActivate: [interviewerGuard] },
-      { path: 'stackblitzcode/:id', component: StackblitzCodeComponent, canActivate: [interviewerGuard] }
+      { path: 'interviewer', component: InterviewerComponent },
+      { path: 'projects', component: ProjectsComponent },
+      { path: 'challenge/:id', component: ChallengeComponent },
+      { path: 'stackblitzcode/:id', component: StackblitzCodeComponent }
     ]
   },
 
