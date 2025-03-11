@@ -5,6 +5,7 @@
                 <div [routerLink]="['/interviewer']" class="cursor-pointer flex shrink-0 items-center text-blue-500 font-semibold text-lg">
                     <span class="text-orange-500">AM</span><span class="text-gray-100">Interview</span>
                 </div>
+                
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
@@ -21,7 +22,17 @@
                 </div>
             </div>
 
+            <div class="relative ml-3 flex items-center gap-3 cursor-pointer">
+                <div class="dark:block hidden">
+                    <i (click)="toggleDarkMode()" class="fa-solid fa-sun text-yellow-400 dark:block hidden"></i>
+                </div>
+                <div class="dark:hidden block ">
+                <i (click)="toggleDarkMode()" class="fa-solid fa-moon text-gray-700 text-white dark:hidden block"></i>
+
+                </div>
+            </div>
             <div class="relative ml-3">
+                
                 <button type="button" (click)="logout()" class="text-white cursor-pointer">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>

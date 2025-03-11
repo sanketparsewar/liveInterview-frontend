@@ -10,6 +10,22 @@ import { AlertService } from '../../core/services/alert/alert.service';
 })
 export class LayoutComponent {
   constructor(private alertService: AlertService, private router: Router) { }
+  savedTheme: string = '';
+  isDarkMode: boolean = false;
+  ngOnInit() {
+    this.savedTheme = localStorage.getItem('isDarkMode') || '';
+    this.isDarkMode = (this.savedTheme=="true") ? false : true;
+
+    this.toggleDarkMode();
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('isDarkMode', this.isDarkMode.toString());
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+  }
+
+
 
   back() {
     history.back();
