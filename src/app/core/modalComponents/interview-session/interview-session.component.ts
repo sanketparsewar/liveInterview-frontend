@@ -16,7 +16,7 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: './interview-session.component.html',
   styleUrl: './interview-session.component.css'
 })
-export class InterviewSessionComponent {
+export class InterviewSessionComponent implements OnInit {
 sessionForm!: FormGroup;
   @Output() toggleCreateInterviewSessionModal = new EventEmitter();
   @Output() getAllInterviewSessions = new EventEmitter();
@@ -29,20 +29,16 @@ sessionForm!: FormGroup;
   ) { }
 
   ngOnInit() {
-
-    this.interviewerData = this.getLoggedInterviewer()
+    this.interviewerData = this.authService.getDecodedToken()
     this.sessionForm = this.fb.group({
-      interviewerName: [this.interviewerData.firstName, [Validators.required]],
+      interviewer: [this.interviewerData._id, [Validators.required]],
+      organization: [this.interviewerData._activeOrg, [Validators.required]],
       candidateName: ['', [Validators.required]],
     });
   }
 
-  getLoggedInterviewer() {
-    return this.authService.getLoggedInterviewer();
-  }
-
-
   createInterviewSession() {
+    console.log(this.sessionForm.value)
     this.interviewSessionService
       .createInterviewSession(this.sessionForm.value)
       .subscribe({
