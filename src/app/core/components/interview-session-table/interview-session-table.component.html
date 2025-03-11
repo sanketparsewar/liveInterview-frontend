@@ -1,7 +1,8 @@
-<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+<div class="max-w px-2 sm:px-6 lg:px-8 dark:bg-gray-800">
   <div class="">
     <div class="flex flex-col sm:flex-row md:items-center justify-start sm:justify-between">
-      <h2 class="md:text-2xl sm:text-sm text-gray-900 font-semibold leading-tight">Interview sessions</h2>
+      <h2 class="md:text-2xl sm:text-sm text-gray-900 dark:text-gray-50  font-semibold leading-tight">Interview sessions
+      </h2>
       <button (click)="toggleCreateInterviewSessionModal()"
         class="mx-2  sm:w-auto cursor-pointer w-auto bg-blue-600 hover:bg-blue-800 text-white md:font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">
         + Create Interview Session
@@ -9,21 +10,21 @@
     </div>
 
 
-    <main class="mx-auto max-w-7xl my-2">
-      <div class="flex items-baseline justify-between mb-2">
-        <div class="flex flex-col sm:flex-row gap-3">
+    <main class="max-w my-2 ">
+      <div class="flex items-baseline justify-between mb-2  ">
+        <div class="flex flex-col sm:flex-row gap-3 ">
 
           <div class="flex items-center gap-3 ">
-            <label for="search" class="">Search:</label>
+            <label for="search" class="dark:text-gray-50">Search:</label>
             <input type="text" name="search" id="search" (input)="search($event)"
-              class="w-full rounded-md border border-gray-300 bg-white py-1 ps-1 text-gray-700 shadow-sm focus:border-gray-400 focus:ring-1 focus:ring-gray-200 focus:outline-none"
+              class="w-full rounded-md border border-gray-300 py-1 ps-1 dark:text-gray-50 text-gray-700 shadow-sm focus:border-gray-400 focus:ring-1 focus:ring-gray-200 focus:outline-none"
               placeholder="Enter candidate name" aria-label="Search candidate by name">
           </div>
 
           <div class="flex items-center">
-            <label class="" for="sort">Sort by:</label>
+            <label class="dark:text-gray-50 dark:bg-gray-800" for="sort">Sort by:</label>
             <select
-              class="group inline-flex items-center gap-2 ms-2 ps-2 text-gray-700 font-medium  transition-all focus:outline-none "
+              class="dark:text-gray-50 dark:bg-gray-800 group inline-flex items-center gap-2 ms-2 ps-2 font-medium  transition-all focus:outline-none "
               (click)="sort($event)" name="sort" id="sort">
               <option value="">Select...</option>
               <option value="newest">Newest top</option>
@@ -40,7 +41,7 @@
 
 
 
-    <div class="py-3 overflow-x-auto">
+    <div class="py-3 overflow-x-auto ">
 
       @if(isLoaded ){
       <div class="flex items-center justify-center h-100">
@@ -49,91 +50,92 @@
       }
       @else{
       <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-        <table class="min-w-full leading-normal">
-          <thead>
-            <tr>
+        <table class="min-w-full leading-normal dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 ">
+          <thead class="dark:text-gray-50 dark:bg-gray-800">
+            <tr class="text-gray-50 bg-gray-800">
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 dark:border-gray-50 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Sr no.
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Candidates
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Date
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Active Status
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Challenges
               </th>
               <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700  uppercase tracking-wider">
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Action
               </th>
-              <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
+              <th
+                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800">
             <tr *ngIf="interviewSessionsList.length == 0">
               <td colspan="7">
                 <h3 class="text-center p-3 ">No record!</h3>
               </td>
             </tr>
-            <tr *ngFor="let item of interviewSessionsList; let i = index">
-              <td class="px-5 py-5 bg-white text-sm text-center">
+            <tr class="dark:border-gray-50" *ngFor="let item of interviewSessionsList; let i = index">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div (click)="candidate(item._id)">
-                  <p class="text-gray-900 whitespace-no-wrap">
+                  <p class="  whitespace-no-wrap">
                     {{ i + 1 }}
                   </p>
                 </div>
               </td>
-              <td class="px-5 py-5 bg-white text-sm text-center">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div>
-                  <p class="text-gray-900 capitalize whitespace-no-wrap">
+                  <p class="  capitalize whitespace-no-wrap">
                     {{ item.candidateName }}
                   </p>
                 </div>
               </td>
-              <td class="px-5 py-5 bg-white text-sm text-center">
-                <p class="text-gray-900 whitespace-no-wrap">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                <p class="  whitespace-no-wrap">
                   {{ item.createdAt | date : "d MMM,y | hh:mm a " }}
                 </p>
               </td>
-              <td class="px-5 py-5 bg-white text-sm text-center">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <span *ngIf="!item.isActive"
-                  class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                  <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                  class="relative inline-block px-3 py-1 font-semibold bg-green-200 rounded-full text-green-900 leading-tight">
+                  <span aria-hidden class="absolute inset-0 opacity-50"></span>
                   <span class="relative">Completed</span>
                 </span>
                 <span *ngIf="item.isActive"
-                  class="relative inline-block px-3 py-1 font-semibold text-yellow-900 leading-tight">
-                  <span aria-hidden class="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"></span>
-                  <span class="relative">On Going</span>
+                  class="relative inline-block px-3 py-1 font-semibold bg-yellow-200 rounded-full text-yellow-900 leading-tight">
+                  <span aria-hidden class="absolute inset-0 opacity-50"></span>
+                  <span class="relative">Active</span>
                 </span>
               </td>
-              <td class="px-5 py-5 bg-white text-sm text-center">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <p (click)="candidate(item._id)"
-                  class="cursor-pointer text-gray-700 font-medium flex items-center justify-center gap-2 transition-all hover:text-blue-600">
+                  class="cursor-pointer font-medium flex items-center justify-center gap-2 transition-all hover:text-blue-600">
                   Challenges
                   <i
                     class="fa-solid fa-arrow-right transform transition-transform duration-300 group-hover:translate-x-1"></i>
                 </p>
               </td>
 
-              <td class="px-5 py-5 bg-white text-sm text-center">
+              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div class="flex justify-center">
                   <button *ngIf="item.isActive" (click)="endSession(item._id)"
                     class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-full shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2">
                     End Session
                   </button>
-                  <p *ngIf="!item.isActive" class="text-gray-900 whitespace-no-wrap">
+                  <p *ngIf="!item.isActive" class="  whitespace-no-wrap">
                     Session Ended!
                   </p>
                 </div>

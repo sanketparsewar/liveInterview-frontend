@@ -1,12 +1,12 @@
 <div class="flex flex-col items-center justify-center h-screen">
-    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">Interviewer Login </h2>
+    <div class="dark:border dark:text-gray-50 dark:bg-gray-800 w-full max-w-md bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold  mb-4">Interviewer Login </h2>
         <form class="flex flex-col" [formGroup]="loginForm" (submit)="login()"  >
             <input type="email" formControlName="email"
-                class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+                class="bg-gray-100 dark:border dark:text-gray-50 dark:bg-gray-800 border-0 rounded-md p-2 mb-4  focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
                 placeholder="Email address">
             <input type="password" formControlName="password"
-                class="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+                class="bg-gray-100 dark:border dark:text-gray-50 dark:bg-gray-800 border-0 rounded-md p-2 mb-4  focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
                 placeholder="Password">
 
             <button type="submit"

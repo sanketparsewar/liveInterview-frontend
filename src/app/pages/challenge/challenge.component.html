@@ -1,5 +1,5 @@
 @if(isLoaded ){
-<div class="flex items-center justify-center h-screen">
+<div class="dark:text-gray-50 dark:bg-gray-800 flex items-center justify-center h-screen">
   <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
 </div>
 
@@ -16,18 +16,18 @@
 
 <div *ngIf="interviewSession?.isActive">
 
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <h4 class="text-lg font-semibold text-gray-800 my-2"># Create New Challenge</h4>
+  <div class="max-w px-2 sm:px-6 lg:px-8">
+    <h4 class="dark:text-gray-50 dark:bg-gray-800 text-lg font-semibold text-gray-800 my-2"># Create New Challenge</h4>
     <form class="flex flex-wrap gap-4" [formGroup]="challengeForm">
       <div class="w-full md:w-auto px-3">
         <input formControlName="name" name="name"
-          class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="dark:text-gray-50 dark:bg-gray-800 block w-full bg-gray-200 border border-gray-300 py-2 px-4 rounded leading-tight focus:outline-none focus:border-gray-500"
           id="grid-first-name" type="text" placeholder="Enter challenge name" />
       </div>
 
       <div class="flex gap-3 items-center w-full md:w-auto px-3">
         <select name="stackBlitzUrl"
-          class="block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="dark:text-gray-50 dark:bg-gray-800 block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:border-gray-500"
           formControlName="stackBlitzUrl" id="">
           <option value="">Select project</option>
           <option *ngFor="let item of projectList; let i = index" [value]="item.projectUrl">{{item.title}}</option>
@@ -54,18 +54,19 @@
 
 
 
-<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex justify-between items-center mt-3">
-  <h4 class="text-lg font-semibold text-gray-800">
+<div class="max-w px-2 sm:px-6 lg:px-8 flex justify-between items-center mt-3">
+  <h4 class="dark:text-gray-50 dark:bg-gray-800 text-lg font-semibold text-gray-800">
     # Challenges &#x2997; {{ challenges.length }} &#x2998;
   </h4>
 </div>
 
-<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-  <h4 *ngIf="challenges.length == 0" class="text-lg font-semibold text-gray-800">
+<div class="max-w px-2 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+  <h4 *ngIf="challenges.length == 0" class="text-lg font-semibold dark:text-gray-50 dark:bg-gray-800">
     No Challenges!
   </h4>
 
-  <div *ngFor="let item of challenges; let i = index" class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+  <div *ngFor="let item of challenges; let i = index"
+    class="dark:text-gray-50 dark:bg-gray-800 dark:border  max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
         {{i+1}}. {{ item.name }}
@@ -83,8 +84,8 @@
         </span>
       </div>
       <div class="flex items-center justify-between space-x-2">
-        <a class="cursor-pointer text-blue-800 break-all underline" (click)="viewCode(item._id)">
-          <i class="fa-solid fa-link"></i> View code 
+        <a class="dark:text-blue-400 cursor-pointer text-blue-800 break-all underline" (click)="viewCode(item._id)">
+          <i class="fa-solid fa-link"></i> View code
         </a>
 
         <div class="flex items-end">
@@ -126,10 +127,10 @@
         'bg-yellow-400': item.score === 'Partial Solution',
         'bg-orange-400': item.score === 'Completed',
         'bg-green-400': item.score === 'Outstanding'
-      }" class=" text-black-600 rounded-full px-4 py-1 text-lg  flex-grow text-center">
+      }" class=" rounded-full px-4 py-1 text-lg  flex-grow text-center">
         Score: {{ item.score }}
         <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
-          class="outline-none  bg-gray-100 border border-gray-400 rounded px-2 py-1 text-sm">
+          class="dark:text-gray-50 dark:bg-gray-800 outline-none border rounded px-2 py-1 text-sm">
           <option value="">Select Score</option>
           <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
         </select>

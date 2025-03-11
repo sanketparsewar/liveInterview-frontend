@@ -1,5 +1,5 @@
-<nav class="bg-gray-800">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+<nav class="dark:text-gray-50 dark:bg-gray-600 bg-gray-800">
+  <div class="max-w px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex shrink-0 items-center text-blue-500 font-semibold text-lg">
@@ -20,11 +20,11 @@
 @else{
 
 <ng-container *ngIf="!challenge?.isActive && !challenge?.endTime">
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="max-w-md bg-white rounded-2xl shadow-lg p-6">
-      <div class="text-center">
-        <h2 class="text-xl font-semibold text-gray-800">Ready to Start?</h2>
-        <p class="text-gray-600 mt-2">Click below to begin your challenge.</p>
+  <div class=" dark:text-gray-50 dark:bg-gray-800  flex items-center justify-center h-100 bg-gray-100">
+    <div class="dark:text-gray-50 dark:bg-gray-800 dark:border max-w-md bg-white rounded-2xl shadow-lg p-6">
+      <div class="text-center dark:text-gray-50 ">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-50 ">Ready to Start?</h2>
+        <p class="text-gray-600 mt-2 dark:text-gray-50">Click below to begin your challenge.</p>
 
         <div class="mt-4 p-3 bg-yellow-100 text-yellow-800 rounded-md shadow">
           <h3 class="font-semibold">Rules:</h3>
@@ -51,10 +51,10 @@
 
 
 <div class="w-full mx-0 overflow-hidden" *ngIf="challenge?.isActive">
-  <div class="w-full h-full rounded shadow-lg bg-white flex flex-col">
+  <div class="w-full dark:text-gray-50 dark:bg-gray-800 h-full rounded shadow-lg flex flex-col">
     <div class=" m-2 flex justify-between items-center">
       <span class="font-bold ">{{ challenge.name }}
-        <span class="font-normal text-gray-500 ">(Started at: {{startTime | date:'h:mm:ss a'}}) </span></span>
+        <span class="font-normal text-gray-500 dark:text-gray-50">(Started at: {{startTime | date:'h:mm:ss a'}}) </span></span>
       <span>
         <span>Current Time: {{time | date:'h:mm:ss a'}} </span>
 
@@ -65,7 +65,7 @@
     </div>
 
     <!-- coding section -->
-    <app-stackblitz-code ></app-stackblitz-code>
+    <app-stackblitz-code></app-stackblitz-code>
 
   </div>
 </div>
@@ -74,14 +74,14 @@
 
 <ng-container *ngIf="challenge?.isActive===false">
 
-  <div class="flex items-center justify-center">
-    <div class="max-w-md bg-white rounded-2xl overflow-hidden shadow-xl p-6">
-      <div class="text-center">
-        <h2 class="text-lg font-semibold text-gray-800">🎉 Challenge Submitted!</h2>
-        <p class="text-gray-600 mt-2">
+  <div class="flex h-100 items-center justify-center">
+    <div class="dark:text-gray-50 dark:bg-gray-800 dark:border max-w-md bg-white rounded-2xl overflow-hidden shadow-xl p-6">
+      <div class="text-center ">
+        <h2 class="text-lg font-semibold dark:text-gray-50 text-gray-800">🎉 Challenge Submitted!</h2>
+        <p class="text-gray-600 mt-2 dark:text-gray-50 ">
           Your challenge has been submitted successfully.
         </p>
-        <p class="text-gray-600 mt-2">
+        <p class="text-gray-600 mt-2 dark:text-gray-50">
           Close this window.
         </p>
       </div>
