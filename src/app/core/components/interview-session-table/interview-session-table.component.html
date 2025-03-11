@@ -22,9 +22,9 @@
           </div>
 
           <div class="flex items-center">
-            <label class="dark:text-gray-50 dark:bg-gray-800" for="sort">Sort by:</label>
+            <label class="dark:text-gray-50" for="sort">Sort by:</label>
             <select
-              class="dark:text-gray-50 group inline-flex items-center gap-2 ms-2 ps-2 font-medium  transition-all focus:outline-none "
+              class="dark:text-gray-50 dark:bg-gray-800 group inline-flex items-center gap-2 ms-2 ps-2 font-medium   focus:outline-none "
               (click)="sort($event)" name="sort" id="sort">
               <option value="">Select...</option>
               <option value="newest">Newest top</option>
@@ -44,52 +44,52 @@
     <div class="py-3 overflow-x-auto ">
 
       @if(isLoaded ){
-      <div class="flex items-center justify-center h-100">
+      <div class="dark:text-gray-50 flex items-center justify-center h-100">
         <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
       </div>
       }
       @else{
       <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-        <table class="min-w-full leading-normal dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 ">
-          <thead class="dark:text-gray-50 dark:bg-gray-800">
-            <tr class="text-gray-50 bg-gray-800">
+        <table
+          class="dark:border dark:border-gray-400 min-w-full leading-normal dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 ">
+          <thead class="">
+            <tr class="border border-gray-300 ">
               <th
-                class=" dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 dark:border-gray-50 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 dark:border-gray-50 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Sr no.
               </th>
               <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Candidates
               </th>
               <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Date
               </th>
               <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Active Status
               </th>
               <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Challenges
               </th>
               <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Action
               </th>
-              <th
-                class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
+              <th class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
               </th>
             </tr>
           </thead>
-          <tbody class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800">
+          <tbody class=" dark:text-gray-50 dark:bg-gray-800">
             <tr *ngIf="interviewSessionsList.length == 0">
               <td colspan="7">
                 <h3 class="text-center p-3 ">No record!</h3>
               </td>
             </tr>
-            <tr class="dark:border-gray-50" *ngFor="let item of interviewSessionsList; let i = index">
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+            <tr class="border border-gray-300 " *ngFor="let item of interviewSessionsList; let i = index">
+              <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div (click)="candidate(item._id)">
                   <p class="  whitespace-no-wrap">
                     {{ i + 1 }}

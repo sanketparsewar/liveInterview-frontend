@@ -12,6 +12,7 @@ export class AlertService {
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
+      background: "#d4efdf ",
       timerProgressBar: true,
       didOpen: (toast: any) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -30,6 +31,7 @@ export class AlertService {
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
+      background:"#f2d7d5",
       timerProgressBar: true,
       didOpen: (toast: any) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -48,6 +50,7 @@ export class AlertService {
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
+      background:"#fdebd0",
       timerProgressBar: true,
       didOpen: (toast: any) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -65,6 +68,7 @@ export class AlertService {
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
+      background:"#e9ecef",
       timerProgressBar: true,
       didOpen: (toast: any) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -81,6 +85,7 @@ export class AlertService {
     return Swal.fire({
       text: `Are you sure to ${message}?`,
       icon: 'warning',
+      background:"#e5e8e8",
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
