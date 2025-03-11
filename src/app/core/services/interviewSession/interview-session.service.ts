@@ -16,15 +16,15 @@ export class InterviewSessionService {
     return this.http.post<IinterviewSession>(`${this.BASE_URL}/interviewsession`, session);
   }
 
-  getAllInterviewSessions(interviewerName: string, queryParameters: any): Observable<IinterviewSession[]> {
-    let params = new HttpParams().set('interviewerName', interviewerName);
+  getAllInterviewSessions(interviewer: string, queryParameters: any): Observable<IinterviewSession[]> {
+    let params = new HttpParams().set('interviewer', interviewer);
     // Assign each query parameter separately
     Object.keys(queryParameters).forEach((key) => {
       if (queryParameters[key]) {
         params = params.set(key, queryParameters[key]);
       }
     });
-  
+
     return this.http.get<IinterviewSession[]>(`${this.BASE_URL}/interviewsession`, { params });
   }
 
