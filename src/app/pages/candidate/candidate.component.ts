@@ -53,7 +53,7 @@ export class CandidateComponent implements OnInit {
 
     this.socket.on("challengeEnded", () => {
       this.alertService.showSuccess(`Challenge ended.`);
-      // this.getChallengeSessionById(); // Refresh challenge list
+      this.getChallengeSessionById(); // Refresh challenge list
     })
 
     // Disable right-click
@@ -98,7 +98,6 @@ export class CandidateComponent implements OnInit {
     this.alertService.showConfirm('end challenge (save code before exit) ').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.terminateChallenge()
-        console.log(this.lostFocusCount)
       }
     });
   }
@@ -133,9 +132,9 @@ export class CandidateComponent implements OnInit {
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
-            if (this.challenge.startTime && !this.challenge.endTime) {
-              this.checkLostFocus()
-            }
+            // if (this.challenge.startTime && !this.challenge.endTime) {
+            //   this.checkLostFocus()
+            // }
 
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
@@ -173,6 +172,8 @@ export class CandidateComponent implements OnInit {
   }
 
   updateLostFocus() {
+    if (!this.challenge.isActive) return;
+
     this.challengeSessionService.updateLostFocus(this.id).subscribe({
       next: (res) => {
         this.lostFocusCount = res.lostFocus
@@ -181,7 +182,7 @@ export class CandidateComponent implements OnInit {
           setTimeout(() => {
             this.terminateChallenge();
           }, 5000);
-        }else{
+        } else {
           this.alertService.showWarning(`Tab changed count: ${this.lostFocusCount}`)
         }
       },
