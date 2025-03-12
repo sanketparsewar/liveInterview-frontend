@@ -15,4 +15,10 @@
 </div>
 }
 
-<div id="stackblitzContainer"></div>
+
+<div id="stackblitzContainer" class="relative w-full h-screen">
+</div>
+
+<div class="fixed bottom-4 right-4 z-50 cursor-move" cdkDrag>
+  <app-web-camera [showWebcam]="challengeSession.isActive"></app-web-camera>
+</div>

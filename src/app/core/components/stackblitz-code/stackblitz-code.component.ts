@@ -7,10 +7,14 @@ import { IchallengeSession } from '../../models/interfaces/challengeSession.inte
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { WebCameraComponent } from '../web-camera/web-camera.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { environment } from '../../../../environment/environment.prod';
+import { io, Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-stackblitz-code',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, WebCameraComponent, DragDropModule],
   templateUrl: './stackblitz-code.component.html',
   styleUrl: './stackblitz-code.component.css'
 })
@@ -21,8 +25,10 @@ export class StackblitzCodeComponent {
   id: string = ''
   challengeSession!: IchallengeSession;
   isLoaded: boolean = false
-
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) { }
+  private socket!: Socket;
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
+    this.socket = io(environment.SOCKET_URL);
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -32,6 +38,17 @@ export class StackblitzCodeComponent {
       }
     });
 
+    this.socket.on("challengeStarted", () => {
+      this.getChallengeSessionById(); // Refresh challenge list
+    })
+
+    this.socket.on("codeSaved", () => {
+      this.getChallengeSessionById(); // Refresh challenge list
+    })
+
+    this.socket.on("challengeEnded", () => {
+      this.getChallengeSessionById(); // Refresh challenge list
+    })
   }
 
   getChallengeSessionById() {
@@ -99,6 +116,7 @@ export class StackblitzCodeComponent {
         this.challengeSessionService.updateChallengeSessionById(this.challengeSession._id, { projectSnapshot: this.projectSnapshot }).subscribe({
           next: () => {
             this.alertService.showSuccess('Code saved.')
+            this.socket.emit("saveCode");
           },
           error: (error: any) => {
             this.alertService.showError('Error saving Code.')

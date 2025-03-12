@@ -13,7 +13,6 @@ import { IchallengeSession } from '../../core/models/interfaces/challengeSession
 import { io, Socket } from "socket.io-client";
 import { environment } from '../../../environment/environment.prod';
 import { StackblitzCodeComponent } from '../../core/components/stackblitz-code/stackblitz-code.component';
-
 @Component({
   selector: 'app-candidate',
   imports: [FormsModule, CommonModule, StackblitzCodeComponent],
@@ -48,8 +47,6 @@ export class CandidateComponent implements OnInit {
 
       }
     });
-    console.log(this.lostFocusCount)
-
 
     this.socket.on("challengeEnded", () => {
       this.alertService.showSuccess(`Challenge ended.`);
@@ -135,7 +132,6 @@ export class CandidateComponent implements OnInit {
             // if (this.challenge.startTime && !this.challenge.endTime) {
             //   this.checkLostFocus()
             // }
-
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
             this.socket.emit("startChallenge");

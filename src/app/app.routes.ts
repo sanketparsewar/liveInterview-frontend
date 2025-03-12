@@ -8,6 +8,7 @@ import { interviewerGuard } from './core/guards/interviewer/interviewer.guard';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { StackblitzCodeComponent } from './core/components/stackblitz-code/stackblitz-code.component';
+import { WebCameraComponent } from './core/components/web-camera/web-camera.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   },
 
   { path: 'candidate/:id', component: CandidateComponent },
+  {path:'camera',component: WebCameraComponent},
 
 
   { path: '**', redirectTo: 'candidates' },
