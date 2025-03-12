@@ -6,10 +6,11 @@ import { AlertService } from '../../services/alert/alert.service';
 import { IchallengeSession } from '../../models/interfaces/challengeSession.interface';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-stackblitz-code',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './stackblitz-code.component.html',
   styleUrl: './stackblitz-code.component.css'
 })
@@ -19,6 +20,7 @@ export class StackblitzCodeComponent {
   projectSnapshot: any;
   id: string = ''
   challengeSession!: IchallengeSession;
+  isLoaded: boolean = false
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) { }
 
@@ -33,6 +35,7 @@ export class StackblitzCodeComponent {
   }
 
   getChallengeSessionById() {
+    this.isLoaded = true;
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challengeSession = res;
@@ -42,6 +45,8 @@ export class StackblitzCodeComponent {
       },
       error: (error: any) => {
         console.error('Error fetching challenge:', error.error.message);
+        this.isLoaded = false;
+
       },
     });
   }
@@ -54,6 +59,8 @@ export class StackblitzCodeComponent {
   }
 
   embedProject() {
+    this.isLoaded = false;
+
     if (!this.projectId) return;
     if (this.challengeSession.projectSnapshot) {
       const formattedProject = {
@@ -99,6 +106,10 @@ export class StackblitzCodeComponent {
         });
       });
     }
+  }
+
+  back() {
+    history.back();
   }
 
 }

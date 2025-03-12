@@ -1,7 +1,18 @@
 <button *ngIf="challengeSession?.isActive" (click)="saveProject()"
-  class="mt-2 mb-2 mx-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
+  class="mt-2 mb-2 cursor-pointer mx-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
   💾 Save Project
 </button>
 
+<button *ngIf="!challengeSession?.isActive" (click)="back()"
+  class="mt-2 cursor-pointer mb-2 mx-2 bg-gradient-to-r from-indigo-500 to-blue-700 hover:from-indigo-600 hover:to-indigo-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+  <i class="fa-solid fa-arrow-left"></i> Back
+</button>
+
+
+@if(isLoaded ){
+<div class="flex dark:text-gray-50 items-center justify-center h-screen">
+  <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
+</div>
+}
 
 <div id="stackblitzContainer"></div>

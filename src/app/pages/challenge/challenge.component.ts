@@ -115,7 +115,6 @@ export class ChallengeComponent implements OnInit {
     });
   }
 
-
   getAllChallenges() {
     this.challengeSessionService
       .getChallengeSessionsByInterviewId(this.id)
