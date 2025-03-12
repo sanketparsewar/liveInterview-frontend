@@ -60,6 +60,8 @@ export class ChallengeComponent implements OnInit {
       if (params['id']) {
         this.id = params['id'];
         this.getInterviewSessionById();
+        this.getAllChallenges();
+
         this.challengeForm = this.fb.group({
           name: ['', [Validators.required]],
           stackBlitzUrl: ['', [Validators.required]],
@@ -92,10 +94,8 @@ export class ChallengeComponent implements OnInit {
         this.interviewSession = res;
         if (this.interviewSession.isActive) {
           this.getProjectList()
-          this.getAllChallenges();
-
         }
-        this.isLoaded = false;
+        this.getAllChallenges();
       },
       error: (error: any) => {
         console.error('Error fetching interview session:', error.error.message);
@@ -122,9 +122,13 @@ export class ChallengeComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.challenges = res.challengeSessions;
+          this.isLoaded = false;
+
         },
         error: (error: any) => {
-          console.error('Error fetching challenges:', error.error.message);
+          this.alertService.showError(error.error.message);
+          this.isLoaded = false;
+
         },
       });
   }
