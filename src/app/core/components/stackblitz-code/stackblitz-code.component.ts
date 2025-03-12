@@ -59,7 +59,6 @@ export class StackblitzCodeComponent {
   }
 
   embedProject() {
-    this.isLoaded = false;
 
     if (!this.projectId) return;
     if (this.challengeSession.projectSnapshot) {
@@ -89,6 +88,7 @@ export class StackblitzCodeComponent {
         this.stackblitzEditor = editor;
       });
     }
+    this.isLoaded = false;
   }
 
 
