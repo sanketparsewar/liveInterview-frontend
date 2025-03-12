@@ -44,7 +44,6 @@ export class CandidateComponent implements OnInit {
       if (params['id']) {
         this.id = params['id'];
         this.getChallengeSessionById();
-
       }
     });
 
@@ -115,10 +114,7 @@ export class CandidateComponent implements OnInit {
         error: (error: any) => {
           this.isLoaded = false
           this.alertService.showError(error.error.message)
-          // console.error(
-          //   'Error updating challenge session status:',
-          //   error.error.message
-          // );
+        
         },
       });
   }
@@ -129,9 +125,7 @@ export class CandidateComponent implements OnInit {
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
-            // if (this.challenge.startTime && !this.challenge.endTime) {
-            //   this.checkLostFocus()
-            // }
+
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
             this.socket.emit("startChallenge");
@@ -152,18 +146,9 @@ export class CandidateComponent implements OnInit {
   checkLostFocus() {
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === 'hidden') {
-        // this.lostFocusCount++;
         this.updateLostFocus()
-        // this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
-        // setTimeout(() => {
-        //   this.terminateChallenge();
-        // }, 5000);
       }
-      // else if (document.visibilityState === 'hidden') {
-      //   this.lostFocusCount++;
-      //   this.updateLostFocus()
-      //   this.alertService.showWarning(`Tab change detected.`)
-      // }
+
     })
   }
 
@@ -173,11 +158,9 @@ export class CandidateComponent implements OnInit {
     this.challengeSessionService.updateLostFocus(this.id).subscribe({
       next: (res) => {
         this.lostFocusCount = res.lostFocus
-        if (this.lostFocusCount == 3) {
+        if (this.lostFocusCount >= 3) {
           this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
-          setTimeout(() => {
-            this.terminateChallenge();
-          }, 5000);
+          this.terminateChallenge();
         } else {
           this.alertService.showWarning(`Tab changed count: ${this.lostFocusCount}`)
         }
