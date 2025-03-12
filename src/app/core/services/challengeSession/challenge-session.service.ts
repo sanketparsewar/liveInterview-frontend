@@ -28,6 +28,9 @@ export class ChallengeSessionService {
   startChallenge(id: string): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/challengesession/start/${id}`, {});
   }
+  updateLostFocus(id: string): Observable<any> {
+    return this.http.put<any>(`${this.BASE_URL}/challengesession/lostfocus/${id}`, {});
+  }
   updateChallengeSessionStatus(id: string): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/challengesession/sessionstatus/${id}`, {});
   }

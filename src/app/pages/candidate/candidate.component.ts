@@ -45,12 +45,15 @@ export class CandidateComponent implements OnInit {
       if (params['id']) {
         this.id = params['id'];
         this.getChallengeSessionById();
+
       }
     });
+    console.log(this.lostFocusCount)
+
 
     this.socket.on("challengeEnded", () => {
       this.alertService.showSuccess(`Challenge ended.`);
-      this.getChallengeSessionById(); // Refresh challenge list
+      // this.getChallengeSessionById(); // Refresh challenge list
     })
 
     // Disable right-click
@@ -58,7 +61,7 @@ export class CandidateComponent implements OnInit {
       event.preventDefault();
     });
 
-   // Prevent window close or refresh
+    // Prevent window close or refresh
     window.addEventListener("beforeunload", (event) => {
       event.preventDefault();
     });
@@ -73,6 +76,11 @@ export class CandidateComponent implements OnInit {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challenge = res;
+
+        if (this.challenge.startTime && !this.challenge.endTime) {
+          this.checkLostFocus()
+        }
+
         this.startTime = new Date(this.challenge.startTime);
         setInterval(() => {
           this.time = new Date();
@@ -90,6 +98,7 @@ export class CandidateComponent implements OnInit {
     this.alertService.showConfirm('end challenge (save code before exit) ').then((isConfirmed: any) => {
       if (isConfirmed) {
         this.terminateChallenge()
+        console.log(this.lostFocusCount)
       }
     });
   }
@@ -124,7 +133,9 @@ export class CandidateComponent implements OnInit {
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
-            this.checkLostFocus()
+            if (this.challenge.startTime && !this.challenge.endTime) {
+              this.checkLostFocus()
+            }
 
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
@@ -145,17 +156,38 @@ export class CandidateComponent implements OnInit {
 
   checkLostFocus() {
     document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === 'hidden' && this.lostFocusCount === 3) {
-        this.lostFocusCount++;
-        this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
-        setTimeout(() => {
-          this.terminateChallenge();
-        }, 5000);
+      if (document.visibilityState === 'hidden') {
+        // this.lostFocusCount++;
+        this.updateLostFocus()
+        // this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
+        // setTimeout(() => {
+        //   this.terminateChallenge();
+        // }, 5000);
       }
-      else if (document.visibilityState === 'hidden') {
-        this.lostFocusCount++;
-        this.alertService.showWarning(`Tab change detected.`)
-      }
+      // else if (document.visibilityState === 'hidden') {
+      //   this.lostFocusCount++;
+      //   this.updateLostFocus()
+      //   this.alertService.showWarning(`Tab change detected.`)
+      // }
+    })
+  }
+
+  updateLostFocus() {
+    this.challengeSessionService.updateLostFocus(this.id).subscribe({
+      next: (res) => {
+        this.lostFocusCount = res.lostFocus
+        if (this.lostFocusCount == 3) {
+          this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
+          setTimeout(() => {
+            this.terminateChallenge();
+          }, 5000);
+        }else{
+          this.alertService.showWarning(`Tab changed count: ${this.lostFocusCount}`)
+        }
+      },
+      error: (error: any) => {
+        console.error('Error updating lost focus:', error.error.message);
+      },
     })
   }
 

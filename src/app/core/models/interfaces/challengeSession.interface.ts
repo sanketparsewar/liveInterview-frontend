@@ -12,4 +12,5 @@ export interface IchallengeSession{
     createdAt: Date;
     updatedAt: Date;
     projectSnapshot:any;
+    lostFocus:number;
 }

@@ -193,7 +193,6 @@ export class ChallengeComponent implements OnInit {
         });
       }
     });
-
   }
 
   updateScore(id: string, score: string) {
