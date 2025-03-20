@@ -226,7 +226,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   viewCode(id: string) {
-    this.router.navigate(['/stackblitzcode', id])
+    this.router.navigate(['/review-code', id])
   }
 
 
