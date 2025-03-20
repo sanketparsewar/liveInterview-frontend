@@ -42,9 +42,9 @@ export class StackblitzCodeComponent {
       this.getChallengeSessionById(); // Refresh challenge list
     })
 
-    this.socket.on("codeSaved", () => {
-      this.getChallengeSessionById(); // Refresh challenge list
-    })
+    // this.socket.on("codeSaved", () => {
+    //   this.getChallengeSessionById(); // Refresh challenge list
+    // })
 
     this.socket.on("challengeEnded", () => {
       this.getChallengeSessionById(); // Refresh challenge list
@@ -126,8 +126,8 @@ export class StackblitzCodeComponent {
     }
   }
 
-  back() {
-    history.back();
-  }
+  // back() {
+  //   history.back();
+  // }
 
 }
