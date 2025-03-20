@@ -7,8 +7,8 @@ import { authGuard } from './core/guards/auth/auth.guard';
 import { interviewerGuard } from './core/guards/interviewer/interviewer.guard';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
-import { StackblitzCodeComponent } from './core/components/stackblitz-code/stackblitz-code.component';
 import { WebCameraComponent } from './core/components/web-camera/web-camera.component';
+import { ReviewCodeComponent } from './core/components/review-code/review-code.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] },
@@ -21,7 +21,7 @@ export const routes: Routes = [
       { path: 'interviewer', component: InterviewerComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'challenge/:id', component: ChallengeComponent },
-      { path: 'stackblitzcode/:id', component: StackblitzCodeComponent }
+      { path: 'review-code/:id', component: ReviewCodeComponent }
     ]
   },
 
