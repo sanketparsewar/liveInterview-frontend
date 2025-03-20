@@ -109,24 +109,6 @@ export class ReviewCodeComponent {
       this.isLoaded = false;
     }
   
-  
-    // saveProject() {
-    //   if (this.stackblitzEditor) {
-    //     this.stackblitzEditor.getFsSnapshot().then((snapshot: any) => {
-    //       this.projectSnapshot = snapshot;
-    //       this.challengeSessionService.updateChallengeSessionById(this.challengeSession._id, { projectSnapshot: this.projectSnapshot }).subscribe({
-    //         next: () => {
-    //           this.alertService.showSuccess('Code saved.')
-    //           // this.socket.emit("saveCode");
-    //         },
-    //         error: (error: any) => {
-    //           this.alertService.showError('Error saving Code.')
-    //         }
-    //       });
-    //     });
-    //   }
-    // }
-  
     back() {
       history.back();
     }
