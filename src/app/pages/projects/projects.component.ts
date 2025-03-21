@@ -66,4 +66,8 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  back(){
+    history.back();
+  }
+
 }

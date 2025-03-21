@@ -6,6 +6,7 @@
 }
 
 @else{
+
 <div *ngIf="!interviewSession?.isActive"
   class="m-0 w-full  px-2 sm:px-6 lg:px-8 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
   role="alert">
@@ -13,10 +14,15 @@
   <p class="px-2 text-sm">Interview of this candidate has successfully completed.</p>
 </div>
 
+<div class="px-2 sm:px-6 lg:px-8 pt-2">
+  <button class="btn btn-xs " (click)="back()">Back</button>
+</div>
+
 
 <div *ngIf="interviewSession?.isActive">
 
-  <div class="max-w px-2 sm:px-6 lg:px-8">
+  <div class="dark:text-gray-50 dark:bg-gray-800  max-w px-2 sm:px-6 lg:px-8 py-2">
+
     <h4 class="dark:text-gray-50 dark:bg-gray-800 text-lg font-semibold text-gray-800 my-2"># Create New Challenge</h4>
     <form class="flex flex-wrap gap-4" [formGroup]="challengeForm">
       <div class="w-full md:w-auto px-3">
@@ -54,13 +60,14 @@
 
 
 
-<div class="max-w px-2 sm:px-6 lg:px-8 flex justify-between items-center mt-3">
+<div class="dark:text-gray-50 dark:bg-gray-800  max-w px-2 sm:px-6 lg:px-8 py-2 flex justify-between items-center mt-3">
   <h4 class="dark:text-gray-50 dark:bg-gray-800 text-lg font-semibold text-gray-800">
     # Challenges &#x2997; {{ challenges.length }} &#x2998;
   </h4>
 </div>
 
-<div class="max-w px-2 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+<div
+  class="dark:text-gray-50 dark:bg-gray-800  max-w px-2 sm:px-6 lg:px-8 py-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
   <h4 *ngIf="challenges.length == 0" class="text-lg font-semibold dark:text-gray-50 dark:bg-gray-800">
     No Challenges!
   </h4>
@@ -110,7 +117,7 @@
         <span class="text-sm  font-medium">
           Lost Focus: <span [ngClass]="{
             'text-red-600':  item.lostFocus >= 3
-          }" >{{ item.lostFocus }}</span>
+          }">{{ item.lostFocus }}</span>
         </span>
 
       </div>
@@ -138,35 +145,18 @@
         }" class=" font-medium rounded-full text-sm flex-grow text-center">
             {{ item.score }}
           </span></span>
-        <select #scoreSelect *ngIf="!item.score"  (change)="updateScore(item._id, scoreSelect.value)"
+        <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
           class="dark:text-gray-50 dark:bg-gray-800 text-slate-600 outline-none border rounded px-2  text-sm">
           <option value="">Select score</option>
           <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
         </select>
-        <!-- <span *ngIf="item.totalTime" [ngClass]="{
-          'bg-red-500 text-gray-50': item.score === 'Not Attempted',
-          'bg-yellow-600 text-black-50 ': item.score === 'Partial Solution',
-          'bg-orange-500  text-gray-50': item.score === 'Completed',
-          'bg-green-700  text-gray-50': item.score === 'Outstanding'
-        }" class=" rounded-full px-2 text-sm flex-grow text-center">
-          Score: {{ item.score }}
-          <select #scoreSelect *ngIf="!item.score"  (change)="updateScore(item._id, scoreSelect.value)"
-            class="dark:text-gray-50 dark:bg-gray-800 text-slate-600 outline-none border rounded px-2  text-sm">
-            <option value="">Select score</option>
-            <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
-          </select>
-        </span> -->
       </div>
     </div>
   </div>
 </div>
 
 
-
-
-
 <app-project *ngIf="isToggleProjectModal" [project]="project" (getProjectList)="getProjectList()"
   (toggleProjectModal)="toggleProjectModal()"></app-project>
-
 
 }

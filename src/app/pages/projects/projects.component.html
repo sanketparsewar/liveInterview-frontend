@@ -7,7 +7,11 @@
 
 @else{
 
-<div class="max-w px-2 sm:px-6 lg:px-8 flex justify-between items-center pt-3 ">
+    <div class="px-2 sm:px-6 lg:px-8 pt-2">
+        <button class="btn btn-xs " (click)="back()">Back</button>
+      </div>
+
+<div class="dark:text-gray-50 dark:bg-gray-800  max-w px-2 sm:px-6 lg:px-8 py-2 flex justify-between items-center pt-3 ">
     <h4 class="dark:text-gray-50 text-lg font-semibold ">
         📂 Projects &#x2997; {{ projectList.length }} &#x2998;
     </h4>
@@ -18,7 +22,7 @@
 </div>
 
 
-<div class="max-w px-2 sm:px-6 lg:px-8 py-4">
+<div class="dark:text-gray-50 dark:bg-gray-800  max-w px-2 sm:px-6 lg:px-8 py-2 py-4">
     <h4 *ngIf="projectList.length == 0" class=" dark:text-gray-50 text-lg font-semibold text-center">
         No Projects!
     </h4>

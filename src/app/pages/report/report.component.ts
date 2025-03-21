@@ -65,4 +65,8 @@ export class ReportComponent implements OnInit {
   }
 
 
+  back(){
+    history.back();
+  }
+
 }

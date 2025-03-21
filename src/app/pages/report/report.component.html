@@ -1,22 +1,26 @@
-<div class="max-w px-2 sm:px-6 lg:px-8 py-2">
-    <div class="flex text-black ">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="px-2 sm:px-6 lg:px-8 pt-2">
+    <button class="btn btn-xs " (click)="back()">Back</button>
+</div>
 
-            <div class=" dark:bg-white  border-2 border-base-300 shadow-1xl p-3 rounded-2xl">
+<div class="dark:text-gray-50 dark:bg-gray-800 max-w px-2 sm:px-6 lg:px-8 py-2">
+    <div class="flex justify-center text-black ">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+
+            <div class=" dark:bg-white  border-2 border-base-300  md:p-2 p-1 rounded-2xl">
                 <p class=" text-sm font-medium text-center  text-gray-500">Active Interviews</p>
-                <span class="block text-2xl text-center font-semibold mt-2">{{totalActiveInterviewSessions}}</span>
+                <span class="block text-2xl text-center font-semibold md:mt-2">{{totalActiveInterviewSessions}}</span>
             </div>
-            <div class=" dark:bg-white  border-2 border-base-300 shadow-1xl p-3 rounded-2xl">
+            <div class=" dark:bg-white  border-2 border-base-300  md:p-2 p-1 rounded-2xl">
                 <p class=" text-sm font-medium text-center  text-gray-500">Total Interviews</p>
-                <span class="block text-2xl text-center font-semibold mt-2">{{totalInterviewSessions}}</span>
+                <span class="block text-2xl text-center font-semibold md:mt-2">{{totalInterviewSessions}}</span>
             </div>
-            <div class="dark:bg-white  border-2 border-base-300 shadow-1xl p-3 rounded-2xl">
+            <div class="dark:bg-white  border-2 border-base-300 md:p-2  p-1 rounded-2xl">
                 <p class=" text-sm font-medium  text-center text-gray-500">Total Projects</p>
-                <span class="block text-2xl text-center font-semibold mt-2">{{totalProjects}}</span>
+                <span class="block text-2xl text-center font-semibold md:mt-2">{{totalProjects}}</span>
             </div>
-            <div class=" dark:bg-white  border-2 border-base-300 shadow-1xl p-3 rounded-2xl">
+            <div class=" dark:bg-white  border-2 border-base-300 md:p-2  p-1 rounded-2xl">
                 <p class=" text-sm font-medium  text-center  text-gray-500">Total Challenges</p>
-                <span class="block text-2xl text-center font-semibold mt-2">{{totalChallengeSessions}}</span>
+                <span class="block text-2xl text-center font-semibold md:mt-2">{{totalChallengeSessions}}</span>
             </div>
         </div>
     </div>
@@ -68,116 +72,96 @@
     <div
         class="dark:text-gray-50 dark:bg-gray-800 my-2 collapse collapse-arrow bg-base-100 dark:border-gray-600 border-gray-300 border    ">
         <input type="checkbox" name="my-accordion-2" />
-        <div class="collapse-title flex justify-between font-semibold">
+        <div class="collapse-title flex md:flex-row flex-col justify-between font-semibold">
             <div>
                 <span>{{$index+1}}&#x2998; {{item.candidateName}}</span>
             </div>
-            <div class="flex flex-row gap-2 items-center">
+            <div class="flex md:flex-row flex-col gap-2 items-center">
                 <span class="text-sm font-medium text-slate-600 dark:text-gray-300 ">&#x2997;{{item.createdAt | date:"d
                     MMM, yy | hh:mm a" }}&#x2998;</span>
                 <span *ngIf="!item.isActive"
-                class=" rounded-full px-2 py-1 font-semibold bg-green-200 rounded-full text-green-900 leading-tight ">
-                Completed</span>
-            <span *ngIf="item.isActive"
-                class=" rounded-full px-2 py-1 font-semibold bg-yellow-200 rounded-full text-yellow-900 leading-tight">
-                In-Progress</span>
+                    class=" rounded-full px-2 py-1 font-semibold bg-green-200 rounded-full text-green-900 leading-tight ">
+                    Completed</span>
+                <span *ngIf="item.isActive"
+                    class=" rounded-full px-2 py-1 font-semibold bg-yellow-200 rounded-full text-yellow-900 leading-tight">
+                    In-Progress</span>
             </div>
         </div>
-        <div class="collapse-content text-sm">
-            <table class=" dark:border-gray-600 min-w-full dark:text-gray-50 dark:bg-gray-800 ">
-                <thead class="">
-                    <tr class="border border-gray-300 dark:border-gray-600 ">
+        <div class="overflow-x-auto w-full">
+            <table class="dark:border-gray-600 min-w-full dark:text-gray-50 dark:bg-gray-800 whitespace-nowrap">
+                <thead>
+                    <tr class="border border-gray-300 dark:border-gray-600">
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3          bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Sr no.
                         </th>
                         <th
-                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Challenge
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Project
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Time
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Total time
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Lost Focus
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Score
                         </th>
                         <th
-                            class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3        bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Code link
                         </th>
-
                     </tr>
                 </thead>
-                <tbody class=" dark:text-gray-50 dark:bg-gray-800">
-                    <tr class="border border-gray-300 dark:border-gray-600 "
+                <tbody class="dark:text-gray-50 dark:bg-gray-800">
+                    <tr class="border border-gray-300 dark:border-gray-600"
                         *ngFor="let challenge of item.challenges; let i = index">
                         <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <div>
-                                <p class="  whitespace-no-wrap">
-                                    {{ i + 1 }}
-                                </p>
-                            </div>
+                            {{ i + 1 }}
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <div>
-                                <p class="  capitalize whitespace-no-wrap">
-                                    {{ challenge.name }}
-                                </p>
-                            </div>
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                            {{ challenge.name }}
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <div>
-                                <p class="  capitalize whitespace-no-wrap">
-                                    {{ challenge.projectName }}
-                                </p>
-                            </div>
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                            {{ challenge.projectName }}
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <p class="  whitespace-no-wrap">
-                                {{ challenge.startTime | date : "hh:mm a" }} - {{ challenge.endTime | date : "hh:mm a"
-                                }}
-                            </p>
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                            {{ challenge.startTime | date : "hh:mm a" }} - {{ challenge.endTime | date : "hh:mm a" }}
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <p class="  whitespace-no-wrap">
-                                {{ challenge.totalTime}} min
-                            </p>
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                            {{ challenge.totalTime }} min
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
-                            <p class="  whitespace-no-wrap">
-                                {{ challenge.lostFocus}}
-                            </p>
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                            {{ challenge.lostFocus }}
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                             <span [ngClass]="{
-                                ' text-red-600': challenge.score === 'Not Attempted',
-                                ' text-yellow-600 ': challenge.score === 'Partial Solution',
-                                '  text-orange-600': challenge.score === 'Completed',
-                                '  text-green-600': challenge.score === 'Outstanding'
-                              }" class=" font-medium rounded-full text-sm flex-grow text-center">
-                                {{ challenge.score }}</span>
+                                'text-red-600': challenge.score === 'Not Attempted',
+                                'text-yellow-600': challenge.score === 'Partial Solution',
+                                'text-orange-600': challenge.score === 'Completed',
+                                'text-green-600': challenge.score === 'Outstanding'
+                            }" class="font-medium rounded-full text-sm flex-grow text-center">
+                                {{ challenge.score }}
+                            </span>
                         </td>
-                        <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+                        <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                             <a class="dark:text-blue-400 cursor-pointer text-blue-800 break-all underline"
                                 (click)="viewCode(challenge._id)">
                                 <i class="fa-solid fa-link"></i> View code
                             </a>
                         </td>
-
                     </tr>
                 </tbody>
             </table>

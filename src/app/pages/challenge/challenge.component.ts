@@ -241,5 +241,8 @@ export class ChallengeComponent implements OnInit {
     this.router.navigate(['/review-code', id])
   }
 
+  back(){
+    history.back();
+  }
 
 }

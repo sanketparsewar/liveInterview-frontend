@@ -1,52 +1,59 @@
 <nav class="bg-gray-800">
     <div class="dark:text-gray-50 dark:bg-gray-600  max-w px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
-            <div class="flex flex-1 items-center  sm:items-stretch sm:justify-start">
-                <div [routerLink]="['/interviewer']" class="cursor-pointer flex shrink-0 items-center text-blue-500 font-semibold text-lg">
+            <div class="flex flex-1 items-center sm:items-stretch sm:justify-start">
+                <div [routerLink]="['/interviewer']"
+                    class="cursor-pointer flex items-center text-blue-500 font-semibold text-lg">
                     <span class="text-orange-500">AM</span><span class="text-gray-100">Interview</span>
                 </div>
-                
-                <div class=" ">
-                    <div class="flex ">
-                        <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
-                            class="cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white"
-                            aria-current="page">
-                            Home
-                        </p>
-                        <p [routerLink]="['/projects']" routerLinkActive="router-link-active"
-                            class="cursor-pointer hover:text-gray-400  px-3 py-2 text-sm font-medium text-white"
-                            aria-current="page">
-                            Projects
-                        </p>
-                        <p [routerLink]="['/report']" routerLinkActive="router-link-active"
-                            class="cursor-pointer hover:text-gray-400  px-3 py-2 text-sm font-medium text-white"
-                            aria-current="page">
-                            Reports
-                        </p>
-                    </div>
-                </div>
             </div>
 
-            <div class="relative ml-3 flex items-center gap-3 cursor-pointer">
-                <div class="dark:block hidden">
-                    <i (click)="toggleDarkMode()" class="fa-solid fa-sun text-yellow-400 dark:block hidden"></i>
-                </div>
-                <div class="dark:hidden block ">
-                <i (click)="toggleDarkMode()" class="fa-solid fa-moon text-gray-700 text-white dark:hidden block"></i>
-
-                </div>
-            </div>
-            <div class="relative ml-3">
-                
-                <button type="button" (click)="logout()" class="text-white cursor-pointer">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+            <div class="flex items-center sm:hidden">
+                <button (click)="toggleMenu()" class="text-white p-2 rounded-md focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
                 </button>
             </div>
 
+            <div class="hidden sm:flex ">
+                <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
+                    class="cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+                    Home
+                </p>
+                <p [routerLink]="['/projects']" routerLinkActive="router-link-active"
+                    class="cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+                    Projects
+                </p>
+                <p [routerLink]="['/report']" routerLinkActive="router-link-active"
+                    class="cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+                    Reports
+                </p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button (click)="toggleDarkMode()" class=" cursor-pointer text-white focus:outline-none">
+                    <i class="fa-solid" [ngClass]="isDarkMode ? 'fa-sun text-yellow-400' : 'fa-moon text-white'"></i>
+                </button>
+                <button type="button" (click)="logout()" class=" cursor-pointer text-white cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </div>
     </div>
+
+    <div *ngIf="isMenuOpen" class="sm:hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900">
+        <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
+            class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+            Home
+        </p>
+        <p [routerLink]="['/projects']" routerLinkActive="router-link-active"
+            class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+            Projects
+        </p>
+        <p [routerLink]="['/report']" routerLinkActive="router-link-active"
+            class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
+            Reports
+        </p>
+    </div>
 </nav>
-
-
 
 <router-outlet />
