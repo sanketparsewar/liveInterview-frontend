@@ -24,7 +24,7 @@
           <div class="flex items-center">
             <label class="dark:text-gray-50" for="sort">Sort by:</label>
             <select
-              class="dark:text-gray-50 dark:bg-gray-800 group inline-flex items-center gap-2 ms-2 ps-2 font-medium   focus:outline-none "
+              class="dark:text-gray-50 dark:bg-gray-800 text-slate-600 outline-none border border-gray-300 py-1 rounded  group inline-flex items-center gap-2 ms-2 ps-2 font-medium focus:outline-none "
               (click)="sort($event)" name="sort" id="sort">
               <option value="">Select...</option>
               <option value="newest">Newest top</option>
@@ -50,45 +50,45 @@
       }
       @else{
       <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-        <table
-          class="dark:border dark:border-gray-400 min-w-full leading-normal dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 ">
+        <table class=" dark:border-gray-600 min-w-full dark:text-gray-50 dark:bg-gray-800 ">
           <thead class="">
-            <tr class="border border-gray-300 ">
+            <tr class="border border-gray-300 dark:border-gray-600 ">
               <th
-                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 dark:border-gray-50 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3          bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Sr no.
               </th>
               <th
-                class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Candidates
               </th>
               <th
-                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Date
               </th>
               <th
-                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
-               Status
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                Status
               </th>
               <th
-                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Challenges
               </th>
               <th
-                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                class=" dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Action
               </th>
-              <th class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100">
+              <th class="dark:text-gray-50 dark:bg-gray-500 px-5 py-3   bg-gray-100">
               </th>
             </tr>
           </thead>
           <tbody class=" dark:text-gray-50 dark:bg-gray-800">
-            <tr *ngIf="interviewSessionsList.length == 0">
+            <tr class="border border-gray-300 dark:border-gray-600 " *ngIf="interviewSessionsList.length == 0">
               <td colspan="7">
                 <h3 class="text-center p-3 ">No record!</h3>
               </td>
             </tr>
-            <tr class="border border-gray-300 " *ngFor="let item of interviewSessionsList; let i = index">
+            <tr class="border border-gray-300 dark:border-gray-600 "
+              *ngFor="let item of interviewSessionsList; let i = index">
               <td class="dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div (click)="candidate(item._id)">
                   <p class="  whitespace-no-wrap">
@@ -96,19 +96,19 @@
                   </p>
                 </div>
               </td>
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+              <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div>
                   <p class="  capitalize whitespace-no-wrap">
                     {{ item.candidateName }}
                   </p>
                 </div>
               </td>
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+              <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <p class="  whitespace-no-wrap">
                   {{ item.createdAt | date : "d MMM,y | hh:mm a " }}
                 </p>
               </td>
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+              <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <span *ngIf="!item.isActive"
                   class="relative inline-block px-3 py-1 font-semibold bg-green-200 rounded-full text-green-900 leading-tight">
                   <span aria-hidden class="absolute inset-0 opacity-50"></span>
@@ -117,10 +117,10 @@
                 <span *ngIf="item.isActive"
                   class="relative inline-block px-3 py-1 font-semibold bg-yellow-200 rounded-full text-yellow-900 leading-tight">
                   <span aria-hidden class="absolute inset-0 opacity-50"></span>
-                  <span class="relative">Active</span>
+                  <span class="relative">In-Progress</span>
                 </span>
               </td>
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+              <td class="  dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <p (click)="candidate(item._id)"
                   class="cursor-pointer font-medium flex items-center justify-center gap-2 transition-all hover:text-blue-600">
                   Challenges
@@ -129,7 +129,7 @@
                 </p>
               </td>
 
-              <td class="dark:border-gray-50 dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
+              <td class=" dark:text-gray-50 dark:bg-gray-800 px-5 py-5 bg-white text-sm text-center">
                 <div class="flex justify-center">
                   <button *ngIf="item.isActive" (click)="endSession(item._id)"
                     class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-full shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2">
@@ -141,7 +141,8 @@
                 </div>
               </td>
               <td>
-                <span (click)="deleteInterviewSessionById(item._id)" class="mx-3 cursor-pointer text-red-600"><i class="fa-solid fa-trash"></i></span>
+                <span (click)="deleteInterviewSessionById(item._id)" class="mx-3 cursor-pointer text-red-600"><i
+                    class="fa-solid fa-trash"></i></span>
               </td>
             </tr>
           </tbody>
