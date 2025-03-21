@@ -3,6 +3,7 @@
   💾 Save Project
 </button>
 
+
 @if(isLoaded ){
 <div class="flex dark:text-gray-50 items-center justify-center h-screen">
   <i class="animate-spin fa-solid fa-spinner text-4xl"></i>
@@ -13,6 +14,9 @@
 <div id="stackblitzContainer" class="relative w-full h-screen">
 </div>
 
-<div class="fixed bottom-4 right-4 z-50 cursor-move" cdkDrag>
+<!-- <div class="fixed bottom-4 right-4 z-50 cursor-move" cdkDrag>
   <app-web-camera [showWebcam]="challengeSession.isActive"></app-web-camera>
-</div>
+</div> -->
+
+
+<video cdkDrag class="absolute bottom-10 left-2 z-[999] w-[200px] h-[120px] bg-black border border-gray-500 rounded-md shadow-lg" #candidateVideo autoplay playsinline muted></video>

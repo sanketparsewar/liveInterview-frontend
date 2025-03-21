@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
 import StackBlitzSDK from '@stackblitz/sdk';
 import { ChallengeSessionService } from '../../services/challengeSession/challenge-session.service';
 import { AlertService } from '../../services/alert/alert.service';
@@ -14,103 +14,245 @@ import { io, Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-review-code',
-    imports: [CommonModule, FormsModule, WebCameraComponent, DragDropModule],
-  
+  imports: [CommonModule, FormsModule, DragDropModule],
+
   templateUrl: './review-code.component.html',
   styleUrl: './review-code.component.css'
 })
-export class ReviewCodeComponent {
-    projectId!: string;
-    stackblitzEditor: any;
-    projectSnapshot: any;
-    id: string = ''
-    challengeSession!: IchallengeSession;
-    isLoaded: boolean = false
-    private socket!: Socket;
-    constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
-      this.socket = io(environment.SOCKET_URL);
-    }
-  
-    ngOnInit() {
-      this.activatedRoute.params.subscribe((params) => {
-        if (params['id']) {
-          this.id = params['id'];
-          this.getChallengeSessionById()
-        }
-      });
-  
-      this.socket.on("challengeStarted", () => {
-        this.getChallengeSessionById(); // Refresh challenge list
-      })
-  
-      this.socket.on("codeSaved", () => {
-        this.getChallengeSessionById(); // Refresh challenge list
-      })
-  
-      this.socket.on("challengeEnded", () => {
-        this.getChallengeSessionById(); // Refresh challenge list
-      })
-    }
-  
-    getChallengeSessionById() {
-      this.isLoaded = true;
-      this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
-        next: (res: any) => {
-          this.challengeSession = res;
-          this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
-          this.embedProject();
-  
-        },
-        error: (error: any) => {
-          console.error('Error fetching challenge:', error.error.message);
-          this.isLoaded = false;
-  
-        },
-      });
-    }
-  
-  
-  
-    extractProjectId(url: string): string {
-      const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
-      return match ? match[1] : '';
-    }
-  
-    embedProject() {
-  
-      if (!this.projectId) return;
-      if (this.challengeSession.projectSnapshot) {
-        const formattedProject = {
-          files: this.challengeSession.projectSnapshot,
-          title: "Saved Project",
-          description: "A restored project from session",
-          template: "node" as "node"
-        };
-        StackBlitzSDK.embedProject('stackblitzContainer', formattedProject, {
-          height: 600,
-          width: '100%',
-          hideExplorer: false,
-          openFile: 'index.js',
-        }).then(editor => {
-          this.stackblitzEditor = editor;
-        });
-      }
-      else {
-        console.log("No saved snapshot found. Embedding from projectId...");
-        StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
-          height: 600,
-          width: '100%',
-          hideExplorer: false,
-          openFile: 'index.js',
-        }).then(editor => {
-          this.stackblitzEditor = editor;
-        });
-      }
-      this.isLoaded = false;
-    }
-  
-    back() {
-      history.back();
-    }
-  
+export class ReviewCodeComponent implements OnInit{
+  // projectId!: string;
+  // stackblitzEditor: any;
+  // projectSnapshot: any;
+  // id: string = ''
+  // challengeSession!: IchallengeSession;
+  // isLoaded: boolean = false
+  // private socket!: Socket;
+  // constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
+  //   this.socket = io(environment.SOCKET_URL);
+  // }
+
+  // ngOnInit() {
+  //   this.activatedRoute.params.subscribe((params) => {
+  //     if (params['id']) {
+  //       this.id = params['id'];
+  //       this.getChallengeSessionById()
+  //     }
+  //   });
+
+  //   this.socket.on("challengeStarted", () => {
+  //     this.getChallengeSessionById(); // Refresh challenge list
+  //   })
+
+  //   this.socket.on("codeSaved", () => {
+  //     this.getChallengeSessionById(); // Refresh challenge list
+  //   })
+
+  //   this.socket.on("challengeEnded", () => {
+  //     this.getChallengeSessionById(); // Refresh challenge list
+  //   })
+  // }
+
+  // getChallengeSessionById() {
+  //   this.isLoaded = true;
+  //   this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
+  //     next: (res: any) => {
+  //       this.challengeSession = res;
+  //       this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
+  //       this.embedProject();
+
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Error fetching challenge:', error.error.message);
+  //       this.isLoaded = false;
+
+  //     },
+  //   });
+  // }
+
+
+
+  // extractProjectId(url: string): string {
+  //   const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
+  //   return match ? match[1] : '';
+  // }
+
+  // embedProject() {
+
+  //   if (!this.projectId) return;
+  //   if (this.challengeSession.projectSnapshot) {
+  //     const formattedProject = {
+  //       files: this.challengeSession.projectSnapshot,
+  //       title: "Saved Project",
+  //       description: "A restored project from session",
+  //       template: "node" as "node"
+  //     };
+  //     StackBlitzSDK.embedProject('stackblitzContainer', formattedProject, {
+  //       height: 600,
+  //       width: '100%',
+  //       hideExplorer: false,
+  //       openFile: 'index.js',
+  //     }).then(editor => {
+  //       this.stackblitzEditor = editor;
+  //     });
+  //   }
+  //   else {
+  //     console.log("No saved snapshot found. Embedding from projectId...");
+  //     StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
+  //       height: 600,
+  //       width: '100%',
+  //       hideExplorer: false,
+  //       openFile: 'index.js',
+  //     }).then(editor => {
+  //       this.stackblitzEditor = editor;
+  //     });
+  //   }
+  //   this.isLoaded = false;
+  // }
+
+  // back() {
+  //   history.back();
+  // }
+
+  projectId!: string;
+  stackblitzEditor: any;
+  projectSnapshot: any;
+  id: string = ''
+  challengeSession!: IchallengeSession;
+  isLoaded: boolean = false
+  private socket!: Socket;
+  private peerConnection!: RTCPeerConnection;
+  private config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+  @ViewChild('interviewerVideo') interviewerVideo!: ElementRef<HTMLVideoElement>;
+
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
+    this.socket = io(environment.SOCKET_URL);
   }
+
+  setupWebRTC() {
+    this.peerConnection = new RTCPeerConnection(this.config);
+  
+    this.peerConnection.ontrack = (event) => {
+      const remoteStream = event.streams[0];
+      if (this.interviewerVideo) {
+        this.interviewerVideo.nativeElement.srcObject = remoteStream;
+      }
+    };
+  
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        this.socket.emit('ice-candidate', event.candidate);
+      }
+    };
+  
+    // Notify the server to resend an offer when the page refreshes
+    this.socket.emit("requestOffer");
+  }
+  
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((params) => {
+      if (params['id']) {
+        this.id = params['id'];
+        this.getChallengeSessionById();
+      }
+    });
+  
+    this.socket.on("challengeStarted", () => {
+      this.getChallengeSessionById();
+    });
+  
+    this.socket.on("codeSaved", () => {
+      this.getChallengeSessionById();
+    });
+  
+    this.socket.on("challengeEnded", () => {
+      this.getChallengeSessionById();
+    });
+  
+    this.setupWebRTC();
+  
+    this.socket.on('offer', async (offer) => {
+      console.log("Received offer:", offer);
+      await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+  
+      const answer = await this.peerConnection.createAnswer();
+      await this.peerConnection.setLocalDescription(answer);
+      console.log("Sending answer:", answer);
+      this.socket.emit('answer', answer);
+    });
+  
+    this.socket.on('ice-candidate', (candidate) => {
+      this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    });
+  
+    // Request offer when the page is refreshed
+    this.socket.emit("requestOffer");
+  }
+  
+
+
+  getChallengeSessionById() {
+    this.isLoaded = true;
+    this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
+      next: (res: any) => {
+        this.challengeSession = res;
+        this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
+        this.embedProject();
+
+      },
+      error: (error: any) => {
+        console.error('Error fetching challenge:', error.error.message);
+        this.isLoaded = false;
+
+      },
+    });
+  }
+
+
+
+  extractProjectId(url: string): string {
+    const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
+    return match ? match[1] : '';
+  }
+
+  embedProject() {
+
+    if (!this.projectId) return;
+    if (this.challengeSession.projectSnapshot) {
+      const formattedProject = {
+        files: this.challengeSession.projectSnapshot,
+        title: "Saved Project",
+        description: "A restored project from session",
+        template: "node" as "node"
+      };
+      StackBlitzSDK.embedProject('stackblitzContainer', formattedProject, {
+        height: 600,
+        width: '100%',
+        hideExplorer: false,
+        openFile: 'index.js',
+      }).then(editor => {
+        this.stackblitzEditor = editor;
+      });
+    }
+    else {
+      console.log("No saved snapshot found. Embedding from projectId...");
+      StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
+        height: 600,
+        width: '100%',
+        hideExplorer: false,
+        openFile: 'index.js',
+      }).then(editor => {
+        this.stackblitzEditor = editor;
+      });
+    }
+    this.isLoaded = false;
+  }
+
+  back() {
+    history.back();
+  }
+
+
+
+
+}

@@ -9,16 +9,18 @@ import { WebcamModule, WebcamUtil } from 'ngx-webcam';
   styleUrl: './web-camera.component.css'
 })
 export class WebCameraComponent {
-  @Input() showWebcam: boolean =false;
+  @Input() showWebcam: boolean = false;
   multipleWebcamsAvailable: boolean = false;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
-        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
-      });
+        this.multipleWebcamsAvailable = mediaDevices.length > 1;
+      })
+      .catch(err => console.error('Error accessing webcams:', err));
   }
-  public toggleWebcam(): void {
+
+  toggleWebcam(): void {
     this.showWebcam = !this.showWebcam;
   }
 }
