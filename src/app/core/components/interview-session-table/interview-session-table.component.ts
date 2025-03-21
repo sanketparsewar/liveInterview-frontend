@@ -45,7 +45,6 @@ export class InterviewSessionTableComponent {
     this.interviewerData = this.authservice.getDecodedToken()
     this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
       this.queryParameters.search = searchTerm;
-      console.log(this.queryParameters);
       this.getInterviewSessions();
 
     });

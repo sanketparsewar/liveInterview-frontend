@@ -133,7 +133,6 @@ export class StackblitzCodeComponent implements OnInit {
       });
     }
     else {
-      console.log("No saved snapshot found. Embedding from projectId...");
       StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
         height: 600,
         width: '100%',

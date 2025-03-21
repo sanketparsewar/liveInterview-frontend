@@ -78,12 +78,10 @@ export class ReviewCodeComponent implements OnInit {
     this.setupWebRTC();
 
     this.socket.on('offer', async (offer) => {
-      console.log("Received offer:", offer);
       await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
 
       const answer = await this.peerConnection.createAnswer();
       await this.peerConnection.setLocalDescription(answer);
-      console.log("Sending answer:", answer);
       this.socket.emit('answer', answer);
     });
 
@@ -140,7 +138,6 @@ export class ReviewCodeComponent implements OnInit {
       });
     }
     else {
-      console.log("No saved snapshot found. Embedding from projectId...");
       StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
         height: 600,
         width: '100%',

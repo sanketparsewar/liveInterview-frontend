@@ -28,7 +28,6 @@ export class ReportComponent implements OnInit {
     // Listen for search input changes with debounce
     this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
       this.queryParameters.search = searchTerm;
-      console.log(this.queryParameters);
       this.getAllReports();
     });
   }
@@ -46,7 +45,6 @@ export class ReportComponent implements OnInit {
         this.totalActiveInterviewSessions = res.totalActiveInterviewSessions;
         this.totalProjects = res.totalProjects;
         this.totalChallengeSessions = res.totalChallengeSessions;
-        console.log(this.result)
         this.isLoaded = false;
       },
       error: (error: any) => {

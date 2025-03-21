@@ -38,7 +38,6 @@ sessionForm!: FormGroup;
   }
 
   createInterviewSession() {
-    console.log(this.sessionForm.value)
     this.interviewSessionService
       .createInterviewSession(this.sessionForm.value)
       .subscribe({
