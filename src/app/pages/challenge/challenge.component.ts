@@ -65,6 +65,7 @@ export class ChallengeComponent implements OnInit {
         this.challengeForm = this.fb.group({
           name: ['', [Validators.required]],
           stackBlitzUrl: ['', [Validators.required]],
+          projectName: ['',[Validators.required]],
           interviewSessionId: [this.id],
         });
       }
@@ -81,6 +82,16 @@ export class ChallengeComponent implements OnInit {
       this.getAllChallenges(); // Refresh challenge list
     })
   }
+
+  onProjectSelect(event: any) {
+    const selectedProject = this.projectList.find(item => item.projectUrl === event.target.value);
+    if (selectedProject) {
+      this.challengeForm.patchValue({
+        projectName: selectedProject.title,
+      });
+    }
+  }
+
 
   toggleProjectModal() {
     this.project = null
@@ -221,6 +232,7 @@ export class ChallengeComponent implements OnInit {
     this.challengeForm = this.fb.group({
       name: [''],
       stackBlitzUrl: [''],
+      projectName: [''],
       interviewSessionId: [this.id],
     });
   }

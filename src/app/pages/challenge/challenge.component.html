@@ -28,7 +28,7 @@
       <div class="flex gap-3 items-center w-full md:w-auto px-3">
         <select name="stackBlitzUrl"
           class="dark:text-gray-50 dark:bg-gray-800 block w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:border-gray-500"
-          formControlName="stackBlitzUrl" id="">
+          formControlName="stackBlitzUrl" (change)="onProjectSelect($event)">
           <option value="">Select project</option>
           <option *ngFor="let item of projectList; let i = index" [value]="item.projectUrl">{{item.title}}</option>
         </select>
@@ -69,7 +69,7 @@
     class="dark:shadow-zinc-500/100 dark:text-gray-50 dark:bg-gray-800 dark:border  max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-3 flex justify-between items-center">
-        {{i+1}}. {{ item.name }} 
+        {{i+1}}. {{ item.name }}
         <span>
           <button *ngIf="item.isActive"
             class="text-red-600 text-sm bg-red-200 rounded-full px-2 hover:text-red-800 cursor-pointer "
@@ -99,46 +99,64 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-2 p-2 w-full max-w-lg mx-auto">
-      <span *ngIf="item.challengeSessionStatus!=='Completed'" [ngClass]="{
-          'bg-green-200': item.challengeSessionStatus === 'Completed',
-          'bg-yellow-200': item.challengeSessionStatus === 'In-progress'
-        }" class="rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-center flex-grow text-center">
-        {{ item.challengeSessionStatus }}
-      </span>
+    <div class=" p-2 w-full max-w-lg mx-auto">
 
-      <span *ngIf="item.lostFocus"
-        class="bg-red-100 text-red-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        Lost Focus: {{ item.lostFocus }}
-      </span>
-      <span *ngIf="item.startTime"
-        class="bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        Start Time: {{ item.startTime | date : "hh:mm a" }}
-      </span>
+      <div class="mx-3 ">
+        <span class="dark:text-neutral-200 text-sm  font-medium">
+          Project: {{ item.projectName }}
+        </span>
+      </div>
+      <div class="mx-3 border-t border-slate-200 ">
+        <span class="text-sm  font-medium">
+          Lost Focus: <span [ngClass]="{
+            'text-red-600':  item.lostFocus >= 3
+          }" >{{ item.lostFocus }}</span>
+        </span>
 
-      <span *ngIf="item.endTime"
-        class="bg-purple-100 text-purple-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        End Time: {{ item.endTime | date : "hh:mm a" }}
-      </span>
-
-      <span *ngIf="item.totalTime"
-        class="w-full bg-green-100 text-green-600 rounded-full px-4 py-1 text-sm font-medium flex-grow text-center">
-        Total Time: {{ item.totalTime | number : ".2-2" }} min
-      </span>
-
-      <span *ngIf="item.totalTime" [ngClass]="{
-        'bg-red-500': item.score === 'Not Attempted',
-        'bg-yellow-400': item.score === 'Partial Solution',
-        'bg-orange-400': item.score === 'Completed',
-        'bg-green-400': item.score === 'Outstanding'
-      }" class=" rounded-full px-4 py-1 text-lg  flex-grow text-center">
-        Score: {{ item.score }}
-        <select #scoreSelect *ngIf="!item.score" (change)="updateScore(item._id, scoreSelect.value)"
-          class="dark:text-gray-50 dark:bg-gray-800 outline-none border rounded px-2 py-1 text-sm">
-          <option value="">Select Score</option>
+      </div>
+      <div *ngIf="item.startTime" class="mx-3 ">
+        <span class=" dark:text-neutral-200 text-sm text-slate-600 font-medium">
+          Start Time: {{ item.startTime | date : "hh:mm a" }}
+        </span>
+      </div>
+      <div *ngIf="item.endTime" class="mx-3 ">
+        <span class="dark:text-neutral-200 text-sm text-slate-600 font-medium">
+          End Time: {{ item.endTime | date : "hh:mm a" }}
+        </span>
+      </div>
+      <div *ngIf="item.totalTime" class="mx-3 ">
+        <span class="dark:text-neutral-200 text-sm text-slate-600 font-medium">
+          Total Time: {{ item.totalTime | number : ".2-2" }} min
+        </span>
+      </div>
+      <div *ngIf="item.totalTime" class="mx-3 flex justify-between">
+        <span *ngIf="item.score">Score:<span [ngClass]="{
+          ' text-red-600': item.score === 'Not Attempted',
+          ' text-yellow-600 ': item.score === 'Partial Solution',
+          '  text-orange-600': item.score === 'Completed',
+          '  text-green-600': item.score === 'Outstanding'
+        }" class=" font-medium rounded-full text-sm flex-grow text-center">
+            {{ item.score }}
+          </span></span>
+        <select #scoreSelect *ngIf="!item.score"  (change)="updateScore(item._id, scoreSelect.value)"
+          class="dark:text-gray-50 dark:bg-gray-800 text-slate-600 outline-none border rounded px-2  text-sm">
+          <option value="">Select score</option>
           <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
         </select>
-      </span>
+        <!-- <span *ngIf="item.totalTime" [ngClass]="{
+          'bg-red-500 text-gray-50': item.score === 'Not Attempted',
+          'bg-yellow-600 text-black-50 ': item.score === 'Partial Solution',
+          'bg-orange-500  text-gray-50': item.score === 'Completed',
+          'bg-green-700  text-gray-50': item.score === 'Outstanding'
+        }" class=" rounded-full px-2 text-sm flex-grow text-center">
+          Score: {{ item.score }}
+          <select #scoreSelect *ngIf="!item.score"  (change)="updateScore(item._id, scoreSelect.value)"
+            class="dark:text-gray-50 dark:bg-gray-800 text-slate-600 outline-none border rounded px-2  text-sm">
+            <option value="">Select score</option>
+            <option *ngFor="let score of scores" [value]="score">{{ score }}</option>
+          </select>
+        </span> -->
+      </div>
     </div>
   </div>
 </div>
