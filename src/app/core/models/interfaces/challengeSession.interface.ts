@@ -3,6 +3,7 @@ export interface IchallengeSession{
     name: string;
     interviewSessionId: string;
     stackBlitzUrl:string;
+    projectName:string;
     challengeSessionStatus:string;
     score:string;
     isActive:boolean;
