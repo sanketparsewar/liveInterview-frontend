@@ -41,15 +41,15 @@
     </div>
 
     <div *ngIf="isMenuOpen" class="sm:hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900">
-        <p [routerLink]="['/interviewer']" routerLinkActive="router-link-active"
+        <p [routerLink]="['/interviewer']" (click)="toggleMenu()" routerLinkActive="router-link-active"
             class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
             Home
         </p>
-        <p [routerLink]="['/projects']" routerLinkActive="router-link-active"
+        <p [routerLink]="['/projects']" (click)="toggleMenu()" routerLinkActive="router-link-active"
             class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
             Projects
         </p>
-        <p [routerLink]="['/report']" routerLinkActive="router-link-active"
+        <p [routerLink]="['/report']" (click)="toggleMenu()" routerLinkActive="router-link-active"
             class="block cursor-pointer hover:text-gray-400 px-3 py-2 text-sm font-medium text-white">
             Reports
         </p>
