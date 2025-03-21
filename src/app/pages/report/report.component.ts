@@ -3,6 +3,7 @@ import { ReportService } from '../../core/services/report/report.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -17,11 +18,19 @@ export class ReportComponent implements OnInit {
   totalInterviewSessions: number = 0
   totalActiveInterviewSessions: number = 0
   totalChallengeSessions: number = 0
+
+  searchSubject = new Subject<string>();
   queryParameters: any = {
     sortBy: '',
     search: '',
   }
   constructor(private router: Router, private reportService: ReportService) {
+    // Listen for search input changes with debounce
+    this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
+      this.queryParameters.search = searchTerm;
+      console.log(this.queryParameters);
+      this.getAllReports();
+    });
   }
 
   ngOnInit() {
@@ -49,9 +58,7 @@ export class ReportComponent implements OnInit {
 
 
   search(event: any) {
-    this.queryParameters.search=event.target.value;
-    console.log(this.queryParameters)
-    this.getAllReports();
+    this.searchSubject.next(event.target.value);
   }
 
   sort(event: any) {

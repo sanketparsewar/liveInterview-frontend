@@ -8,10 +8,11 @@ import { InterviewSessionComponent } from '../../modalComponents/interview-sessi
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { AuthService } from '../../services/auth/auth.service';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-interview-session-table',
-  imports: [CommonModule, InterviewSessionComponent,FormsModule,PaginationComponent],
+  imports: [CommonModule, InterviewSessionComponent, FormsModule, PaginationComponent],
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })
@@ -21,10 +22,10 @@ export class InterviewSessionTableComponent {
   isToggleDropdown: boolean = false;
   istoggleCreateInterviewSessionModal: boolean = false;
   interviewerData: any | null = null;
-  isLoaded:boolean = false;
-  queryParameters:any={
-    sortBy:'',
-    search:'',
+  isLoaded: boolean = false;
+  queryParameters: any = {
+    sortBy: '',
+    search: '',
     limit: 10,
     page: 1,
   }
@@ -33,6 +34,7 @@ export class InterviewSessionTableComponent {
   totalInterviewSessions: number = 0;
   totalPagesArray: number[] = [];
   currentPage: number = 1;
+  searchSubject = new Subject<string>();
 
   constructor(
     private router: Router,
@@ -40,20 +42,25 @@ export class InterviewSessionTableComponent {
     private alertService: AlertService,
     private authservice: AuthService
   ) {
-      this.interviewerData = this.authservice.getDecodedToken()
+    this.interviewerData = this.authservice.getDecodedToken()
+    this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
+      this.queryParameters.search = searchTerm;
+      console.log(this.queryParameters);
+      this.getInterviewSessions();
+
+    });
   }
   ngOnInit() {
     this.getInterviewSessions();
   }
 
   search(event: any) {
-    this.queryParameters.search=event.target.value;
+    this.searchSubject.next(event.target.value);
     this.queryParameters.page = 1;
-    this.getInterviewSessions();
   }
 
   sort(event: any) {
-    this.queryParameters.sortBy=event.target.value;
+    this.queryParameters.sortBy = event.target.value;
     this.getInterviewSessions();
   }
 
@@ -72,18 +79,18 @@ export class InterviewSessionTableComponent {
 
 
   getInterviewSessions() {
-    this.isLoaded=true;
-    this.interviewSessionService.getAllInterviewSessions(this.interviewerData._id,this.queryParameters).subscribe({
+    this.isLoaded = true;
+    this.interviewSessionService.getAllInterviewSessions(this.interviewerData._id, this.queryParameters).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
         this.totalInterviewSessions = res.totalInterviewSessions;
         this.currentPage = res.currentPage;
         this.totalPages = res.totalPages;
-        this.getTotalPagesArray();  
-        this.isLoaded=false
+        this.getTotalPagesArray();
+        this.isLoaded = false
       },
       error: (error: any) => {
-        this.isLoaded=false;
+        this.isLoaded = false;
         this.alertService.showError(error.error.message)
       },
     });
@@ -100,7 +107,7 @@ export class InterviewSessionTableComponent {
   endSession(id: string) {
     this.alertService.showConfirm('end this session').then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.isLoaded=true;
+        this.isLoaded = true;
         this.interviewSessionService
           .updateInterviewSessionStatus(id)
           .subscribe({
@@ -109,10 +116,10 @@ export class InterviewSessionTableComponent {
                 'Session status updated successfully'
               );
               this.getInterviewSessions();
-              this.isLoaded=false
+              this.isLoaded = false
             },
             error: (error: any) => {
-              this.isLoaded=false;
+              this.isLoaded = false;
               this.alertService.showError(error.error.message);
             },
           });
@@ -123,17 +130,17 @@ export class InterviewSessionTableComponent {
   deleteInterviewSessionById(id: string) {
     this.alertService.showConfirm('delete this session').then((isConfirmed: any) => {
       if (isConfirmed) {
-        this.isLoaded=true;
+        this.isLoaded = true;
         this.interviewSessionService
           .deleteInterviewSessionById(id)
           .subscribe({
             next: (res: any) => {
               this.alertService.showSuccess('Session deleted.');
               this.getInterviewSessions();
-              this.isLoaded=false
+              this.isLoaded = false
             },
             error: (error: any) => {
-              this.isLoaded=false;
+              this.isLoaded = false;
               this.alertService.showError(error.error.message);
             },
           });
