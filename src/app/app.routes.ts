@@ -9,6 +9,7 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { WebCameraComponent } from './core/components/web-camera/web-camera.component';
 import { ReviewCodeComponent } from './core/components/review-code/review-code.component';
+import { ReportComponent } from './pages/report/report.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] },
@@ -20,6 +21,7 @@ export const routes: Routes = [
     children: [
       { path: 'interviewer', component: InterviewerComponent },
       { path: 'projects', component: ProjectsComponent },
+      { path: 'report', component: ReportComponent },
       { path: 'challenge/:id', component: ChallengeComponent },
       { path: 'review-code/:id', component: ReviewCodeComponent }
     ]
