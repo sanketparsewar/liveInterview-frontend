@@ -10,6 +10,7 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { WebCameraComponent } from './core/components/web-camera/web-camera.component';
 import { ReviewCodeComponent } from './core/components/review-code/review-code.component';
 import { ReportComponent } from './pages/report/report.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] },
@@ -31,5 +32,5 @@ export const routes: Routes = [
   {path:'camera',component: WebCameraComponent},
 
 
-  { path: '**', redirectTo: 'candidates' },
+  { path: '**', component:PageNotFoundComponent },
 ];
