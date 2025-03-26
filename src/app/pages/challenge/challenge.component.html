@@ -41,7 +41,7 @@
         <div>
           <button (click)="toggleProjectModal()"
             class="cursor-pointer bg-blue-200 hover:bg-blue-500 text-xs md:text-sm py-1 px-1 md:py-2 md:px-2 rounded-full ">
-            <span class="flex justify-center items-center gap-2"><i class="fa-solid fa-plus"></i></span>
+            <span class="flex justify-center items-center gap-2"><i class="dark:text-gray-800 fa-solid fa-plus"></i></span>
           </button>
         </div>
       </div>
@@ -83,8 +83,8 @@
             (click)="endChallenge(item._id)">
             End challenge
           </button>
-          <button *ngIf="!item.isActive"
-            class="text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
+          <button *ngIf="!item.isActive && interviewSession?.isActive"
+            class=" cursor-pointer text-red-600 hover:text-red-800 font-bold transition-transform transform hover:scale-110"
             (click)="deleteChallenge(item._id)">
             <i class="fa-solid fa-xmark"></i>
           </button>

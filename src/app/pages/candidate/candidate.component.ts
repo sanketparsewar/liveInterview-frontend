@@ -104,8 +104,8 @@ export class CandidateComponent implements OnInit {
       .updateChallengeSessionStatus(this.id)
       .subscribe({
         next: (res) => {
-          this.getChallengeSessionById();
-          this.alertService.showSuccess('Challenge ended')
+          // this.getChallengeSessionById();
+          // this.alertService.showSuccess('Challenge ended')
           // emit the changes
           this.socket.emit("endChallenge");
           this.isLoaded = false
@@ -160,7 +160,9 @@ export class CandidateComponent implements OnInit {
         this.lostFocusCount = res.lostFocus
         if (this.lostFocusCount >= 3) {
           this.alertService.showWarning(`Warning exceeded. Test will auto submit in 5 seconds`)
-          this.terminateChallenge();
+          setTimeout(() => {
+            this.terminateChallenge();
+          }, 5000)
         } else {
           this.alertService.showWarning(`Tab changed count: ${this.lostFocusCount}`)
         }

@@ -131,6 +131,8 @@ export class StackblitzCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
+    this.isLoaded = false;
+
     }
     else {
       StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
@@ -141,8 +143,9 @@ export class StackblitzCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    }
     this.isLoaded = false;
+
+    }
   }
 
 
