@@ -60,7 +60,6 @@ export class ChallengeComponent implements OnInit {
       if (params['id']) {
         this.id = params['id'];
         this.getInterviewSessionById();
-        this.getAllChallenges();
 
         this.challengeForm = this.fb.group({
           name: ['', [Validators.required]],
@@ -133,7 +132,6 @@ export class ChallengeComponent implements OnInit {
         next: (res: any) => {
           this.challenges = res.challengeSessions;
           this.isLoaded = false;
-
         },
         error: (error: any) => {
           this.alertService.showError(error.error.message);
