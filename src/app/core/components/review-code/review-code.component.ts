@@ -36,8 +36,6 @@ export class ReviewCodeComponent implements OnInit {
     this.socket = io(environment.SOCKET_URL);
   }
 
-  
-
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -46,17 +44,11 @@ export class ReviewCodeComponent implements OnInit {
       }
     });
 
-    this.socket.on("challengeStarted", () => {
-      this.getChallengeSessionById();
-    });
-
     this.socket.on("codeSaved", () => {
       this.getChallengeSessionById();
     });
 
-    this.socket.on("challengeEnded", () => {
-      this.getChallengeSessionById();
-    });
+
 
     this.setupWebRTC();
 
@@ -75,55 +67,24 @@ export class ReviewCodeComponent implements OnInit {
     this.socket.emit("requestOffer");
   }
 
-  // setupWebRTC() {
-  //   this.peerConnection = new RTCPeerConnection(this.config);
-
-  //   this.peerConnection.ontrack = (event) => {
-  //     const remoteStream = event.streams[0];
-  //     if (this.interviewerVideo) {
-  //       this.interviewerVideo.nativeElement.srcObject = remoteStream;
-  //     }
-  //   };
-
-  //   this.peerConnection.onicecandidate = (event) => {
-  //     if (event.candidate) {
-  //       this.socket.emit('ice-candidate', event.candidate);
-  //     }
-  //   };
-
-  //   this.socket.emit("requestOffer");
-  // }
-
   setupWebRTC() {
     this.peerConnection = new RTCPeerConnection(this.config);
-  
+
     this.peerConnection.ontrack = (event) => {
       const remoteStream = event.streams[0];
       if (this.interviewerVideo) {
         this.interviewerVideo.nativeElement.srcObject = remoteStream;
       }
     };
-  
+
     this.peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
         this.socket.emit('ice-candidate', event.candidate);
       }
     };
-  
-    this.socket.on('offer', async (offer) => {
-      await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-  
-      const answer = await this.peerConnection.createAnswer();
-      await this.peerConnection.setLocalDescription(answer);
-      this.socket.emit('answer', answer);
-    });
-  
-    this.socket.on('ice-candidate', (candidate) => {
-      this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-  }
-  
 
+    this.socket.emit("requestOffer");
+  }
 
   getChallengeSessionById() {
     this.isLoaded = true;
@@ -135,9 +96,8 @@ export class ReviewCodeComponent implements OnInit {
 
       },
       error: (error: any) => {
-        console.error('Error fetching challenge:', error.error.message);
+        this.alertService.showError(error.error.message)
         this.isLoaded = false;
-
       },
     });
   }
