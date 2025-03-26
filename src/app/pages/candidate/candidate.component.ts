@@ -85,6 +85,7 @@ export class CandidateComponent implements OnInit {
       },
       error: (error: any) => {
         this.isLoaded = false;
+        this.alertService.showError(error.error.message)
       },
     });
   }
@@ -104,17 +105,12 @@ export class CandidateComponent implements OnInit {
       .updateChallengeSessionStatus(this.id)
       .subscribe({
         next: (res) => {
-          // this.getChallengeSessionById();
-          // this.alertService.showSuccess('Challenge ended')
           // emit the changes
           this.socket.emit("endChallenge");
-          this.isLoaded = false
-
         },
         error: (error: any) => {
           this.isLoaded = false
           this.alertService.showError(error.error.message)
-        
         },
       });
   }
@@ -122,21 +118,17 @@ export class CandidateComponent implements OnInit {
   startChallenge(id: string) {
     this.alertService.showConfirm('start the challenge').then((isConfirmed: any) => {
       if (isConfirmed) {
+        this.isLoaded = true;
         this.goFullScreen();
         this.challengeSessionService.startChallenge(id).subscribe({
           next: (res) => {
-
             this.getChallengeSessionById();
             // Emit event to the interviewer that challenge has started
             this.socket.emit("startChallenge");
-
           },
-
           error: (error: any) => {
-            console.error(
-              'Error updating challenge session status:',
-              error.error.message
-            );
+            this.isLoaded = false;
+            this.alertService.showError(error.error.message);
           },
         });
       }
@@ -148,13 +140,11 @@ export class CandidateComponent implements OnInit {
       if (document.visibilityState === 'hidden') {
         this.updateLostFocus()
       }
-
     })
   }
 
   updateLostFocus() {
     if (!this.challenge.isActive) return;
-
     this.challengeSessionService.updateLostFocus(this.id).subscribe({
       next: (res) => {
         this.lostFocusCount = res.lostFocus
@@ -168,7 +158,7 @@ export class CandidateComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.error('Error updating lost focus:', error.error.message);
+        this.alertService.showError(`Error updating lost focus: ${error.error.message}`)
       },
     })
   }

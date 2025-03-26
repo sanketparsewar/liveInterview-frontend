@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
 import StackBlitzSDK from '@stackblitz/sdk';
 import { ChallengeSessionService } from '../../services/challengeSession/challenge-session.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { IchallengeSession } from '../../models/interfaces/challengeSession.interface';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../environment/environment.prod';
@@ -19,11 +17,11 @@ import { io, Socket } from 'socket.io-client';
 })
 export class StackblitzCodeComponent implements OnInit {
 
+  @Input() challengeSession!: IchallengeSession;
   projectId!: string;
   stackblitzEditor: any;
   projectSnapshot: any;
   id: string = ''
-  challengeSession!: IchallengeSession;
   isLoaded: boolean = false
   private socket!: Socket;
   @Input() showWebcam: boolean = false;
@@ -32,25 +30,14 @@ export class StackblitzCodeComponent implements OnInit {
 
   @ViewChild('candidateVideo') candidateVideo!: ElementRef<HTMLVideoElement>;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
+  constructor(private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
     this.socket = io(environment.SOCKET_URL);
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      if (params['id']) {
-        this.id = params['id'];
-        this.getChallengeSessionById()
-      }
-    });
 
-    this.socket.on("challengeStarted", () => {
-      this.getChallengeSessionById(); // Refresh challenge list
-    })
-
-    this.socket.on("challengeEnded", () => {
-      this.getChallengeSessionById(); // Refresh challenge list
-    })
+    this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
+    this.embedProject();
 
     this.setupWebRTC();
 
@@ -62,7 +49,7 @@ export class StackblitzCodeComponent implements OnInit {
       this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
-  this.socket.emit("requestOffer");
+    this.socket.emit("requestOffer");
   }
 
 
@@ -81,7 +68,7 @@ export class StackblitzCodeComponent implements OnInit {
       await this.peerConnection.setLocalDescription(offer);
       this.socket.emit('offer', offer);
     } catch (error) {
-      console.error('Error accessing webcam:', error);
+      this.alertService.showError('Error accessing webcam')
     }
 
     this.peerConnection.onicecandidate = (event) => {
@@ -89,23 +76,6 @@ export class StackblitzCodeComponent implements OnInit {
         this.socket.emit('ice-candidate', event.candidate);
       }
     };
-  }
-
-  getChallengeSessionById() {
-    this.isLoaded = true;
-    this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
-      next: (res: any) => {
-        this.challengeSession = res;
-        this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
-        this.embedProject();
-
-      },
-      error: (error: any) => {
-        console.error('Error fetching challenge:', error.error.message);
-        this.isLoaded = false;
-
-      },
-    });
   }
 
   extractProjectId(url: string): string {
@@ -131,7 +101,7 @@ export class StackblitzCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    this.isLoaded = false;
+      this.isLoaded = false;
 
     }
     else {
@@ -143,7 +113,7 @@ export class StackblitzCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    this.isLoaded = false;
+      this.isLoaded = false;
 
     }
   }
@@ -165,6 +135,4 @@ export class StackblitzCodeComponent implements OnInit {
       });
     }
   }
-
- 
 }

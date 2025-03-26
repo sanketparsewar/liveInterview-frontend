@@ -77,7 +77,7 @@ export class ChallengeComponent implements OnInit {
     });
 
     this.socket.on("challengeEnded", () => {
-      // this.alertService.showSuccess(`Challenge ended.`);
+      this.alertService.showSuccess(`Challenge ended.`);
       this.getAllChallenges(); // Refresh challenge list
     })
   }
@@ -197,8 +197,6 @@ export class ChallengeComponent implements OnInit {
           next: (res) => {
             // emit the end challenge
             this.socket.emit("endChallenge");
-            this.alertService.showSuccess('Challenge Ended!')
-            this.getAllChallenges();
           },
           error: (error: any) => {
             this.alertService.showError('Error updating challenge session status')

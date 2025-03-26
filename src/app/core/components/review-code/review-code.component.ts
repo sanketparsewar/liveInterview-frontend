@@ -136,6 +136,8 @@ export class ReviewCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
+    this.isLoaded = false;
+
     }
     else {
       StackBlitzSDK.embedProjectId('stackblitzContainer', this.projectId, {
@@ -146,8 +148,9 @@ export class ReviewCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    }
     this.isLoaded = false;
+
+    }
   }
 
   back() {
