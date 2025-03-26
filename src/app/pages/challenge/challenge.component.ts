@@ -64,7 +64,7 @@ export class ChallengeComponent implements OnInit {
         this.challengeForm = this.fb.group({
           name: ['', [Validators.required]],
           stackBlitzUrl: ['', [Validators.required]],
-          projectName: ['',[Validators.required]],
+          projectName: ['', [Validators.required]],
           interviewSessionId: [this.id],
         });
       }
@@ -126,6 +126,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   getAllChallenges() {
+    this.isLoaded = true;
     this.challengeSessionService
       .getChallengeSessionsByInterviewId(this.id)
       .subscribe({
@@ -237,7 +238,7 @@ export class ChallengeComponent implements OnInit {
     this.router.navigate(['/review-code', id])
   }
 
-  back(){
+  back() {
     history.back();
   }
 
