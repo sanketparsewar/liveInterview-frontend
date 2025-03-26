@@ -26,6 +26,7 @@
     "ngx-webcam": "^0.4.1",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
+    "simple-peer": "^9.11.1",
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.17.2",
     "tailwindcss": "^4.0.9",
