@@ -54,29 +54,57 @@ export class StackblitzCodeComponent implements OnInit {
 
 
 
+  // async setupWebRTC() {
+  //   this.peerConnection = new RTCPeerConnection(this.config);
+
+  //   try {
+  //     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+  //     if (this.candidateVideo) {
+  //       this.candidateVideo.nativeElement.srcObject = stream;
+  //     }
+  //     stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
+
+  //     const offer = await this.peerConnection.createOffer();
+  //     await this.peerConnection.setLocalDescription(offer);
+  //     this.socket.emit('offer', offer);
+  //   } catch (error) {
+  //     this.alertService.showError('Error accessing webcam')
+  //   }
+
+  //   this.peerConnection.onicecandidate = (event) => {
+  //     if (event.candidate) {
+  //       this.socket.emit('ice-candidate', event.candidate);
+  //     }
+  //   };
+  // }
+
   async setupWebRTC() {
     this.peerConnection = new RTCPeerConnection(this.config);
-
+  
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
       if (this.candidateVideo) {
         this.candidateVideo.nativeElement.srcObject = stream;
       }
+  
       stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
-
+  
+      this.peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+          this.socket.emit('ice-candidate', event.candidate);
+        }
+      };
+  
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
+  
       this.socket.emit('offer', offer);
     } catch (error) {
-      this.alertService.showError('Error accessing webcam')
+      this.alertService.showError('Error accessing webcam');
     }
-
-    this.peerConnection.onicecandidate = (event) => {
-      if (event.candidate) {
-        this.socket.emit('ice-candidate', event.candidate);
-      }
-    };
   }
+  
+
 
   extractProjectId(url: string): string {
     const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
