@@ -10,7 +10,7 @@ import { AlertService } from '../../services/alert/alert.service';
   styleUrl: './web-camera.component.css'
 })
 export class WebCameraComponent {
-  @Input() showWebcam: boolean = false;
+  // @Input() showWebcam: boolean = false;
   multipleWebcamsAvailable: boolean = false;
 
   constructor(private alertService: AlertService) { }
@@ -23,8 +23,8 @@ export class WebCameraComponent {
       .catch(err => this.alertService.showError(err));
   }
 
-  toggleWebcam(): void {
-    this.showWebcam = !this.showWebcam;
-  }
+  // toggleWebcam(): void {
+  //   this.showWebcam = !this.showWebcam;
+  // }
 }
 

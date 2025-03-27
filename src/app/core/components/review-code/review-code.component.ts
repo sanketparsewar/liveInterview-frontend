@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import StackBlitzSDK from '@stackblitz/sdk';
 import { ChallengeSessionService } from '../../services/challengeSession/challenge-session.service';
 import { AlertService } from '../../services/alert/alert.service';
@@ -7,10 +7,10 @@ import { IchallengeSession } from '../../models/interfaces/challengeSession.inte
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { WebCameraComponent } from '../web-camera/web-camera.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../environment/environment.prod';
 import { io, Socket } from 'socket.io-client';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-review-code',
@@ -19,7 +19,7 @@ import { io, Socket } from 'socket.io-client';
   templateUrl: './review-code.component.html',
   styleUrl: './review-code.component.css'
 })
-export class ReviewCodeComponent implements OnInit {
+export class ReviewCodeComponent implements OnInit, AfterViewInit {
   projectId!: string;
   stackblitzEditor: any;
   projectSnapshot: any;
@@ -27,10 +27,13 @@ export class ReviewCodeComponent implements OnInit {
   challengeSession!: IchallengeSession;
   isLoaded: boolean = false
   private socket!: Socket;
-  private peerConnection!: RTCPeerConnection;
-  private config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+  challengeId: string = '';
+  isIframeFocused = false;
+  peer: any;
+  candidateId: string = '';
+  isChallengeJoined: boolean = false;
 
-  @ViewChild('interviewerVideo') interviewerVideo!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas') videoElement!: ElementRef<HTMLCanvasElement>;
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
     this.socket = io(environment.SOCKET_URL);
@@ -48,42 +51,10 @@ export class ReviewCodeComponent implements OnInit {
       this.getChallengeSessionById();
     });
 
-
-
-    this.setupWebRTC();
-
-    this.socket.on('offer', async (offer) => {
-      await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-
-      const answer = await this.peerConnection.createAnswer();
-      await this.peerConnection.setLocalDescription(answer);
-      this.socket.emit('answer', answer);
+    this.getResponse().subscribe((stream: any) => {
+      this.displayImageFrame(stream);
     });
 
-    this.socket.on('ice-candidate', (candidate) => {
-      this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-
-    this.socket.emit("requestOffer");
-  }
-
-  setupWebRTC() {
-    this.peerConnection = new RTCPeerConnection(this.config);
-
-    this.peerConnection.ontrack = (event) => {
-      const remoteStream = event.streams[0];
-      if (this.interviewerVideo) {
-        this.interviewerVideo.nativeElement.srcObject = remoteStream;
-      }
-    };
-
-    this.peerConnection.onicecandidate = (event) => {
-      if (event.candidate) {
-        this.socket.emit('ice-candidate', event.candidate);
-      }
-    };
-
-    this.socket.emit("requestOffer");
   }
 
   getChallengeSessionById() {
@@ -93,7 +64,6 @@ export class ReviewCodeComponent implements OnInit {
         this.challengeSession = res;
         this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
         this.embedProject();
-
       },
       error: (error: any) => {
         this.alertService.showError(error.error.message)
@@ -102,14 +72,12 @@ export class ReviewCodeComponent implements OnInit {
     });
   }
 
-
   extractProjectId(url: string): string {
     const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
     return match ? match[1] : '';
   }
 
   embedProject() {
-
     if (!this.projectId) return;
     if (this.challengeSession.projectSnapshot) {
       const formattedProject = {
@@ -126,7 +94,7 @@ export class ReviewCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    this.isLoaded = false;
+      this.isLoaded = false;
 
     }
     else {
@@ -138,9 +106,37 @@ export class ReviewCodeComponent implements OnInit {
       }).then(editor => {
         this.stackblitzEditor = editor;
       });
-    this.isLoaded = false;
+      this.isLoaded = false;
 
     }
+  }
+
+
+  getResponse() {
+    return new Observable((observer) => {
+      this.socket.on('getStream', (data: string) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  ngAfterViewInit() {
+    this.getResponse().subscribe((stream: any) => {
+      this.displayImageFrame(stream);
+    });
+  }
+
+  displayImageFrame(frame: string) {
+    const canvas = this.videoElement.nativeElement;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = frame;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
   }
 
   back() {

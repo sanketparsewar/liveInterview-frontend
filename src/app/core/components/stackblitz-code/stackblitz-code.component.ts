@@ -15,6 +15,7 @@ import { io, Socket } from 'socket.io-client';
   templateUrl: './stackblitz-code.component.html',
   styleUrl: './stackblitz-code.component.css'
 })
+
 export class StackblitzCodeComponent implements OnInit {
 
   @Input() challengeSession!: IchallengeSession;
@@ -25,10 +26,9 @@ export class StackblitzCodeComponent implements OnInit {
   isLoaded: boolean = false
   private socket!: Socket;
   @Input() showWebcam: boolean = false;
-  private peerConnection!: RTCPeerConnection;
-  private config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-
   @ViewChild('candidateVideo') candidateVideo!: ElementRef<HTMLVideoElement>;
+  peer: any;
+  stream: any;
 
   constructor(private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
     this.socket = io(environment.SOCKET_URL);
@@ -37,49 +37,8 @@ export class StackblitzCodeComponent implements OnInit {
   ngOnInit() {
     this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
     this.embedProject();
-
-
-
-    this.setupWebRTC();
-
-    this.socket.on('answer', async (answer) => {
-      await this.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-    });
-
-    this.socket.on('ice-candidate', (candidate) => {
-      this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-
-    this.socket.emit("requestOffer");
+    this.startWebcam();
   }
-
-
-
-  async setupWebRTC() {
-    this.peerConnection = new RTCPeerConnection(this.config);
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-      if (this.candidateVideo) {
-        this.candidateVideo.nativeElement.srcObject = stream;
-      }
-      stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
-
-      const offer = await this.peerConnection.createOffer();
-      await this.peerConnection.setLocalDescription(offer);
-      this.socket.emit('offer', offer);
-    } catch (error) {
-      this.alertService.showError('Error accessing webcam')
-    }
-
-    this.peerConnection.onicecandidate = (event) => {
-      if (event.candidate) {
-        this.socket.emit('ice-candidate', event.candidate);
-      }
-    };
-  }
-
-  
 
   extractProjectId(url: string): string {
     const match = url.match(/stackblitz\.com\/edit\/([\w-]+)/);
@@ -87,7 +46,6 @@ export class StackblitzCodeComponent implements OnInit {
   }
 
   embedProject() {
-
     if (!this.projectId) return;
     if (this.challengeSession.projectSnapshot) {
       const formattedProject = {
@@ -121,7 +79,6 @@ export class StackblitzCodeComponent implements OnInit {
     }
   }
 
-
   saveProject() {
     if (this.stackblitzEditor) {
       this.stackblitzEditor.getFsSnapshot().then((snapshot: any) => {
@@ -138,4 +95,45 @@ export class StackblitzCodeComponent implements OnInit {
       });
     }
   }
+
+  startWebcam() {
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      const hasCamera = devices.some((device) => device.kind === 'videoinput');
+      if (!hasCamera) {
+        this.alertService.showInfo('No camera detected. Please connect a camera.');
+        return;
+      }
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          this.stream = stream;
+          this.sendVideoFrames(stream);
+          this.candidateVideo.nativeElement.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error('Error accessing camera:', error);
+        });
+    });
+  }
+
+  sendVideoFrames(stream: MediaStream) {
+    const video = this.candidateVideo?.nativeElement;
+    if (!video) return;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const sendFrame = () => {
+      if (!ctx) return;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const frameData = canvas.toDataURL('image/webp');
+      this.socket.emit('stream', {
+        challengeId: this.challengeSession._id,
+        frame: frameData,
+      });
+      setTimeout(sendFrame, 33);
+    };
+    sendFrame();
+  }
+
 }
