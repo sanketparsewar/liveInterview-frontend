@@ -54,7 +54,7 @@ private interviewSessionSubscription!:Subscription
   }
 
   ngOnDestroy(){
-    this.interviewSessionSubscription.unsubscribe();
+    if(this.interviewSessionSubscription) this.interviewSessionSubscription.unsubscribe();
   }
 
   search(event: any) {

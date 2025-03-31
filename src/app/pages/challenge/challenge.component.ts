@@ -60,9 +60,9 @@ export class ChallengeComponent implements OnInit,OnDestroy {
 
   }
   ngOnDestroy(){
-    this.interviewSessionSubscription.unsubscribe();
-    this.challengeSessionSubscription.unsubscribe();
-    this.projectSubscription.unsubscribe();
+    if(this.interviewSessionSubscription) this.interviewSessionSubscription.unsubscribe();
+    if(this.challengeSessionSubscription) this.challengeSessionSubscription.unsubscribe();
+    if(this.projectSubscription) this.projectSubscription.unsubscribe();
   }
   
   ngOnInit() {
