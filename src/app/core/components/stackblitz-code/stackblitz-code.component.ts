@@ -111,7 +111,7 @@ export class StackblitzCodeComponent implements OnInit {
   }
 
   startWebcam() {
-    this.socket.emit('userJoined', { challengeId: this.challengeSession._id });
+    // this.socket.emit('userJoined', { challengeId: this.challengeSession._id });
 
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       const hasCamera = devices.some((device) => device.kind === 'videoinput');
