@@ -47,14 +47,14 @@ export class ReviewCodeComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.socket.on("codeSaved", () => {
+        
+    this.socket.on("challengeStarted", () => {
       this.getChallengeSessionById();
     });
 
-    this.getResponse().subscribe((stream: any) => {
-      this.displayImageFrame(stream);
-    });
-
+    this.socket.on("challengeEnded", () => {
+      this.getChallengeSessionById();
+    })
   }
 
   getChallengeSessionById() {
@@ -62,6 +62,7 @@ export class ReviewCodeComponent implements OnInit, AfterViewInit {
     this.challengeSessionService.getChallengeSessionById(this.id).subscribe({
       next: (res: any) => {
         this.challengeSession = res;
+        this.challengeId = this.challengeSession._id;
         this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
         this.embedProject();
       },

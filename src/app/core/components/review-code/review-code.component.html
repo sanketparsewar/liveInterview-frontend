@@ -15,6 +15,6 @@
 </div>
 
 <!-- <video cdkDrag class="absolute bottom-10 left-2 z-[999] w-[200px] h-[120px] bg-black border border-gray-500 rounded-md shadow-lg" #interviewerVideo autoplay playsinline></video> -->
-<canvas cdkDrag
+<canvas cdkDrag *ngIf="challengeSession?.isActive" 
   class="absolute bottom-10 left-2 z-[999] w-[200px] h-[120px] bg-black border border-gray-500 rounded-md shadow-lg"
   #canvas playsinline></canvas>

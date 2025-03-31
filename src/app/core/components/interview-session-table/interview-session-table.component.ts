@@ -1,5 +1,5 @@
 import { AlertService } from './../../services/alert/alert.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InterviewSessionService } from '../../services/interviewSession/interview-session.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { InterviewSessionComponent } from '../../modalComponents/interview-sessi
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { AuthService } from '../../services/auth/auth.service';
-import { debounceTime, Subject } from 'rxjs';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-interview-session-table',
@@ -16,7 +16,7 @@ import { debounceTime, Subject } from 'rxjs';
   templateUrl: './interview-session-table.component.html',
   styleUrl: './interview-session-table.component.css',
 })
-export class InterviewSessionTableComponent {
+export class InterviewSessionTableComponent implements OnInit,OnDestroy {
   interviewSessionsList: IinterviewSession[] = [];
   isToggleModal: boolean = false;
   isToggleDropdown: boolean = false;
@@ -35,7 +35,7 @@ export class InterviewSessionTableComponent {
   totalPagesArray: number[] = [];
   currentPage: number = 1;
   searchSubject = new Subject<string>();
-
+private interviewSessionSubscription!:Subscription
   constructor(
     private router: Router,
     private interviewSessionService: InterviewSessionService,
@@ -51,6 +51,10 @@ export class InterviewSessionTableComponent {
   }
   ngOnInit() {
     this.getInterviewSessions();
+  }
+
+  ngOnDestroy(){
+    this.interviewSessionSubscription.unsubscribe();
   }
 
   search(event: any) {
@@ -79,7 +83,7 @@ export class InterviewSessionTableComponent {
 
   getInterviewSessions() {
     this.isLoaded = true;
-    this.interviewSessionService.getAllInterviewSessions(this.interviewerData._id, this.queryParameters).subscribe({
+    this.interviewSessionSubscription=this.interviewSessionService.getAllInterviewSessions(this.interviewerData._id, this.queryParameters).subscribe({
       next: (res: any) => {
         this.interviewSessionsList = res.interviewSessions;
         this.totalInterviewSessions = res.totalInterviewSessions;

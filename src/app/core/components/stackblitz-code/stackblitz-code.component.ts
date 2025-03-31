@@ -29,15 +29,29 @@ export class StackblitzCodeComponent implements OnInit {
   @ViewChild('candidateVideo') candidateVideo!: ElementRef<HTMLVideoElement>;
   peer: any;
   stream: any;
-
   constructor(private challengeSessionService: ChallengeSessionService, private alertService: AlertService) {
     this.socket = io(environment.SOCKET_URL);
   }
 
+  candidateId:string = '';
+  isCandidateJoined:boolean=false;
+
+
   ngOnInit() {
+    console.log(this.challengeSession.interviewSessionId
+    )
+    this.candidateId=this.challengeSession.interviewSessionId
+    this.alertService.showInfo(this.challengeSession._id)
     this.projectId = this.extractProjectId(this.challengeSession.stackBlitzUrl);
     this.embedProject();
+    
+    
     this.startWebcam();
+
+
+
+
+
   }
 
   extractProjectId(url: string): string {
@@ -97,6 +111,8 @@ export class StackblitzCodeComponent implements OnInit {
   }
 
   startWebcam() {
+    this.socket.emit('userJoined', { challengeId: this.challengeSession._id });
+
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       const hasCamera = devices.some((device) => device.kind === 'videoinput');
       if (!hasCamera) {

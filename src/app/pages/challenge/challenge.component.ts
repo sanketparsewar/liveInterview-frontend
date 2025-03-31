@@ -1,6 +1,6 @@
 import { AlertService } from './../../core/services/alert/alert.service';
 import { ProjectService } from './../../core/services/project/project.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,7 @@ import { io } from 'socket.io-client';
 import { environment } from '../../../environment/environment.prod';
 import { InterviewSessionService } from '../../core/services/interviewSession/interview-session.service';
 import { IinterviewSession } from '../../core/models/interfaces/interviewSession.interface';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-challenge',
   imports: [
@@ -29,7 +30,7 @@ import { IinterviewSession } from '../../core/models/interfaces/interviewSession
   templateUrl: './challenge.component.html',
   styleUrl: './challenge.component.css',
 })
-export class ChallengeComponent implements OnInit {
+export class ChallengeComponent implements OnInit,OnDestroy {
 
   challengeForm!: FormGroup;
   id: string = '';
@@ -42,6 +43,9 @@ export class ChallengeComponent implements OnInit {
   private socket: any;
   isLoaded: boolean = false;
   isCreated: boolean = false;
+  private interviewSessionSubscription!:Subscription;
+  private challengeSessionSubscription!:Subscription;
+  private projectSubscription!:Subscription;
   constructor(
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -55,6 +59,12 @@ export class ChallengeComponent implements OnInit {
     this.socket = io(environment.SOCKET_URL);
 
   }
+  ngOnDestroy(){
+    this.interviewSessionSubscription.unsubscribe();
+    this.challengeSessionSubscription.unsubscribe();
+    this.projectSubscription.unsubscribe();
+  }
+  
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -69,6 +79,8 @@ export class ChallengeComponent implements OnInit {
         });
       }
     });
+
+    
 
     // listening for the events made by candidate
     this.socket.on("challengeStarted", () => {
@@ -99,7 +111,7 @@ export class ChallengeComponent implements OnInit {
 
   getInterviewSessionById() {
     this.isLoaded = true;
-    this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
+    this.interviewSessionSubscription=this.interviewSessionService.getInterviewSessionById(this.id).subscribe({
       next: (res: any) => {
         this.interviewSession = res;
         if (this.interviewSession.isActive) {
@@ -115,7 +127,7 @@ export class ChallengeComponent implements OnInit {
   }
 
   getProjectList() {
-    this.projectService.getAllProjects().subscribe({
+    this.projectSubscription=this.projectService.getAllProjects().subscribe({
       next: (res: any) => {
         this.projectList = res;
       },
@@ -127,7 +139,7 @@ export class ChallengeComponent implements OnInit {
 
   getAllChallenges() {
     this.isLoaded = true;
-    this.challengeSessionService
+    this.challengeSessionSubscription=this.challengeSessionService
       .getChallengeSessionsByInterviewId(this.id)
       .subscribe({
         next: (res: any) => {
